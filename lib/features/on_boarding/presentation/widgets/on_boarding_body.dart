@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
 import 'package:nexusdeep/features/on_boarding/domain/entities/page_content.dart';
 
@@ -13,7 +15,8 @@ class OnBoardingBody extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset(
+        if(pageContent.image.isNotEmpty)
+          SvgPicture.asset(
           pageContent.image,
           height: context.height * .4,
         ),
@@ -51,7 +54,7 @@ class OnBoardingBody extends StatelessWidget {
               ),
             ],
           ),
-        )
+        ),
       ],
     );
   }

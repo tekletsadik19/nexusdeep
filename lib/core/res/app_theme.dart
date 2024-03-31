@@ -347,9 +347,9 @@ class DarkModeTheme extends CoreTheme {
   @override
   late Color secondaryText = const Color(0xFFA9ADC6);
   @override
-  late Color primaryBackground = const Color(0xFF15161E);
+  late Color primaryBackground = const Color.fromRGBO(4, 13, 18, 1);
   @override
-  late Color secondaryBackground = const Color(0xFF1B1D27);
+  late Color secondaryBackground = const Color.fromRGBO(4, 13, 18, 1);
   @override
   late Color accent1 = const Color(0xff886EE4);
   @override

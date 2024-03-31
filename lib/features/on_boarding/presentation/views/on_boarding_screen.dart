@@ -31,7 +31,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+
       body: GradientBg(
         child: BlocConsumer<OnBoardingCubit, OnBoardingState>(
           listener: (context, state) {
@@ -50,12 +50,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   children: const [
                     OnBoardingBody(pageContent: PageContent.first()),
                     OnBoardingBody(pageContent: PageContent.second()),
-                    OnBoardingBody(pageContent: PageContent.third())
+
                   ],
                 ),
 
                 Align(
-                  alignment: const Alignment(0, .04),
+                  alignment: const Alignment(0, .06),
                   child: SmoothPageIndicator(
                     controller: _pageController,
                     count: 3,

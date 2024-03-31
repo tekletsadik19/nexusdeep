@@ -10,9 +10,9 @@ class MediaRes{
   static const SatLottie2 = '$_baseLottie/sat-sstee.json';
   static const astrn = '$_baseLottie/astrn.json';
   static const underConst = '$_baseLottie/under_const';
-  static const onBoardingImg1 = '$_baseVector/on_boarding1.png';
-  static const onBoardingImg2 = '$_baseVector/on_boarding2.png';
-  static const onBoardingImg3 = '$_baseVector/on_boarding3.png';
+  static const onBoardingImg1 = '$_baseVector/m-p.svg';
+  static const onBoardingImg2 = '$_baseVector/m-s.svg';
+  static const onBoardingImg3 = '$_baseVector/m-y.svg';
   static const noNotificationSVG = '$_baseVector/group33731.svg';
 
 }

@@ -7,20 +7,21 @@ class PageContent extends Equatable{
   const PageContent({required this.image,required this.title,required this.description});
   const PageContent.first():this(
       image: MediaRes.onBoardingImg1,
-      title: 'Connect Collaborate Create',
-      description: 'Get ready to explore, connect, and innovate in the SSGI Net',
+      title: 'Invest with complete confidence',
+      description: 'Accelerate your growth with Nexus Deep Investment options '
+          'integrated directly with your account'
+      ,
   );
   const PageContent.second():this(
     image: MediaRes.onBoardingImg2,
-    title: '$kAppName\nIgnite Your Spark',
-    description: 'Dive into a world of possibilities with '
+    title: 'Speed without compromise',
+    description: 'Efficiently manage your investment operation from a single dashboard with '
         '$kAppName feature-rich platform.',
   );
   const PageContent.third():this(
     image: MediaRes.onBoardingImg3,
-    title: 'Inspire Publish Innovate',
-    description:'Share your insights through blogs, '
-        'publish groundbreaking research',
+    title: 'Innovation that doesn\’t sacrifice security',
+    description:'Nexus Deep built for entrepreneurs, by entrepreneurs',
   );
   final String image;
   final String title;
