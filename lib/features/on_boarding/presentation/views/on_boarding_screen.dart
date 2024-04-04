@@ -6,7 +6,6 @@ import 'package:nexusdeep/core/common/app/views/loading_view.dart';
 import 'package:nexusdeep/core/common/widgets/custom_button.dart';
 import 'package:nexusdeep/core/common/widgets/gradient_bg.dart';
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
-import 'package:nexusdeep/core/res/colours.dart';
 import 'package:nexusdeep/features/on_boarding/domain/entities/page_content.dart';
 import 'package:nexusdeep/features/on_boarding/presentation/cubit/on_boarding_cubit.dart';
 import 'package:nexusdeep/features/on_boarding/presentation/widgets/on_boarding_body.dart';
@@ -68,7 +67,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       dotHeight: 10,
                       dotWidth: 10,
                       spacing: 40,
-                      activeDotColor: Colours.lightAccent,
+                      activeDotColor: context.theme!.primaryColor,
                       dotColor: Colors.white,
                     ),
                   ),
@@ -83,7 +82,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         vertical: 22,
                       ),
                       width: context.width * .6,
-                      color: Colours.lightAccent,
+                      color: context.theme!.primaryColor,
                       elevation: .2,
                       textStyle: GoogleFonts.montserrat(
                         fontSize: 16,

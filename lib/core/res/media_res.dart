@@ -15,4 +15,7 @@ class MediaRes{
   static const onBoardingImg3 = '$_baseVector/m-y.svg';
   static const noNotificationSVG = '$_baseVector/group33731.svg';
 
+  static const googleVector = '$_baseIcons/google.svg';
+  static const facebookVector = '$_baseIcons/facebook.svg';
+
 }

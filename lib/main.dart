@@ -30,7 +30,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         brightness: Brightness.dark,
       ),
-      themeMode: themeController.isDarkTheme.value ? ThemeMode.dark : ThemeMode.light,
+      themeMode: themeController.isDarkTheme.value
+          ? ThemeMode.dark : ThemeMode.light,
       routeInformationParser: router.routeInformationParser,
       routerDelegate: router.routerDelegate,
       routeInformationProvider: router.routeInformationProvider,
