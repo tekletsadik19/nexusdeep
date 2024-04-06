@@ -3,6 +3,7 @@ part of 'route.dart';
 final GoRouter router = GoRouter(
   initialLocation: '/',
   routes: [
+
     GoRoute(
       path: '/',
       pageBuilder: (context, state) {
@@ -21,6 +22,36 @@ final GoRouter router = GoRouter(
         );
       },
 
+      routes:[
+        GoRoute(
+          path: 'forgot-password',
+          pageBuilder: (context, state) {
+            return _pageBuilder(
+              const ForgotPasswordScreen(),
+              state,
+            );
+          },
+        ),
+        GoRoute(
+          path: 'signup-with-email',
+          pageBuilder: (context, state) {
+            return _pageBuilder(
+              const SignupWithEmailScreen(),
+              state,
+            );
+          },
+        ),
+      ],
+    ),
+
+    GoRoute(
+      path: SigninScreen.routeName,
+      pageBuilder: (context, state) {
+        return _pageBuilder(
+          const SigninScreen(),
+          state,
+        );
+      },
     ),
     GoRoute(
       path: SignupScreen.routeName,
@@ -31,6 +62,7 @@ final GoRouter router = GoRouter(
         );
       },
     ),
+
 
   ],
   redirect: (_, state) {

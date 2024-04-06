@@ -1,25 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:iconly/iconly.dart';
+
 import 'package:nexusdeep/core/common/app/animations/slide_fade_switcher.dart';
 import 'package:nexusdeep/core/common/widgets/custom_button.dart';
+import 'package:nexusdeep/core/common/widgets/custom_form_field.dart';
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
 import 'package:nexusdeep/core/res/media_res.dart';
-import 'package:nexusdeep/features/auth/presentation/views/signin_screen.dart';
+import 'package:nexusdeep/features/auth/presentation/views/signup_screen.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
-  static const routeName = '/sign-up';
+
+class SigninScreen extends StatefulWidget {
+  const SigninScreen({super.key});
+  static const routeName = '/sign-in';
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<SigninScreen> createState() => _SigninScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
-
+class _SigninScreenState extends State<SigninScreen> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final nameController = TextEditingController();
+  final inviteKeyController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+  final phoneNumController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    phoneNumController.dispose();
+    inviteKeyController.dispose();
+    nameController.dispose();
+
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +61,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       height: 20,
                     ),
                     Text(
-                      'Join Nexus-Deep',
+                      'Welcome back',
                       textAlign: TextAlign.start,
                       style: GoogleFonts.montserrat(
                         fontSize: 24,
@@ -51,8 +69,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                     ),
                     Text(
-                      'Experience the Future of Direct Investment – '
-                          'Sign Up Now!',
+                      'Sign in to Nexus Deep to pick up exactly where you left off.',
                       textAlign: TextAlign.start,
                       style: GoogleFonts.montserrat(
                         fontSize: 16,
@@ -68,7 +85,6 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(30, 40, 30, 0),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -139,66 +155,91 @@ class _SignupScreenState extends State<SignupScreen> {
                         const SizedBox(
                           height: 20,
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            context.go('/signup-with-email');
-                          },
-                          child: FFCustomButton(
-                            text: 'Sign Up With Email',
-                            icon: IconButton(
-                              icon: const Icon(
-                                IconlyLight.message,
-                              ),
-                              onPressed: (){
-
-                              },
+                        Text(
+                          'Or sign in with email',
+                          key: const ValueKey('sign-in-with-email'),
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.montserrat(
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: context.theme.primaryColor,
                             ),
-                            options: FFButtonOptions(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
-                              ),
-                              width: context.width * .9,
-                              color: context.theme.colorScheme.onBackground,
-                              elevation: .1,
-                              iconPadding:  EdgeInsetsDirectional.zero,
-                              textStyle: GoogleFonts.montserrat(
-                                color: context.theme.colorScheme.secondary,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              borderSide: const BorderSide(
-                                color: Colors.transparent,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            onPressed: (){
-                              context.go('/signup-with-email');
-                            },
                           ),
                         ),
                         const SizedBox(
                           height: 20,
                         ),
-                        Text(
-                          "By joining, you agree to Nexus-Deep's",
-                          textAlign: TextAlign.start,
-                          style: GoogleFonts.montserrat(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
+                        CustomTextFormField(
+                          textInputType: TextInputType.emailAddress,
+                          hintText: 'Email or username',
+                          validator: (value) {},
+                          controller: emailController,
+                          maxLength: 32,
+                          borderRadius: 10,
+                        ),
+                        const SizedBox(
+                          height: 6,
+                        ),
+                        CustomTextFormField(
+                          textInputType: TextInputType.visiblePassword,
+                          isPassword: true,
+                          hintText: 'Password',
+                          controller: passwordController,
+                          maxLines: 1,
+                          onChange: (email) {},
+                          maxLength: 25,
+                          borderRadius: 10,
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        FFCustomButton(
+                          text: 'Continue',
+                          options: FFButtonOptions(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 18,
+                            ),
+                            width: context.width * .9,
+                            color: context.theme.primaryColor,
+                            elevation: .05,
+                            iconPadding:  EdgeInsetsDirectional.zero,
+                            textStyle: GoogleFonts.montserrat(
+                              color: context.theme.canvasColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            borderSide: const BorderSide(
+                              color: Colors.transparent,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
                           ),
+                          onPressed: () {
+
+                          },
+                        ),
+                        const SizedBox(
+                          height: 15,
                         ),
                         GestureDetector(
-                          onTap: () {},
-                          child: SlideFadeSwitcher(
-                            child: Text(
-                              'Terms of Service',
-                              key: const ValueKey('terms-of-service'),
-                              style: GoogleFonts.montserrat(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                  color: context.theme.primaryColor,
+                          onTap: () {
+                            context.go('/forgot-password');
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 8,
+                              horizontal: 4,
+                            ),
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                'Forgot Password',
+                                style: GoogleFonts.montserrat(
+                                  textStyle:  TextStyle(
+                                    color: context.theme.primaryColor,
+                                    fontSize: 16,
+                                  ),
                                 ),
                               ),
                             ),
@@ -212,25 +253,26 @@ class _SignupScreenState extends State<SignupScreen> {
             ],
           ),
           Positioned(
-              left: 0,
-              right: 0,
-              bottom: 20,
-              child: GestureDetector(
-                onTap: () => context.go(SigninScreen.routeName),
-                child: SlideFadeSwitcher(
-                  child: Text(
-                    'Already have account? sign in',
-                    key: const ValueKey('sign up'),
-                    style: GoogleFonts.montserrat(
-                      textStyle: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                        color: context.theme.primaryColor,
-                      ),
+            left: 0,
+            right: 0,
+            bottom: 20,
+            child:
+            GestureDetector(
+              onTap: () =>context.go(SignupScreen.routeName),
+              child: SlideFadeSwitcher(
+                child: Text(
+                  'Already have account? sign in',
+                  key: const ValueKey('sign up'),
+                  style: GoogleFonts.montserrat(
+                    textStyle: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      color: context.theme.primaryColor,
                     ),
                   ),
                 ),
-              )
+              ),
+            ),
           ),
         ],
       ),
