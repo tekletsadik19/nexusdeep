@@ -33,7 +33,6 @@ class _SignupScreenState extends State<SignupScreen> {
                 padding: const EdgeInsets.fromLTRB(30, 180, 30, 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-
                   children: [
                     SvgPicture.asset(
                       MediaRes.ndLightVector,
@@ -139,43 +138,34 @@ class _SignupScreenState extends State<SignupScreen> {
                         const SizedBox(
                           height: 20,
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            context.go('/signup-with-email');
-                          },
-                          child: FFCustomButton(
-                            text: 'Sign Up With Email',
-                            icon: IconButton(
-                              icon: const Icon(
-                                IconlyLight.message,
-                              ),
-                              onPressed: (){
-
-                              },
+                        FFCustomButton(
+                          text: 'Sign Up With Email',
+                          icon: IconButton(
+                            icon: const Icon(
+                              IconlyLight.message,
                             ),
-                            options: FFButtonOptions(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
-                              ),
-                              width: context.width * .9,
-                              color: context.theme.colorScheme.onBackground,
-                              elevation: .1,
-                              iconPadding:  EdgeInsetsDirectional.zero,
-                              textStyle: GoogleFonts.montserrat(
-                                color: context.theme.colorScheme.secondary,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              borderSide: const BorderSide(
-                                color: Colors.transparent,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            onPressed: (){
-                              context.go('/signup-with-email');
-                            },
+                            onPressed: ()=>context.go('/signup-with-email'),
                           ),
+                          options: FFButtonOptions(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            width: context.width * .9,
+                            color: context.theme.colorScheme.onBackground,
+                            elevation: .1,
+                            iconPadding:  EdgeInsetsDirectional.zero,
+                            textStyle: GoogleFonts.montserrat(
+                              color: context.theme.colorScheme.secondary,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            borderSide: const BorderSide(
+                              color: Colors.transparent,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          onPressed: ()=>context.go('/signup-with-email'),
                         ),
                         const SizedBox(
                           height: 20,

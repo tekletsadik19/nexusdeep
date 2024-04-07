@@ -166,7 +166,7 @@ class _FFCustomButtonState extends State<FFCustomButton> {
       height: widget.options.height,
       width: widget.options.width,
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: ()=>widget.onPressed,
         style: style,
         child: loading
             ? textWidget
