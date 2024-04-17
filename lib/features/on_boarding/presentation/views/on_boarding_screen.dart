@@ -93,8 +93,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       ),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    onPressed: () => context.read<OnBoardingCubit>()
-                        .cacheFirstTimer(),
+                    onPressed: () => context.read<OnBoardingCubit>().cacheFirstTimer(),
                   ),
                 ),
 

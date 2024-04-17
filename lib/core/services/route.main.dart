@@ -8,18 +8,20 @@ final GoRouter router = GoRouter(
       path: '/',
       pageBuilder: (context, state) {
         final prefs = sl<SharedPreferences>();
-        if (prefs.getBool(kFirstTimerKey) ?? true) {return _pageBuilder(
+        if (prefs.getBool(kFirstTimerKey) ?? true) {
+          return _pageBuilder(
           BlocProvider(
             create: (_) => sl<OnBoardingCubit>(),
             child: const OnBoardingScreen(),
           ),
           state,
         );
+        } else{
+          return _pageBuilder(
+            const SignupScreen(),
+            state,
+          );
         }
-        return _pageBuilder(
-          const SignupScreen(),
-          state,
-        );
       },
 
       routes:[

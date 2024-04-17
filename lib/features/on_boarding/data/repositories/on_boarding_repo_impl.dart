@@ -5,6 +5,7 @@ import 'package:nexusdeep/core/utils/typedef.dart';
 import 'package:nexusdeep/features/on_boarding/data/datasources/on_boarding_local_datasource.dart';
 import 'package:nexusdeep/features/on_boarding/domain/repos/on_boarding_repo.dart';
 
+
 class OnBoardingRepoImpl implements OnBoardingRepo{
   const OnBoardingRepoImpl(this._localDataSource);
 

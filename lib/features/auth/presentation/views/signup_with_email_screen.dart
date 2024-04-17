@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:iconly/iconly.dart';
 import 'package:nexusdeep/core/common/app/animations/slide_fade_switcher.dart';
 import 'package:nexusdeep/core/common/widgets/custom_button.dart';
 import 'package:nexusdeep/core/common/widgets/custom_form_field.dart';
@@ -16,21 +19,14 @@ class SignupWithEmailScreen extends StatefulWidget {
 class _SignupWithEmailScreenState extends State<SignupWithEmailScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final nameController = TextEditingController();
-  final inviteKeyController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
-  final phoneNumController = TextEditingController();
+  final fullNameController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
-    confirmPasswordController.dispose();
-    phoneNumController.dispose();
-    inviteKeyController.dispose();
-    nameController.dispose();
-
+    fullNameController.dispose();
     super.dispose();
   }
 
@@ -38,6 +34,8 @@ class _SignupWithEmailScreenState extends State<SignupWithEmailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.theme.colorScheme.background,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
           'Sign Up With Email',
@@ -45,6 +43,12 @@ class _SignupWithEmailScreenState extends State<SignupWithEmailScreen> {
             fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
+        ),
+        leading: IconButton(
+          icon: const Icon(
+            FontAwesomeIcons.arrowLeft,
+          ),
+          onPressed: ()=>context.go('/sign-up'),
         ),
         toolbarHeight: 90,
       ),
@@ -59,6 +63,17 @@ class _SignupWithEmailScreenState extends State<SignupWithEmailScreen> {
                   child: Column(
                     children: [
                       CustomTextFormField(
+                        textInputType: TextInputType.name,
+                        hintText: 'Full name',
+                        validator: (value) {},
+                        controller: fullNameController,
+                        maxLength: 32,
+                        borderRadius: 10,
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      CustomTextFormField(
                         textInputType: TextInputType.emailAddress,
                         hintText: 'Email',
                         validator: (value) {},
@@ -69,17 +84,7 @@ class _SignupWithEmailScreenState extends State<SignupWithEmailScreen> {
                       const SizedBox(
                         height: 8,
                       ),
-                      CustomTextFormField(
-                        textInputType: TextInputType.emailAddress,
-                        hintText: 'Public username',
-                        validator: (value) {},
-                        controller: emailController,
-                        maxLength: 32,
-                        borderRadius: 10,
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
+
                       CustomTextFormField(
                         textInputType: TextInputType.visiblePassword,
                         isPassword: true,
