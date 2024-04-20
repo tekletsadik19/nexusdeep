@@ -38,7 +38,7 @@ class LocalUser extends Equatable {
   final String? address;
   final String? country;
   final String? city;
-  final String? investmentType;
+  final List<String>? investmentType;
   final bool isTwoFactorEnabled;
   final DateTime? updatedAt;
   final DateTime? createdAt;

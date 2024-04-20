@@ -18,7 +18,10 @@ final GoRouter router = GoRouter(
         );
         } else{
           return _pageBuilder(
-            const SignupScreen(),
+            BlocProvider(
+              create: (_) => sl<AuthBloc>(),
+              child: const SigninScreen(),
+            ),
             state,
           );
         }
@@ -38,7 +41,10 @@ final GoRouter router = GoRouter(
           path: 'signup-with-email',
           pageBuilder: (context, state) {
             return _pageBuilder(
-              const SignupWithEmailScreen(),
+              BlocProvider(
+                create: (_) => sl<AuthBloc>(),
+                child: const SignupWithEmailScreen(),
+              ),
               state,
             );
           },
@@ -50,7 +56,10 @@ final GoRouter router = GoRouter(
       path: SigninScreen.routeName,
       pageBuilder: (context, state) {
         return _pageBuilder(
-          const SigninScreen(),
+          BlocProvider(
+            create: (_) => sl<AuthBloc>(),
+            child: const SigninScreen(),
+          ),
           state,
         );
       },

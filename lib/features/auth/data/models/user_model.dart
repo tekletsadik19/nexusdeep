@@ -1,4 +1,5 @@
 import 'package:nexusdeep/core/enum/user/user_role.dart';
+import 'package:nexusdeep/core/extensions/context_extensions.dart';
 import 'package:nexusdeep/core/utils/typedef.dart';
 import 'package:nexusdeep/features/auth/domain/entities/user.dart';
 
@@ -22,23 +23,19 @@ class LocalUserModel extends LocalUser {
 
   LocalUserModel.fromMap(DataMap map)
       : super(
-      uid: map['uid'] as String,
-      username: map['username'] as String,
-      email: map['email'] as String,
-      phoneNumber: map['phoneNumber'] as String,
-      profilePic: map['profilePic'] as String,
-      role: map['role'] as UserRole,
-      address: map['address'] as String,
-      country: map['country'] as String,
-      city: map['city'] as String,
-      investmentType: map['investmentType'] as String,
-      isTwoFactorEnabled: map['isTwoFactorEnabled'] as bool,
-      updatedAt: map['updatedAt'] as DateTime,
-      createdAt: map['createdAt'] as DateTime,
-      emailVerified: map['emailVerified'] as DateTime,
-  );
-
-
+          uid: map['_id'] as String,
+          username: map['name'] as String,
+          email: map['email'] as String,
+          role: UserRoleExtension.fromString(map['role'] as String),
+          investmentType: (map['investmentType'] as List<dynamic>?)
+                  ?.map((e) => e.toString())
+                  .toList() ??
+              [],
+          isTwoFactorEnabled: map['isTwoFactorEnabled'] as bool,
+          updatedAt: DateTime.parse(map['updatedAt'] as String),
+          createdAt: DateTime.parse(map['createdAt'] as String),
+          emailVerified: DateTime.parse(map['emailVerified'] as String),
+        );
 
   LocalUserModel copyWith({
     String? uid,
@@ -50,7 +47,7 @@ class LocalUserModel extends LocalUser {
     String? address,
     String? country,
     String? city,
-    String? investmentType,
+    List<String>? investmentType,
     bool? isTwoFactorEnabled,
     DateTime? updatedAt,
     DateTime? createdAt,

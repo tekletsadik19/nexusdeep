@@ -18,8 +18,6 @@ abstract class AuthenticationRepository{
   ResultFuture<void> signUp({
     required String name,
     required String email,
-    required String phoneNumber,
-    required String profilePic,
     required String password,
   });
 

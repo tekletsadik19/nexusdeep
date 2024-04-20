@@ -30,8 +30,7 @@ void main() {
       () => authRepo.signUp(
         name: any(named: 'name'),
         email: any(named: 'email'),
-        phoneNumber: any(named: 'phoneNumber'),
-        profilePic: any(named: 'profilePic'),
+
         password: any(named: 'password'),
       ),
     ).thenAnswer((_) async => const Right(null));
@@ -39,8 +38,6 @@ void main() {
         const SignUpParams(
           name: tName,
           email: tEmail,
-          phoneNumber: tPhoneNumber,
-          profilePic: tProfilePic,
           password: tPassword,
         ),
     );
@@ -52,8 +49,6 @@ void main() {
     verify(()=>authRepo.signUp(
       name: tName,
       email: tEmail,
-      phoneNumber: tPhoneNumber,
-      profilePic: tProfilePic,
       password: tPassword,),).called(1);
     verifyNoMoreInteractions(authRepo);
     

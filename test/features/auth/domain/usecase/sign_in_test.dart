@@ -39,7 +39,8 @@ void main() {
     verify(() => authRepo.signIn(
           email: tEmail,
           password: tPassword,
-        )).called(1);
+        ),
+    ).called(1);
     verifyNoMoreInteractions(authRepo);
   });
 }
