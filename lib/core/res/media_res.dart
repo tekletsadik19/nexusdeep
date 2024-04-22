@@ -10,6 +10,14 @@ class MediaRes{
   static const SatLottie2 = '$_baseLottie/sat-sstee.json';
   static const astrn = '$_baseLottie/astrn.json';
   static const underConst = '$_baseLottie/under_const';
+
+  static const help = '$_baseLottie/help.svg';
+  static const failure = '$_baseLottie/failure.svg';
+  static const success = '$_baseLottie/success.svg';
+  static const warning = '$_baseLottie/warning.svg';
+  static const back = '$_baseIcons/back.svg';
+  static const bubbles = '$_baseIcons/bubbles.svg';
+
   static const onBoardingImg1 = '$_baseVector/m-p.svg';
   static const onBoardingImg2 = '$_baseVector/m-s.svg';
   static const onBoardingImg3 = '$_baseVector/m-y.svg';

@@ -10,22 +10,21 @@ import 'package:nexusdeep/core/common/widgets/custom_form_field.dart';
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
 import 'package:nexusdeep/core/res/media_res.dart';
 import 'package:nexusdeep/core/utils/core_utils.dart';
-import 'package:nexusdeep/features/auth/data/models/user_model.dart';
+import 'package:nexusdeep/core/utils/custom_snackbar.dart';
 import 'package:nexusdeep/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:nexusdeep/features/auth/presentation/views/signup_screen.dart';
 
-class SigninScreen extends StatefulWidget {
-  const SigninScreen({super.key});
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
   static const routeName = '/sign-in';
   @override
-  State<SigninScreen> createState() => _SigninScreenState();
+  State<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _SigninScreenState extends State<SigninScreen> {
+class _SignInScreenState extends State<SignInScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final nameController = TextEditingController();
-  final inviteKeyController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   final phoneNumController = TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -36,7 +35,6 @@ class _SigninScreenState extends State<SigninScreen> {
     passwordController.dispose();
     confirmPasswordController.dispose();
     phoneNumController.dispose();
-    inviteKeyController.dispose();
     nameController.dispose();
 
     super.dispose();
@@ -44,272 +42,282 @@ class _SigninScreenState extends State<SigninScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final topPadding = context.height * .08;
     return Scaffold(
       backgroundColor: context.theme.colorScheme.background,
       resizeToAvoidBottomInset: false,
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (_, state) {
+
           if (state is AuthError) {
-            CoreUtils.showSnackBar(context, state.message);
+            const messageTitle = 'Auth Error';
+            CoreUtils.showSnackBar(
+                context,
+                ContentType.failure,
+                state.message,
+                messageTitle,
+            );
           } else if (state is SignedInState) {
             // context.userProvider.initUser(state.user as LocalUserModel);
             // context.go('/');
           }
         },
         builder: (BuildContext context, state) {
-          return Stack(
-            children: [
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(30, 180, 30, 0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SvgPicture.asset(
-                          MediaRes.ndLightVector,
-                          width: 80,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          'Welcome back',
-                          textAlign: TextAlign.start,
-                          style: GoogleFonts.montserrat(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(30, 180, 30, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SvgPicture.asset(
+                            MediaRes.ndLightVector,
+                            width: 80,
                           ),
-                        ),
-                        Text(
-                          'Sign in to Nexus Deep to pick up exactly where you left off.',
-                          textAlign: TextAlign.start,
-                          style: GoogleFonts.montserrat(
-                            fontSize: 16,
+                          const SizedBox(
+                            height: 20,
                           ),
-                        ),
-                      ],
+                          Text(
+                            'Welcome back',
+                            textAlign: TextAlign.start,
+                            style: GoogleFonts.montserrat(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            'Sign in to Nexus Deep to pick up exactly where you left off.',
+                            textAlign: TextAlign.start,
+                            style: GoogleFonts.montserrat(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Form(
-                    key: formKey,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(30, 40, 30, 0),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                FFCustomButton(
-                                  text: 'Google',
-                                  icon: IconButton(
-                                    icon: SvgPicture.asset(
-                                      MediaRes.googleVector,
-                                      width: 30,
+                    Form(
+                      key: formKey,
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(30, 40, 30, 0),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  FFCustomButton(
+                                    text: 'Google',
+                                    icon: IconButton(
+                                      icon: SvgPicture.asset(
+                                        MediaRes.googleVector,
+                                        width: 30,
+                                      ),
+                                      onPressed: () {},
+                                    ),
+                                    options: FFButtonOptions(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 8,
+                                        vertical: 4,
+                                      ),
+                                      width: context.width * .4,
+                                      color:
+                                          context.theme.colorScheme.onBackground,
+                                      elevation: .1,
+                                      textStyle: GoogleFonts.montserrat(
+                                        color:
+                                            context.theme.colorScheme.secondary,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      borderSide: const BorderSide(
+                                        color: Colors.transparent,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
                                     onPressed: () {},
                                   ),
-                                  options: FFButtonOptions(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 8,
-                                      vertical: 4,
+                                  FFCustomButton(
+                                    text: 'Facebook',
+                                    icon: IconButton(
+                                      icon: SvgPicture.asset(
+                                        MediaRes.facebookVector,
+                                        width: 30,
+                                      ),
+                                      onPressed: () {},
                                     ),
-                                    width: context.width * .4,
-                                    color:
-                                        context.theme.colorScheme.onBackground,
-                                    elevation: .1,
-                                    textStyle: GoogleFonts.montserrat(
+                                    options: FFButtonOptions(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 8,
+                                        vertical: 4,
+                                      ),
+                                      width: context.width * .4,
                                       color:
-                                          context.theme.colorScheme.secondary,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
+                                          context.theme.colorScheme.onBackground,
+                                      elevation: .1,
+                                      textStyle: GoogleFonts.montserrat(
+                                        color:
+                                            context.theme.colorScheme.secondary,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      borderSide: const BorderSide(
+                                        color: Colors.transparent,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
-                                    borderSide: const BorderSide(
-                                      color: Colors.transparent,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
+                                    onPressed: () {
+                                      if (formKey.currentState!.validate()) {
+                                        context.read<AuthBloc>().add(
+                                              SignInEvent(
+                                                email: emailController.value.text
+                                                    .trim(),
+                                                password: passwordController
+                                                    .value.text
+                                                    .trim(),
+                                              ),
+                                            );
+                                      }
+                                    },
                                   ),
-                                  onPressed: () {},
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                'Or sign in with email',
+                                key: const ValueKey('sign-in-with-email'),
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.montserrat(
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    color: context.theme.primaryColor,
+                                  ),
                                 ),
-                                FFCustomButton(
-                                  text: 'Facebook',
-                                  icon: IconButton(
-                                    icon: SvgPicture.asset(
-                                      MediaRes.facebookVector,
-                                      width: 30,
-                                    ),
-                                    onPressed: () {},
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              CustomTextFormField(
+                                textInputType: TextInputType.emailAddress,
+                                hintText: 'Email or username',
+                                validator: (value) {},
+                                controller: emailController,
+                                maxLength: 32,
+                                borderRadius: 10,
+                              ),
+                              const SizedBox(
+                                height: 6,
+                              ),
+                              CustomTextFormField(
+                                textInputType: TextInputType.visiblePassword,
+                                isPassword: true,
+                                hintText: 'Password',
+                                controller: passwordController,
+                                maxLines: 1,
+                                onChange: (email) {},
+                                maxLength: 25,
+                                borderRadius: 10,
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              FFCustomButton(
+                                text: 'Continue',
+                                options: FFButtonOptions(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 18,
                                   ),
-                                  options: FFButtonOptions(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 8,
-                                      vertical: 4,
-                                    ),
-                                    width: context.width * .4,
-                                    color:
-                                        context.theme.colorScheme.onBackground,
-                                    elevation: .1,
-                                    textStyle: GoogleFonts.montserrat(
-                                      color:
-                                          context.theme.colorScheme.secondary,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    borderSide: const BorderSide(
-                                      color: Colors.transparent,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  onPressed: () {
-                                    if (formKey.currentState!.validate()) {
-                                      context.read<AuthBloc>().add(
-                                            SignInEvent(
-                                              email: emailController.value.text
-                                                  .trim(),
-                                              password: passwordController
-                                                  .value.text
-                                                  .trim(),
-                                            ),
-                                          );
-                                    }
-                                  },
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              'Or sign in with email',
-                              key: const ValueKey('sign-in-with-email'),
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.montserrat(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
+                                  width: context.width * .9,
                                   color: context.theme.primaryColor,
+                                  elevation: .05,
+                                  iconPadding: EdgeInsetsDirectional.zero,
+                                  textStyle: GoogleFonts.montserrat(
+                                    color: context.theme.canvasColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  borderSide: const BorderSide(
+                                    color: Colors.transparent,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
+                                onPressed: () {
+                                  if (formKey.currentState!.validate()) {
+                                    context.read<AuthBloc>().add(
+                                          SignInEvent(
+                                            email:
+                                                emailController.value.text.trim(),
+                                            password: passwordController
+                                                .value.text
+                                                .trim(),
+                                          ),
+                                        );
+                                  }
+                                },
                               ),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            CustomTextFormField(
-                              textInputType: TextInputType.emailAddress,
-                              hintText: 'Email or username',
-                              validator: (value) {},
-                              controller: emailController,
-                              maxLength: 32,
-                              borderRadius: 10,
-                            ),
-                            const SizedBox(
-                              height: 6,
-                            ),
-                            CustomTextFormField(
-                              textInputType: TextInputType.visiblePassword,
-                              isPassword: true,
-                              hintText: 'Password',
-                              controller: passwordController,
-                              maxLines: 1,
-                              onChange: (email) {},
-                              maxLength: 25,
-                              borderRadius: 10,
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            FFCustomButton(
-                              text: 'Continue',
-                              options: FFButtonOptions(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 18,
-                                ),
-                                width: context.width * .9,
-                                color: context.theme.primaryColor,
-                                elevation: .05,
-                                iconPadding: EdgeInsetsDirectional.zero,
-                                textStyle: GoogleFonts.montserrat(
-                                  color: context.theme.canvasColor,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                borderSide: const BorderSide(
-                                  color: Colors.transparent,
-                                ),
-                                borderRadius: BorderRadius.circular(10),
+                              const SizedBox(
+                                height: 15,
                               ),
-                              onPressed: () {
-                                if (formKey.currentState!.validate()) {
-                                  context.read<AuthBloc>().add(
-                                        SignInEvent(
-                                          email:
-                                              emailController.value.text.trim(),
-                                          password: passwordController
-                                              .value.text
-                                              .trim(),
+                              GestureDetector(
+                                onTap: () {
+                                  context.go('/forgot-password');
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 8,
+                                    horizontal: 4,
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text(
+                                      'Forgot Password',
+                                      style: GoogleFonts.montserrat(
+                                        textStyle: TextStyle(
+                                          color: context.theme.primaryColor,
+                                          fontSize: 16,
                                         ),
-                                      );
-                                }
-                              },
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                context.go('/forgot-password');
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 8,
-                                  horizontal: 4,
-                                ),
-                                child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    'Forgot Password',
-                                    style: GoogleFonts.montserrat(
-                                      textStyle: TextStyle(
-                                        color: context.theme.primaryColor,
-                                        fontSize: 16,
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
+                  ],
+                ),
+                GestureDetector(
+                  onTap: () => context.go(
+                      SignupScreen.routeName,
                   ),
-                ],
-              ),
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 20,
-                child: GestureDetector(
-                  onTap: () => context.go(SignupScreen.routeName),
-                  child: SlideFadeSwitcher(
-                    child: Text(
-                      "Don't have account? Sign Up",
-                      key: const ValueKey('sign up'),
-                      style: GoogleFonts.montserrat(
-                        textStyle: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                          color: context.theme.primaryColor,
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(20,topPadding,20,0),
+                    child: SlideFadeSwitcher(
+                      child: Text(
+                        "Don't have account? Sign Up",
+                        key: const ValueKey('sign up'),
+                        style: GoogleFonts.montserrat(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            color: context.theme.primaryColor,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),

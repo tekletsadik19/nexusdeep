@@ -8,6 +8,8 @@ import 'package:nexusdeep/features/auth/presentation/views/forgot_password_scree
 import 'package:nexusdeep/features/auth/presentation/views/signin_screen.dart';
 import 'package:nexusdeep/features/auth/presentation/views/signup_screen.dart';
 import 'package:nexusdeep/features/auth/presentation/views/signup_with_email_screen.dart';
+import 'package:nexusdeep/features/auth/presentation/views/verify_email_screen.dart';
+import 'package:nexusdeep/features/dashboard/presentation/views/dashboard.dart';
 import 'package:nexusdeep/features/on_boarding/data/datasources/on_boarding_local_datasource.dart';
 import 'package:nexusdeep/features/on_boarding/presentation/cubit/on_boarding_cubit.dart';
 import 'package:nexusdeep/features/on_boarding/presentation/views/on_boarding_screen.dart';

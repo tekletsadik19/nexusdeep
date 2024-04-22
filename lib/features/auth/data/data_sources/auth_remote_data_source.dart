@@ -96,11 +96,39 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> signUp(
-      {required String name, required String email, required String password}) {
-    // TODO: implement signUp
-    throw UnimplementedError();
+  Future<void> signUp({
+    required String name,
+    required String email,
+    required String password
+  }) async {
+    final url = Uri.https(Config.apiUrl, Config.signUpUrl);
+    final requestHeaders = <String, String>{
+      'Content-Type': 'application/json',
+    };
+    final body = json.encode({
+      'name': name,
+      'email': email,
+      'password': password,
+    });
+
+    final response = await _client.post(
+      url,
+      headers: requestHeaders,
+      body: body,
+    );
+
+    if(kDebugMode){
+      print(json.decode(response.body)['message']);
+    }
+
+    if (response.statusCode != 200) {
+      throw ServerException(
+        message: json.decode(response.body)['message'] as String,
+        statusCode: response.statusCode.toString(),
+      );
+    }
   }
+
 
   @override
   Future<void> updateUser(

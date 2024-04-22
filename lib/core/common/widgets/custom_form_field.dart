@@ -78,6 +78,7 @@ class CustomTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       autofocus: autofocus ?? false,
+
       style: style ??
           GoogleFonts.montserrat(
             textStyle: TextStyle(

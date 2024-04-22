@@ -3,7 +3,6 @@ part of 'route.dart';
 final GoRouter router = GoRouter(
   initialLocation: '/',
   routes: [
-
     GoRoute(
       path: '/',
       pageBuilder: (context, state) {
@@ -20,7 +19,7 @@ final GoRouter router = GoRouter(
           return _pageBuilder(
             BlocProvider(
               create: (_) => sl<AuthBloc>(),
-              child: const SigninScreen(),
+              child: const SignInScreen(),
             ),
             state,
           );
@@ -32,7 +31,19 @@ final GoRouter router = GoRouter(
           path: 'forgot-password',
           pageBuilder: (context, state) {
             return _pageBuilder(
-              const ForgotPasswordScreen(),
+              BlocProvider(
+                create: (_) => sl<AuthBloc>(),
+                child: const ForgotPasswordScreen(),
+              ),
+              state,
+            );
+          },
+        ),
+        GoRoute(
+          path: 'verify-email',
+          pageBuilder: (context, state) {
+            return _pageBuilder(
+              const VerifyEmailScreen(),
               state,
             );
           },
@@ -53,12 +64,12 @@ final GoRouter router = GoRouter(
     ),
 
     GoRoute(
-      path: SigninScreen.routeName,
+      path: SignInScreen.routeName,
       pageBuilder: (context, state) {
         return _pageBuilder(
           BlocProvider(
             create: (_) => sl<AuthBloc>(),
-            child: const SigninScreen(),
+            child: const SignInScreen(),
           ),
           state,
         );
@@ -90,4 +101,5 @@ CustomTransitionPage<dynamic> _pageBuilder(Widget page, GoRouterState state) {
     ),
   );
 }
+
 

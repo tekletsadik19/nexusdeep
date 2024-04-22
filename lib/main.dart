@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:nexusdeep/core/common/app/providers/theme_controller.dart';
 import 'package:nexusdeep/core/services/injection_container.dart';
 import 'package:nexusdeep/core/services/route.dart';
+
 import 'package:nexusdeep/core/utils/constants.dart';
 
 
