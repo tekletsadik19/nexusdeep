@@ -17,6 +17,12 @@ class CoreUtils {
     return extension;
   }
 
+  static String formatDuration(int seconds) {
+    final min = seconds ~/ 60;
+    final sec = seconds % 60;
+    return '${min.toString().padLeft(2, '0')}:${sec.toString().padLeft(2, '0')}';
+  }
+
   static T valueOrDefault<T>(T? value, T defaultValue) =>
       (value is String && value.isEmpty) || value == null
           ? defaultValue
@@ -43,7 +49,6 @@ class CoreUtils {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-
         ),
       );
   }

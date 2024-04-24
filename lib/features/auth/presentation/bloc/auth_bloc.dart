@@ -10,6 +10,7 @@ import 'package:nexusdeep/features/auth/domain/usecase/logout.dart';
 import 'package:nexusdeep/features/auth/domain/usecase/sign_in.dart';
 import 'package:nexusdeep/features/auth/domain/usecase/sign_up.dart';
 import 'package:nexusdeep/features/auth/domain/usecase/update_user.dart';
+import 'package:nexusdeep/features/auth/domain/usecase/verify_email.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -21,11 +22,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required UpdateUser updateUser,
     required ForgotPassword forgotPassword,
     required LogoutUseCase logout,
+    required VerifyEmail verifyEmail,
   })  : _signIn = signIn,
         _signUp = signUp,
         _updateUser = updateUser,
         _forgotPassword = forgotPassword,
         _logout = logout,
+        _verifyEmail = verifyEmail,
         super(const AuthInitial()) {
     on<AuthEvent>((event, emit) {
       emit(const AuthLoading());
@@ -36,6 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<ForgotPasswordEvent>(_forgotPasswordHandler);
     on<UpdateUserEvent>(_updateUserHandler);
     on<LogoutEvent>(_logoutHandler);
+    on<VerifyEmailEvent>(_verifyEmailHandler);
 
   }
   final SignIn _signIn;
@@ -43,6 +47,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final UpdateUser _updateUser;
   final ForgotPassword _forgotPassword;
   final LogoutUseCase _logout;
+  final VerifyEmail _verifyEmail;
 
 
   Future<void> _signInHandler(
@@ -67,12 +72,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ),
     );
 
+    final  verifyEmail = event.email;
+
 
     result.fold(
       (failure) => emit(AuthError(failure.message)),
-      (_) => emit(const SignedUpState()),
+      (_) => emit(SignedUpState(verifyEmail)),
     );
   }
+
+  Future<void> _verifyEmailHandler(
+      VerifyEmailEvent event, Emitter<AuthState> emit,) async {
+    final result = await _verifyEmail(event.code);
+
+    final  code = event.code;
+
+    result.fold(
+          (failure) => emit(AuthError(failure.message)),
+          (_) => emit(EmailVerifiedState(code)),
+    );
+  }
+
 
   Future<void> _forgotPasswordHandler(
       ForgotPasswordEvent event, Emitter<AuthState> emit) async {

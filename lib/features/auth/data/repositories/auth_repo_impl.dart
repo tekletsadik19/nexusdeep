@@ -58,6 +58,19 @@ class AuthRepoImpl implements AuthenticationRepository {
   }
 
   @override
+  ResultFuture<void> verifyEmail({required String code}) async{
+    try {
+      await _authRemoteDataSource.verifyEmail(
+        code: code,
+      );
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+    }
+  }
+
+
+  @override
   ResultFuture<void> updateUser({
     required UpdateUserAction action,
     required dynamic userData,
@@ -83,5 +96,7 @@ class AuthRepoImpl implements AuthenticationRepository {
       return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
     }
   }
+
+
 
 }

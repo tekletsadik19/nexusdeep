@@ -40,10 +40,14 @@ final GoRouter router = GoRouter(
           },
         ),
         GoRoute(
-          path: 'verify-email',
+          path: 'verify-email/:email',
           pageBuilder: (context, state) {
+            final email = state.pathParameters['email'];
             return _pageBuilder(
-              const VerifyEmailScreen(),
+              BlocProvider(
+                create: (_) => sl<AuthBloc>(),
+                child: VerifyEmailScreen(email: email),
+              ),
               state,
             );
           },

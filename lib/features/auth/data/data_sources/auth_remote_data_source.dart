@@ -22,6 +22,11 @@ abstract class AuthRemoteDataSource {
     required String email,
     required String password,
   });
+
+  Future<void> verifyEmail({
+    required String code,
+  });
+
   Future<void> updateUser({
     required UpdateUserAction action,
     required dynamic userData,
@@ -83,6 +88,112 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
   }
 
+
+
+  @override
+  Future<void> signUp({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
+
+    try{
+      final url = Uri.https(Config.apiUrl, Config.signUpUrl);
+      final requestHeaders = <String, String>{
+        'Content-Type': 'application/json',
+      };
+
+      final body = json.encode({
+        'name': name,
+        'email': email,
+        'password': password,
+      });
+
+      final response = await _client.post(
+        url,
+        headers: requestHeaders,
+        body: body,
+      );
+
+      if (response.statusCode == 201) {
+        if(kDebugMode){
+          print(json.decode(response.body));
+        }
+
+      } else if (response.statusCode == 400){
+        throw ServerException(
+          message: (json.decode(response.body)['message']) as String,
+          statusCode: response.statusCode.toString(),
+        );
+      } else {
+        throw ServerException(
+          message: 'Failed to sign up',
+          statusCode: response.statusCode.toString(),
+        );
+      }
+    } on ServerException {
+      rethrow;
+    } catch (e, s) {
+      debugPrintStack(stackTrace: s);
+      throw ServerException(
+        message: e.toString(),
+        statusCode: 505,
+      );
+    }
+  }
+
+  @override
+  Future<void> verifyEmail({required String code}) async{
+    try{
+      final url = Uri.https(Config.apiUrl, Config.activateUserUrl);
+      final requestHeaders = <String, String>{
+        'Content-Type': 'application/json',
+      };
+
+      final body = json.encode({
+        'code': code,
+      });
+
+      final response = await _client.post(
+        url,
+        headers: requestHeaders,
+        body: body,
+      );
+
+      if (response.statusCode == 201) {
+        if(kDebugMode){
+          print(json.decode(response.body));
+        }
+
+      } else if (response.statusCode == 400){
+        throw ServerException(
+          message: (json.decode(response.body)['message']) as String,
+          statusCode: response.statusCode.toString(),
+        );
+      } else {
+        throw ServerException(
+          message: 'Failed to verify your Email',
+          statusCode: response.statusCode.toString(),
+        );
+      }
+    } on ServerException {
+      rethrow;
+    } catch (e, s) {
+      debugPrintStack(stackTrace: s);
+      throw ServerException(
+        message: e.toString(),
+        statusCode: 505,
+      );
+    }
+  }
+
+
+  @override
+  Future<void> updateUser(
+      {required UpdateUserAction action, required userData}) {
+    // TODO: implement updateUser
+    throw UnimplementedError();
+  }
   @override
   Future<void> forgotPassword({required String email}) {
     // TODO: implement forgotPassword
@@ -95,45 +206,5 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     throw UnimplementedError();
   }
 
-  @override
-  Future<void> signUp({
-    required String name,
-    required String email,
-    required String password
-  }) async {
-    final url = Uri.https(Config.apiUrl, Config.signUpUrl);
-    final requestHeaders = <String, String>{
-      'Content-Type': 'application/json',
-    };
-    final body = json.encode({
-      'name': name,
-      'email': email,
-      'password': password,
-    });
 
-    final response = await _client.post(
-      url,
-      headers: requestHeaders,
-      body: body,
-    );
-
-    if(kDebugMode){
-      print(json.decode(response.body)['message']);
-    }
-
-    if (response.statusCode != 200) {
-      throw ServerException(
-        message: json.decode(response.body)['message'] as String,
-        statusCode: response.statusCode.toString(),
-      );
-    }
-  }
-
-
-  @override
-  Future<void> updateUser(
-      {required UpdateUserAction action, required userData}) {
-    // TODO: implement updateUser
-    throw UnimplementedError();
-  }
 }

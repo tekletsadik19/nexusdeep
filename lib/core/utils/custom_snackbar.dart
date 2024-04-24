@@ -66,13 +66,13 @@ class CustomSnackBar extends StatelessWidget {
     final iconSpace = size.width * 0.12;
 
     return SizedBox(
-      height: size.height * 0.075,
+      height: size.height * 0.08,
       child: Stack(
         clipBehavior: Clip.none,
         alignment: Alignment.topCenter,
         children: [
           _backgroundContainer(size, theme, hsl, context),
-          _splashSVG(size, hslDark),
+          _splashSVG(size, hslDark,context),
           _bubbleIcon(context, isRTL, iconSpace, size, hslDark),
           _content(context, isRTL, iconSpace, size, theme),
         ],
@@ -87,7 +87,7 @@ class CustomSnackBar extends StatelessWidget {
     BuildContext context,
   ) {
     return Container(
-
+      padding: EdgeInsetsDirectional.zero,
       decoration: BoxDecoration(
         color: color ?? contentType.color(context),
         borderRadius: BorderRadius.circular(20),
@@ -95,21 +95,22 @@ class CustomSnackBar extends StatelessWidget {
     );
   }
 
-  Widget _splashSVG(Size size, HSLColor hslDark) {
+  Widget _splashSVG(Size size, HSLColor hslDark,context) {
     return Positioned(
-      bottom: 0,
-      left: 0,
+      left: -size.height * 0.02,
+      bottom: -size.height * 0.02,
       child: ClipRRect(
-        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(20)),
         child: SvgPicture.asset(
           MediaRes.bubbles,
-          height: size.height * 0.075,
-          width: size.width * 0.07,
+          height: size.height * 0.08,
+          width: size.width * 0.05,
+          fit: BoxFit.cover,
           colorFilter: _getColorFilter(hslDark.toColor(), ui.BlendMode.srcIn),
         ),
       ),
     );
   }
+
 
   Widget _bubbleIcon(
     BuildContext context,
@@ -119,16 +120,24 @@ class CustomSnackBar extends StatelessWidget {
     HSLColor hslDark,
   ) {
     return Positioned(
-      top: -size.height * 0.02,
-      left: !isRTL ? iconSpace : null,
-      right: isRTL ? iconSpace : null,
+      top: -size.height * 0.01,
+      right: 0,
       child: Stack(
         alignment: Alignment.center,
         children: [
-          SvgPicture.asset(
-            MediaRes.back,
-            height: size.height * 0.06,
-            colorFilter: _getColorFilter(hslDark.toColor(), ui.BlendMode.srcIn),
+          InkWell(
+            onTap:(){
+              if (inMaterialBanner) {
+                ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+              } else {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              }
+            },
+            child: SvgPicture.asset(
+              MediaRes.back,
+              height: size.height * 0.06,
+              colorFilter: _getColorFilter(hslDark.toColor(), ui.BlendMode.srcIn),
+            ),
           ),
           Positioned(
             top: size.height * 0.015,
@@ -156,11 +165,11 @@ class CustomSnackBar extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: size.height * 0.02),
+          SizedBox(height: size.height * 0.01),
           _titleRow(context, size, theme),
           SizedBox(height: size.height * 0.005),
           _messageText(size, theme),
-          SizedBox(height: size.height * 0.015),
+          SizedBox(height: size.height * 0.01),
         ],
       ),
     );
@@ -179,19 +188,15 @@ class CustomSnackBar extends StatelessWidget {
             ),
           ),
         ),
-        InkWell(
-          onTap: () {
-            if (inMaterialBanner) {
-              ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
-            } else {
-              ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            }
-          },
-          child: SvgPicture.asset(
-            MediaRes.failure,
-            height: size.height * 0.022,
-          ),
-        ),
+        // InkWell(
+        //   onTap: () {
+        //
+        //   },
+        //   child: SvgPicture.asset(
+        //     _getAssetByContentType(contentType),
+        //     height: size.height * 0.02,
+        //   ),
+        // ),
       ],
     );
   }
@@ -201,7 +206,7 @@ class CustomSnackBar extends StatelessWidget {
       child: Text(
         message,
         style: GoogleFonts.montserrat(
-          fontSize: 12,
+          fontSize: 14,
         ),
       ),
     );

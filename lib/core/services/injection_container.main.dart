@@ -36,10 +36,12 @@ Future<void> _authInit() async {
         updateUser: sl(),
         forgotPassword: sl(),
         logout: sl(),
+        verifyEmail: sl(),
       ),
     )
     ..registerLazySingleton(() => SignIn(sl()))
     ..registerLazySingleton(() => SignUp(sl()))
+    ..registerLazySingleton(() => VerifyEmail(sl()))
     ..registerLazySingleton(() => ForgotPassword(sl()))
     ..registerLazySingleton(() => UpdateUser(sl()))
     ..registerLazySingleton(() => LogoutUseCase(sl()))

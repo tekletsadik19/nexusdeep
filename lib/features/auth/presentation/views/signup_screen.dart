@@ -22,7 +22,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final topPadding = context.height * .28;
+    final topPadding = context.height * .25;
     return Scaffold(
       backgroundColor: context.theme.colorScheme.background,
       resizeToAvoidBottomInset: false,
@@ -211,7 +211,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 padding:  EdgeInsets.fromLTRB(20,topPadding,20,0),
                 child: SlideFadeSwitcher(
                   child: Text(
-                    'Already have account? sign in',
+                    'Already have account? Sign In',
                     key: const ValueKey('sign up'),
                     style: GoogleFonts.montserrat(
                       textStyle: TextStyle(

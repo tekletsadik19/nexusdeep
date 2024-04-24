@@ -95,9 +95,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     ),
                     onPressed: () {
                       context.read<OnBoardingCubit>().cacheFirstTimer();
-                      if (state is UserCached) {
-                        context.go('/');
-                      }
                     },
                   ),
                 ),

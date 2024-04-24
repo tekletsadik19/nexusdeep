@@ -7,6 +7,7 @@ import 'package:nexusdeep/features/auth/domain/usecase/logout.dart';
 import 'package:nexusdeep/features/auth/domain/usecase/sign_in.dart';
 import 'package:nexusdeep/features/auth/domain/usecase/sign_up.dart';
 import 'package:nexusdeep/features/auth/domain/usecase/update_user.dart';
+import 'package:nexusdeep/features/auth/domain/usecase/verify_email.dart';
 import 'package:nexusdeep/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:nexusdeep/features/on_boarding/data/datasources/on_boarding_local_datasource.dart';
 import 'package:nexusdeep/features/on_boarding/data/repositories/on_boarding_repo_impl.dart';

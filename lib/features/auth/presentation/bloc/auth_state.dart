@@ -22,8 +22,23 @@ class SignedInState extends AuthState{
   @override
   List<Object> get props => [user];
 }
+
+class EmailVerifiedState extends AuthState{
+  const EmailVerifiedState(this.code);
+
+  final String code;
+
+  @override
+  List<Object> get props => [code];
+}
+
 class SignedUpState extends AuthState{
-  const SignedUpState();
+  const SignedUpState(this.email);
+
+  final String email;
+
+  @override
+  List<Object> get props => [email];
 }
 
 class ForgotPasswordSentState extends AuthState{

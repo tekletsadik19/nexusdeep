@@ -21,6 +21,11 @@ abstract class AuthenticationRepository{
     required String password,
   });
 
+
+  ResultFuture<void> verifyEmail({
+    required String code,
+  });
+
   ResultFuture<void> updateUser({
     required UpdateUserAction action,
     required dynamic userData,

@@ -42,7 +42,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final topPadding = context.height * .08;
+    final topPadding = context.height * .04;
     return Scaffold(
       backgroundColor: context.theme.colorScheme.background,
       resizeToAvoidBottomInset: false,

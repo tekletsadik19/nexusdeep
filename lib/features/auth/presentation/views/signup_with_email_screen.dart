@@ -67,12 +67,13 @@ class _SignupWithEmailScreenState extends State<SignupWithEmailScreen> {
               messageTitle,
             );
           } else if (state is SignedUpState) {
-            context.read<AuthBloc>().add(
-                  SignInEvent(
-                    email: emailController.value.text.trim(),
-                    password: passwordController.value.text.trim(),
-                  ),
-                );
+            context.go('/verify-email/${emailController.value.text.trim()}');
+            // context.read<AuthBloc>().add(
+            //       SignInEvent(
+            //         email: emailController.value.text.trim(),
+            //         password: passwordController.value.text.trim(),
+            //       ),
+            // );
           } else if (state is SignedInState) {
             // context.userProvider.initUser(state.user as LocalUserModel);
             // context.go('/');
