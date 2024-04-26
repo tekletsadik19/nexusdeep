@@ -5,6 +5,7 @@
 *.swp
 .DS_Store
 .atom/
+mykey.jks
 .buildlog/
 .history
 .svn/

@@ -13,7 +13,7 @@ Future<void> _onBoardingInit() async {
   // Business Logic
   sl
     ..registerFactory(
-          () => OnBoardingCubit(
+      () => OnBoardingCubit(
         cacheFirstTimer: sl(),
         checkIfUserFirstTimer: sl(),
       ),
@@ -22,7 +22,7 @@ Future<void> _onBoardingInit() async {
     ..registerLazySingleton(() => CheckIfUserFirstTimer(sl()))
     ..registerLazySingleton<OnBoardingRepo>(() => OnBoardingRepoImpl(sl()))
     ..registerLazySingleton<OnBoardingLocalDataSource>(
-          () => OnBoardingLocalDataSourceImpl(sl()),
+      () => OnBoardingLocalDataSourceImpl(sl()),
     )
     ..registerLazySingleton(() => prefs);
 }
@@ -30,13 +30,15 @@ Future<void> _onBoardingInit() async {
 Future<void> _authInit() async {
   sl
     ..registerFactory(
-          () => AuthBloc(
+      () => AuthBloc(
         signIn: sl(),
         signUp: sl(),
         updateUser: sl(),
         forgotPassword: sl(),
         logout: sl(),
         verifyEmail: sl(),
+        signInWithGoogle: sl(),
+        signInWithFacebook: sl(),
       ),
     )
     ..registerLazySingleton(() => SignIn(sl()))
@@ -45,8 +47,15 @@ Future<void> _authInit() async {
     ..registerLazySingleton(() => ForgotPassword(sl()))
     ..registerLazySingleton(() => UpdateUser(sl()))
     ..registerLazySingleton(() => LogoutUseCase(sl()))
+    ..registerLazySingleton(() => SignInWithGoogle(sl()))
+    ..registerLazySingleton(() => SignInWithFacebook(sl()))
     ..registerLazySingleton<AuthenticationRepository>(() => AuthRepoImpl(sl()))
     ..registerLazySingleton<AuthRemoteDataSource>(
-          () => AuthRemoteDataSourceImpl(),
-    );
+      () => AuthRemoteDataSourceImpl(
+        googleSignIn: sl(),
+        facebookAuthClient: sl(),
+      ),
+    )
+    ..registerLazySingleton<GoogleSignIn>(GoogleSignIn.new)
+    ..registerLazySingleton(() => FacebookAuth.instance);
 }

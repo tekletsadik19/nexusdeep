@@ -1,6 +1,7 @@
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nexusdeep/core/res/media_res.dart';
 
@@ -181,10 +182,16 @@ class CustomSnackBar extends StatelessWidget {
       children: [
         Expanded(
           flex: 3,
-          child: Text(
+          child: title.length > 20?
+          Text(
+            '',
+            style: GoogleFonts.montserrat(
+              fontSize: 14,
+            ),
+          ):Text(
             title,
             style: GoogleFonts.montserrat(
-              fontSize: 16,
+              fontSize: 14,
             ),
           ),
         ),
@@ -203,7 +210,13 @@ class CustomSnackBar extends StatelessWidget {
 
   Widget _messageText(Size size, ThemeData theme) {
     return Expanded(
-      child: Text(
+      child: message.length > 20?
+      Text(
+        message.characters.take(12).toString(),
+        style: GoogleFonts.montserrat(
+          fontSize: 14,
+        ),
+      ):Text(
         message,
         style: GoogleFonts.montserrat(
           fontSize: 14,

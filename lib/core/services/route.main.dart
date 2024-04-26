@@ -43,10 +43,16 @@ final GoRouter router = GoRouter(
           path: 'verify-email/:email',
           pageBuilder: (context, state) {
             final email = state.pathParameters['email'];
+            final extra = state.extra as Map<String, dynamic>?;
             return _pageBuilder(
               BlocProvider(
                 create: (_) => sl<AuthBloc>(),
-                child: VerifyEmailScreen(email: email),
+                child: VerifyEmailScreen(
+                  email: email,
+                  name: extra!['name'] as String,
+                  password: extra!['password'] as String,
+                  token: extra!['token'] as String,
+                ),
               ),
               state,
             );
@@ -83,7 +89,10 @@ final GoRouter router = GoRouter(
       path: SignupScreen.routeName,
       pageBuilder: (context, state) {
         return _pageBuilder(
-          const SignupScreen(),
+          BlocProvider(
+            create: (_) => sl<AuthBloc>(),
+            child: const SignupScreen(),
+          ),
           state,
         );
       },

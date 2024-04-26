@@ -8,6 +8,8 @@ import 'package:nexusdeep/features/auth/domain/entities/user.dart';
 import 'package:nexusdeep/features/auth/domain/usecase/forgot_password.dart';
 import 'package:nexusdeep/features/auth/domain/usecase/logout.dart';
 import 'package:nexusdeep/features/auth/domain/usecase/sign_in.dart';
+import 'package:nexusdeep/features/auth/domain/usecase/sign_in_with_facebook.dart';
+import 'package:nexusdeep/features/auth/domain/usecase/sign_in_with_google.dart';
 import 'package:nexusdeep/features/auth/domain/usecase/sign_up.dart';
 import 'package:nexusdeep/features/auth/domain/usecase/update_user.dart';
 import 'package:nexusdeep/features/auth/domain/usecase/verify_email.dart';
@@ -23,12 +25,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required ForgotPassword forgotPassword,
     required LogoutUseCase logout,
     required VerifyEmail verifyEmail,
+    required SignInWithGoogle signInWithGoogle,
+    required SignInWithFacebook signInWithFacebook,
   })  : _signIn = signIn,
         _signUp = signUp,
         _updateUser = updateUser,
         _forgotPassword = forgotPassword,
         _logout = logout,
         _verifyEmail = verifyEmail,
+        _signInWithFacebook = signInWithFacebook,
+        _signInWithGoogle = signInWithGoogle,
         super(const AuthInitial()) {
     on<AuthEvent>((event, emit) {
       emit(const AuthLoading());
@@ -40,18 +46,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<UpdateUserEvent>(_updateUserHandler);
     on<LogoutEvent>(_logoutHandler);
     on<VerifyEmailEvent>(_verifyEmailHandler);
-
+    on<GoogleSignInEvent>(_signInWithGoogleHandler);
+    on<FacebookSignInEvent>(_signInWithFacebookHandler);
   }
+
   final SignIn _signIn;
   final SignUp _signUp;
   final UpdateUser _updateUser;
   final ForgotPassword _forgotPassword;
   final LogoutUseCase _logout;
   final VerifyEmail _verifyEmail;
-
+  final SignInWithGoogle _signInWithGoogle;
+  final SignInWithFacebook _signInWithFacebook;
 
   Future<void> _signInHandler(
-      SignInEvent event, Emitter<AuthState> emit) async {
+      SignInEvent event, Emitter<AuthState> emit,) async {
     final result = await _signIn(
       SignInParams(email: event.email, password: event.password),
     );
@@ -59,6 +68,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     result.fold(
       (failure) => emit(AuthError(failure.message)),
       (user) => emit(SignedInState(user)),
+    );
+  }
+
+  Future<void> _signInWithGoogleHandler(
+    GoogleSignInEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    final result = await _signInWithGoogle();
+    result.fold(
+      (failure) => emit(AuthError(failure.message)),
+      (user) => emit(SocialSignedInState(user)),
+    );
+  }
+
+  Future<void> _signInWithFacebookHandler(
+    FacebookSignInEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    final result = await _signInWithFacebook();
+    result.fold(
+      (failure) => emit(AuthError(failure.message)),
+      (user) => emit(SocialSignedInState(user)),
     );
   }
 
@@ -71,28 +102,26 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         password: event.password,
       ),
     );
-
-    final  verifyEmail = event.email;
-
+    final verifyEmail = event.email;
 
     result.fold(
       (failure) => emit(AuthError(failure.message)),
-      (_) => emit(SignedUpState(verifyEmail)),
+      (token) => emit(SignedUpState(token)),
     );
   }
 
   Future<void> _verifyEmailHandler(
-      VerifyEmailEvent event, Emitter<AuthState> emit,) async {
-    final result = await _verifyEmail(event.code);
-
-    final  code = event.code;
+    VerifyEmailEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    final result = await _verifyEmail(
+        VerifyEmailParams(code: event.code, token: event.token));
 
     result.fold(
-          (failure) => emit(AuthError(failure.message)),
-          (_) => emit(EmailVerifiedState(code)),
+      (failure) => emit(AuthError(failure.message)),
+      (_) => emit(EmailVerifiedState(event.code, event.token)),
     );
   }
-
 
   Future<void> _forgotPasswordHandler(
       ForgotPasswordEvent event, Emitter<AuthState> emit) async {
@@ -116,8 +145,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     result.fold(
-          (failure) => emit(AuthError(failure.message)),
-          (_) => emit(const UserUpdated()),
+      (failure) => emit(AuthError(failure.message)),
+      (_) => emit(const UserUpdated()),
     );
   }
 
@@ -126,8 +155,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await _logout();
 
     result.fold(
-          (failure) => emit(AuthError(failure.message)),
-          (_) => emit(const LogoutState()),
+      (failure) => emit(AuthError(failure.message)),
+      (_) => emit(const LogoutState()),
     );
   }
 }

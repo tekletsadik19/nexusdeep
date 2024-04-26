@@ -17,16 +17,31 @@ class SignInEvent extends AuthEvent {
   List<Object?> get props => [email, password];
 }
 
+class FacebookSignInEvent extends AuthEvent {
+  const FacebookSignInEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class GoogleSignInEvent extends AuthEvent {
+  const GoogleSignInEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
+
 class VerifyEmailEvent extends AuthEvent {
   const VerifyEmailEvent({
     required this.code,
+    required this.token,
   });
   final String code;
-
+  final String token;
 
   @override
-  List<Object?> get props =>
-      [ code ];
+  List<Object?> get props => [code, token];
 }
 
 

@@ -1,10 +1,14 @@
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nexusdeep/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:nexusdeep/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:nexusdeep/features/auth/domain/repos/auth_repos.dart';
 import 'package:nexusdeep/features/auth/domain/usecase/forgot_password.dart';
 import 'package:nexusdeep/features/auth/domain/usecase/logout.dart';
 import 'package:nexusdeep/features/auth/domain/usecase/sign_in.dart';
+import 'package:nexusdeep/features/auth/domain/usecase/sign_in_with_facebook.dart';
+import 'package:nexusdeep/features/auth/domain/usecase/sign_in_with_google.dart';
 import 'package:nexusdeep/features/auth/domain/usecase/sign_up.dart';
 import 'package:nexusdeep/features/auth/domain/usecase/update_user.dart';
 import 'package:nexusdeep/features/auth/domain/usecase/verify_email.dart';

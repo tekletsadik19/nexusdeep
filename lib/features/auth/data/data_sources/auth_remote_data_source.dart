@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as https;
 import 'package:nexusdeep/core/enum/user/update_user.dart';
 import 'package:nexusdeep/core/errors/exceptions.dart';
@@ -13,19 +14,23 @@ import 'package:nexusdeep/features/auth/data/models/user_model.dart';
 abstract class AuthRemoteDataSource {
   const AuthRemoteDataSource();
   Future<void> forgotPassword({required String email});
+
   Future<LocalUserModel> signIn({
     required String email,
     required String password,
   });
-  Future<void> signUp({
+
+  Future<LocalUserModel> signInWithGoogle();
+
+  Future<LocalUserModel> signInWithFacebook();
+
+  Future<String> signUp({
     required String name,
     required String email,
     required String password,
   });
 
-  Future<void> verifyEmail({
-    required String code,
-  });
+  Future<void> verifyEmail({required String code, required String token});
 
   Future<void> updateUser({
     required UpdateUserAction action,
@@ -36,7 +41,17 @@ abstract class AuthRemoteDataSource {
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
+  AuthRemoteDataSourceImpl({
+    required FacebookAuth facebookAuthClient,
+    required GoogleSignIn googleSignIn,
+  })  : _facebookAuthClient = facebookAuthClient,
+        _googleSignIn = googleSignIn;
+
   final _client = https.Client();
+  AccessToken? _accessToken;
+
+  final FacebookAuth _facebookAuthClient;
+  final GoogleSignIn _googleSignIn;
 
   @override
   Future<LocalUserModel> signIn({
@@ -50,7 +65,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       final url = Uri.https(Config.apiUrl, Config.loginUrl);
 
-
       final response = await _client.post(
         url,
         headers: requestHeaders,
@@ -59,14 +73,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-        if(kDebugMode){
+        if (kDebugMode) {
           print(json.decode(response.body)['user']);
         }
-        final user = LocalUserModel.fromMap(json.decode(response.body)['user'] as DataMap);
+        final user = LocalUserModel.fromMap(
+            json.decode(response.body)['user'] as DataMap);
 
         return user;
-
-      } else if (response.statusCode == 400){
+      } else if (response.statusCode == 400) {
         throw ServerException(
           message: (json.decode(response.body)['message']) as String,
           statusCode: response.statusCode.toString(),
@@ -88,16 +102,140 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
   }
 
+  @override
+  Future<LocalUserModel> signInWithFacebook() async {
+    try {
+      DataMap? _userData;
+      final requestHeaders = <String, String>{
+        'Content-Type': 'application/json',
+      };
 
+      final url = Uri.https(Config.apiUrl, Config.socialAuth);
+
+      final result = await _facebookAuthClient.login(
+        permissions: ['email', 'public_profile'],
+      );
+
+      if (result.status == LoginStatus.success) {
+        _accessToken = result.accessToken;
+
+        final userData = await _facebookAuthClient.getUserData();
+        _userData = userData;
+
+        final body = json.encode({
+          'name': _userData['name'],
+          'email': _userData['email'],
+          'avatar': _userData['picture'],
+        });
+
+        final response = await _client.post(
+          url,
+          headers: requestHeaders,
+          body: body,
+        );
+
+        if (response.statusCode == 200) {
+          final user = LocalUserModel.fromMap(
+              json.decode(response.body)['user'] as DataMap);
+
+          return user;
+        } else if (response.statusCode == 400) {
+          throw ServerException(
+            message: 'Failed to sign in',
+            statusCode: response.statusCode.toString(),
+          );
+        } else {
+          throw ServerException(
+            message: 'Failed to sign in',
+            statusCode: response.statusCode.toString(),
+          );
+        }
+      } else {
+        throw const ServerException(
+          message: 'Failed to sign in',
+          statusCode: 400,
+        );
+      }
+    } on ServerException {
+      rethrow;
+    } catch (e, s) {
+      debugPrintStack(stackTrace: s);
+      throw ServerException(
+        message: e.toString(),
+        statusCode: 505,
+      );
+    }
+  }
 
   @override
-  Future<void> signUp({
+  Future<LocalUserModel> signInWithGoogle() async {
+    try {
+      final requestHeaders = <String, String>{
+        'Content-Type': 'application/json',
+      };
+
+      final url = Uri.https(Config.apiUrl, Config.socialAuth);
+
+      final result = await _googleSignIn.signIn();
+
+      if(result != null){
+        final body = json.encode({
+          'name': result.displayName,
+          'email': result.email,
+          'avatar': result.photoUrl,
+        });
+
+        final response = await _client.post(
+          url,
+          headers: requestHeaders,
+          body: body,
+        );
+
+        if (response.statusCode == 200) {
+          if (kDebugMode) {
+            print(json.decode(response.body)['user']);
+          }
+
+          final user = LocalUserModel.fromMap(
+              json.decode(response.body)['user'] as DataMap);
+
+          return user;
+        } else if (response.statusCode == 400) {
+          throw ServerException(
+            message: (json.decode(response.body)['message']) as String,
+            statusCode: response.statusCode.toString(),
+          );
+        } else {
+          throw ServerException(
+            message: 'Failed to sign in',
+            statusCode: response.statusCode.toString(),
+          );
+        }
+      } else {
+        throw const ServerException(
+          message: 'Failed to sign in',
+          statusCode: 400,
+        );
+      }
+
+    } on ServerException {
+      rethrow;
+    } catch (e, s) {
+      debugPrintStack(stackTrace: s);
+      throw ServerException(
+        message: e.toString(),
+        statusCode: 505,
+      );
+    }
+  }
+
+  @override
+  Future<String> signUp({
     required String name,
     required String email,
     required String password,
   }) async {
-
-    try{
+    try {
       final url = Uri.https(Config.apiUrl, Config.signUpUrl);
       final requestHeaders = <String, String>{
         'Content-Type': 'application/json',
@@ -116,11 +254,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
 
       if (response.statusCode == 201) {
-        if(kDebugMode){
-          print(json.decode(response.body));
-        }
+        final token = json.decode(response.body)['activationToken'] as String;
 
-      } else if (response.statusCode == 400){
+        return token;
+      } else if (response.statusCode == 400) {
         throw ServerException(
           message: (json.decode(response.body)['message']) as String,
           statusCode: response.statusCode.toString(),
@@ -143,15 +280,17 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> verifyEmail({required String code}) async{
-    try{
+  Future<void> verifyEmail(
+      {required String code, required String token}) async {
+    try {
       final url = Uri.https(Config.apiUrl, Config.activateUserUrl);
       final requestHeaders = <String, String>{
         'Content-Type': 'application/json',
       };
 
       final body = json.encode({
-        'code': code,
+        'activation_code': code,
+        'activation_token': token,
       });
 
       final response = await _client.post(
@@ -161,11 +300,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
 
       if (response.statusCode == 201) {
-        if(kDebugMode){
+        if (kDebugMode) {
           print(json.decode(response.body));
         }
-
-      } else if (response.statusCode == 400){
+      } else if (response.statusCode == 400) {
         throw ServerException(
           message: (json.decode(response.body)['message']) as String,
           statusCode: response.statusCode.toString(),
@@ -187,13 +325,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
   }
 
-
   @override
   Future<void> updateUser(
       {required UpdateUserAction action, required userData}) {
     // TODO: implement updateUser
     throw UnimplementedError();
   }
+
   @override
   Future<void> forgotPassword({required String email}) {
     // TODO: implement forgotPassword
@@ -205,6 +343,4 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     // TODO: implement logout
     throw UnimplementedError();
   }
-
-
 }

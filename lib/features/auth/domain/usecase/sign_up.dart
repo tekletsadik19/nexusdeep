@@ -8,7 +8,7 @@ class SignUp extends UsecaseWithParams<void,SignUpParams>{
   final AuthenticationRepository _authRepo;
 
   @override
-  ResultFuture<void> call(SignUpParams params) =>
+  ResultFuture<String> call(SignUpParams params) =>
       _authRepo.signUp(
           name: params.name,
           email: params.email,

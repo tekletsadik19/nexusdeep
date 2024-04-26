@@ -15,21 +15,28 @@ abstract class AuthenticationRepository{
   });
 
 
-  ResultFuture<void> signUp({
+  ResultFuture<String> signUp({
     required String name,
     required String email,
     required String password,
   });
 
+  ResultFuture<LocalUser> signInWithGoogle();
+
+  ResultFuture<LocalUser> signInWithFacebook();
+
 
   ResultFuture<void> verifyEmail({
     required String code,
+    required String token
   });
 
   ResultFuture<void> updateUser({
     required UpdateUserAction action,
     required dynamic userData,
   });
+
+
 
   ResultFuture<void> logout();
 }

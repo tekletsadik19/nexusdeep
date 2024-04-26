@@ -1,16 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:iconly/iconly.dart';
 import 'package:nexusdeep/core/common/app/animations/slide_fade_switcher.dart';
 import 'package:nexusdeep/core/common/widgets/custom_button.dart';
 import 'package:nexusdeep/core/common/widgets/custom_form_field.dart';
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
 import 'package:nexusdeep/core/utils/core_utils.dart';
 import 'package:nexusdeep/core/utils/custom_snackbar.dart';
-import 'package:nexusdeep/features/auth/data/models/user_model.dart';
 import 'package:nexusdeep/features/auth/presentation/bloc/auth_bloc.dart';
 
 class SignupWithEmailScreen extends StatefulWidget {
@@ -67,16 +66,20 @@ class _SignupWithEmailScreenState extends State<SignupWithEmailScreen> {
               messageTitle,
             );
           } else if (state is SignedUpState) {
-            context.go('/verify-email/${emailController.value.text.trim()}');
-            // context.read<AuthBloc>().add(
-            //       SignInEvent(
-            //         email: emailController.value.text.trim(),
-            //         password: passwordController.value.text.trim(),
-            //       ),
-            // );
-          } else if (state is SignedInState) {
-            // context.userProvider.initUser(state.user as LocalUserModel);
-            // context.go('/');
+
+            if(kDebugMode){
+              print(state.token);
+            }
+
+            context.go(
+              '/verify-email/${emailController.value.text.trim()}',
+              extra: {
+                'name': fullNameController.value.text,
+                'email': emailController.value.text.trim(),
+                'password': passwordController.value.text.trim(),
+                'token':state.token,
+              },
+            );
           }
         },
         builder: (BuildContext context, state) {
@@ -150,12 +153,15 @@ class _SignupWithEmailScreenState extends State<SignupWithEmailScreen> {
                               onPressed: () {
                                 if (formKey.currentState!.validate()) {
                                   context.read<AuthBloc>().add(
-                                    SignUpEvent(
-                                      name: fullNameController.value.text,
-                                      email: emailController.value.text.trim(),
-                                      password: passwordController.value.text.trim(),
-                                    ),
-                                  );
+                                        SignUpEvent(
+                                          name: fullNameController.value.text,
+                                          email:
+                                              emailController.value.text.trim(),
+                                          password: passwordController
+                                              .value.text
+                                              .trim(),
+                                        ),
+                                      );
                                 }
                               },
                             ),

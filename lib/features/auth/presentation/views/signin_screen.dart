@@ -116,38 +116,11 @@ class _SignInScreenState extends State<SignInScreen> {
                                         MediaRes.googleVector,
                                         width: 30,
                                       ),
-                                      onPressed: () {},
-                                    ),
-                                    options: FFButtonOptions(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 8,
-                                        vertical: 4,
-                                      ),
-                                      width: context.width * .4,
-                                      color:
-                                          context.theme.colorScheme.onBackground,
-                                      elevation: .1,
-                                      textStyle: GoogleFonts.montserrat(
-                                        color:
-                                            context.theme.colorScheme.secondary,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      borderSide: const BorderSide(
-                                        color: Colors.transparent,
-                                      ),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    onPressed: () {},
-                                  ),
-                                  FFCustomButton(
-                                    text: 'Facebook',
-                                    icon: IconButton(
-                                      icon: SvgPicture.asset(
-                                        MediaRes.facebookVector,
-                                        width: 30,
-                                      ),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        context.read<AuthBloc>().add(
+                                          const GoogleSignInEvent(),
+                                        );
+                                      },
                                     ),
                                     options: FFButtonOptions(
                                       padding: const EdgeInsets.symmetric(
@@ -170,17 +143,48 @@ class _SignInScreenState extends State<SignInScreen> {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     onPressed: () {
-                                      if (formKey.currentState!.validate()) {
+                                      context.read<AuthBloc>().add(
+                                        const GoogleSignInEvent(),
+                                      );
+                                    },
+                                  ),
+                                  FFCustomButton(
+                                    text: 'Facebook',
+                                    icon: IconButton(
+                                      icon: SvgPicture.asset(
+                                        MediaRes.facebookVector,
+                                        width: 30,
+                                      ),
+                                      onPressed: () {
                                         context.read<AuthBloc>().add(
-                                              SignInEvent(
-                                                email: emailController.value.text
-                                                    .trim(),
-                                                password: passwordController
-                                                    .value.text
-                                                    .trim(),
-                                              ),
-                                            );
-                                      }
+                                          const FacebookSignInEvent(),
+                                        );
+                                      },
+                                    ),
+                                    options: FFButtonOptions(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 8,
+                                        vertical: 4,
+                                      ),
+                                      width: context.width * .4,
+                                      color:
+                                          context.theme.colorScheme.onBackground,
+                                      elevation: .1,
+                                      textStyle: GoogleFonts.montserrat(
+                                        color:
+                                            context.theme.colorScheme.secondary,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      borderSide: const BorderSide(
+                                        color: Colors.transparent,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    onPressed: () {
+                                      context.read<AuthBloc>().add(
+                                        const FacebookSignInEvent(),
+                                      );
                                     },
                                   ),
                                 ],

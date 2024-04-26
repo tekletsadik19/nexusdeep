@@ -34,8 +34,7 @@ class LocalUserModel extends LocalUser {
           isTwoFactorEnabled: map['isTwoFactorEnabled'] as bool,
           updatedAt: DateTime.parse(map['updatedAt'] as String),
           createdAt: DateTime.parse(map['createdAt'] as String),
-          emailVerified: DateTime.parse(map['emailVerified'] as String),
-        );
+  );
 
   LocalUserModel copyWith({
     String? uid,

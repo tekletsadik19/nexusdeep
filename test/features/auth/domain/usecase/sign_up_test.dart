@@ -14,9 +14,8 @@ void main() {
   const tEmail = 'Test Email';
   const tName = 'Test Name';
   const tPassword = 'Test Password';
-  const tPhoneNumber = 'Test Phone Number';
-  const tProfilePic = 'Test Profile Picture';
-  const tInvitationCode = 'Test Invitation Code';
+  const tToken = 'Test Token';
+
 
   setUp(() {
     authRepo = MockAuthRepo();
@@ -33,7 +32,7 @@ void main() {
 
         password: any(named: 'password'),
       ),
-    ).thenAnswer((_) async => const Right(null));
+    ).thenAnswer((_) async => const Right(tToken));
     final result = await signUp(
         const SignUpParams(
           name: tName,

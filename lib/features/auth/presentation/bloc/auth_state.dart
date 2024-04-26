@@ -24,21 +24,32 @@ class SignedInState extends AuthState{
 }
 
 class EmailVerifiedState extends AuthState{
-  const EmailVerifiedState(this.code);
+  const EmailVerifiedState(this.code,this.token);
 
   final String code;
+  final String token;
+
 
   @override
   List<Object> get props => [code];
 }
 
 class SignedUpState extends AuthState{
-  const SignedUpState(this.email);
+  const SignedUpState(this.token);
 
-  final String email;
+  final String token;
 
   @override
-  List<Object> get props => [email];
+  List<Object> get props => [token];
+}
+
+class SocialSignedInState extends AuthState{
+  const SocialSignedInState(this.user);
+
+  final LocalUser user;
+
+  @override
+  List<Object> get props => [user];
 }
 
 class ForgotPasswordSentState extends AuthState{

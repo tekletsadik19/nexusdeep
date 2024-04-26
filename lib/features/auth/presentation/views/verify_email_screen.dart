@@ -14,8 +14,17 @@ import 'package:nexusdeep/core/utils/custom_snackbar.dart';
 import 'package:nexusdeep/features/auth/presentation/bloc/auth_bloc.dart';
 
 class VerifyEmailScreen extends StatefulWidget {
-  const VerifyEmailScreen({super.key, this.email});
+  const VerifyEmailScreen({
+    super.key,
+    this.email,
+    this.name,
+    this.password,
+    this.token,
+  });
   final String? email;
+  final String? name;
+  final String? password;
+  final String? token;
 
   static const routeName = '/verify-email';
   @override
@@ -37,6 +46,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
 
   void startTimer() {
     const oneSec = Duration(seconds: 1);
+
     _timer = Timer.periodic(
       oneSec,
       (Timer timer) {
@@ -129,7 +139,26 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                             height: 20,
                           ),
                           GestureDetector(
-                            onTap: _start == 0 ? startTimer : null,
+                            onTap: () {
+                              if (_start == 0) {
+                                startTimer();
+                                if (widget.name != null &&
+                                    widget.email != null &&
+                                    widget.password != null) {
+                                  context.read<AuthBloc>().add(
+                                        SignUpEvent(
+                                          name: widget.name!,
+                                          email: widget.email!.trim(),
+                                          password: widget.password!,
+                                        ),
+                                      );
+                                  setState(() {
+                                    _start = 90;
+                                  });
+
+                                }
+                              }
+                            },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
                                 vertical: 8,
@@ -218,8 +247,11 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
                                 context.read<AuthBloc>().add(
-                                  VerifyEmailEvent(code: codeController.value.text,),
-                                );
+                                      VerifyEmailEvent(
+                                        code: codeController.value.text,
+                                        token: widget.token!,
+                                      ),
+                                    );
                               }
                             },
                           ),
