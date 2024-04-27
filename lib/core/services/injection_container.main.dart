@@ -3,6 +3,8 @@ part of 'injection_container.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
+  final prefs = await SharedPreferences.getInstance();
+  sl.registerLazySingleton(() => prefs);
   await _onBoardingInit();
   await _authInit();
 }
@@ -23,11 +25,11 @@ Future<void> _onBoardingInit() async {
     ..registerLazySingleton<OnBoardingRepo>(() => OnBoardingRepoImpl(sl()))
     ..registerLazySingleton<OnBoardingLocalDataSource>(
       () => OnBoardingLocalDataSourceImpl(sl()),
-    )
-    ..registerLazySingleton(() => prefs);
+    );
 }
 
 Future<void> _authInit() async {
+  final prefs = await SharedPreferences.getInstance();
   sl
     ..registerFactory(
       () => AuthBloc(
@@ -54,6 +56,7 @@ Future<void> _authInit() async {
       () => AuthRemoteDataSourceImpl(
         googleSignIn: sl(),
         facebookAuthClient: sl(),
+        prefs: sl(),
       ),
     )
     ..registerLazySingleton<GoogleSignIn>(GoogleSignIn.new)

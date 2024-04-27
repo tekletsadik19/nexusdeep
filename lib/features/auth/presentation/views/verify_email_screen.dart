@@ -250,6 +250,8 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                                       VerifyEmailEvent(
                                         code: codeController.value.text,
                                         token: widget.token!,
+                                        email: widget.email!,
+                                        password: widget.password!,
                                       ),
                                     );
                               }

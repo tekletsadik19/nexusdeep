@@ -10,6 +10,7 @@ import 'package:nexusdeep/core/services/config.dart';
 import 'package:nexusdeep/core/utils/typedef.dart';
 import 'package:nexusdeep/features/auth/data/models/login_model.dart';
 import 'package:nexusdeep/features/auth/data/models/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class AuthRemoteDataSource {
   const AuthRemoteDataSource();
@@ -40,15 +41,20 @@ abstract class AuthRemoteDataSource {
   Future<void> logout();
 }
 
+const kIsLoggedIn = 'is_loggedIn';
+
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl({
     required FacebookAuth facebookAuthClient,
     required GoogleSignIn googleSignIn,
+    required SharedPreferences prefs,
   })  : _facebookAuthClient = facebookAuthClient,
-        _googleSignIn = googleSignIn;
+        _googleSignIn = googleSignIn,
+        _prefs = prefs;
 
   final _client = https.Client();
   AccessToken? _accessToken;
+  final SharedPreferences _prefs;
 
   final FacebookAuth _facebookAuthClient;
   final GoogleSignIn _googleSignIn;
@@ -73,11 +79,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-        if (kDebugMode) {
-          print(json.decode(response.body)['user']);
+        if(kDebugMode){
+          print(json.decode(response.body));
         }
         final user = LocalUserModel.fromMap(
             json.decode(response.body)['user'] as DataMap);
+        final token = json.decode(response.body)['accessToken'] as String;
+        await _prefs.setString('_id', user.uid);
+        await _prefs.setString('token', token);
+        await _prefs.setBool(kIsLoggedIn, true);
 
         return user;
       } else if (response.statusCode == 400) {
@@ -137,6 +147,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         if (response.statusCode == 200) {
           final user = LocalUserModel.fromMap(
               json.decode(response.body)['user'] as DataMap);
+          final token = json.decode(response.body)['accessToken'] as String;
+
+          await _prefs.setString('_id', user.uid);
+          await _prefs.setString('token', token);
+          await _prefs.setBool(kIsLoggedIn, true);
 
           return user;
         } else if (response.statusCode == 400) {
@@ -198,7 +213,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
           final user = LocalUserModel.fromMap(
               json.decode(response.body)['user'] as DataMap);
+          final token = json.decode(response.body)['accessToken'] as String;
 
+          await _prefs.setString('_id', user.uid);
+          await _prefs.setString('token', token);
+          await _prefs.setBool(kIsLoggedIn, true);
           return user;
         } else if (response.statusCode == 400) {
           throw ServerException(
@@ -257,6 +276,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         final token = json.decode(response.body)['activationToken'] as String;
 
         return token;
+
       } else if (response.statusCode == 400) {
         throw ServerException(
           message: (json.decode(response.body)['message']) as String,

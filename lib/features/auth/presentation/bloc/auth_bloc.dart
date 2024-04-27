@@ -60,7 +60,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final SignInWithFacebook _signInWithFacebook;
 
   Future<void> _signInHandler(
-      SignInEvent event, Emitter<AuthState> emit,) async {
+    SignInEvent event,
+    Emitter<AuthState> emit,
+  ) async {
     final result = await _signIn(
       SignInParams(email: event.email, password: event.password),
     );
@@ -119,7 +121,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     result.fold(
       (failure) => emit(AuthError(failure.message)),
-      (_) => emit(EmailVerifiedState(event.code, event.token)),
+      (_) async {
+        final signInResult = await _signIn(
+          SignInParams(email: event.email, password: event.password),
+        );
+        signInResult.fold(
+          (signInFailure) => emit(AuthError(signInFailure.message)),
+          (user) => emit(SignedInState(user)),
+        );
+      },
     );
   }
 

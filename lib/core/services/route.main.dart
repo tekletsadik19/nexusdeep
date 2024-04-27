@@ -15,7 +15,12 @@ final GoRouter router = GoRouter(
           ),
           state,
         );
-        } else{
+        } else if(prefs.getBool(kIsLoggedIn) ?? true){
+          return _pageBuilder(
+            const Dashboard(),
+            state,
+          );
+        }else{
           return _pageBuilder(
             BlocProvider(
               create: (_) => sl<AuthBloc>(),
