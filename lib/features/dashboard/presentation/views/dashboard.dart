@@ -1,9 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
+import 'package:nexusdeep/core/common/app/providers/user_provider.dart';
+import 'package:nexusdeep/core/common/widgets/custom_profile_pic.dart';
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
+import 'package:nexusdeep/core/utils/constants.dart';
 import 'package:provider/provider.dart';
 
 class Dashboard extends StatefulWidget {
@@ -103,39 +107,39 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       actions: [
-        // Consumer<UserProvider>(
-        //   builder: (context,userProvider,child) {
-        //     final user = userProvider.user;
-        //     return Container(
-        //       margin: const EdgeInsetsDirectional.fromSTEB(0, 12, 12, 0),
-        //       child: CachedNetworkImage(
-        //         placeholder: (context, url) => CustomProfilePic(
-        //           imageProvider: const NetworkImage(
-        //             kDefaultAvatar,
-        //           ),
-        //           onClicked: (){},
-        //           radius: 45,
-        //         ),
-        //         errorWidget: (context, url, error) =>  CustomProfilePic(
-        //           imageProvider: const NetworkImage(
-        //             kDefaultAvatar,
-        //           ),
-        //           onClicked: (){},
-        //           radius: 45,
-        //         ),
-        //         fit: BoxFit.cover,
-        //         imageUrl:user?.profilePic??kDefaultAvatar,
-        //         imageBuilder: (context, imageProvider) {
-        //           return CustomProfilePic(
-        //             imageProvider: imageProvider,
-        //             onClicked: ()=>context.go('/profile-screen'),
-        //             radius: 45,
-        //           );
-        //         },
-        //       ),
-        //     );
-        //   },
-        // )
+        Consumer<UserProvider>(
+          builder: (context,userProvider,child) {
+            final user = userProvider.user;
+            return Container(
+              margin: const EdgeInsetsDirectional.fromSTEB(0, 12, 12, 0),
+              child: CachedNetworkImage(
+                placeholder: (context, url) => CustomProfilePic(
+                  imageProvider: const NetworkImage(
+                    kDefaultAvatar,
+                  ),
+                  onClicked: (){},
+                  radius: 45,
+                ),
+                errorWidget: (context, url, error) =>  CustomProfilePic(
+                  imageProvider: const NetworkImage(
+                    kDefaultAvatar,
+                  ),
+                  onClicked: (){},
+                  radius: 45,
+                ),
+                fit: BoxFit.cover,
+                imageUrl:user?.profilePic??kDefaultAvatar,
+                imageBuilder: (context, imageProvider) {
+                  return CustomProfilePic(
+                    imageProvider: imageProvider,
+                    onClicked: ()=>context.go('/profile-screen'),
+                    radius: 45,
+                  );
+                },
+              ),
+            );
+          },
+        )
       ],
     );
   }

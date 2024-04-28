@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nexusdeep/core/common/app/providers/user_provider.dart';
 import 'package:nexusdeep/core/enum/user/user_role.dart';
 import 'package:nexusdeep/core/res/app_theme.dart';
+import 'package:nexusdeep/features/auth/data/models/user_model.dart';
 
 extension ContextExt on BuildContext {
   ThemeData get theme => CoreTheme.getThemeData(this);
@@ -9,6 +12,8 @@ extension ContextExt on BuildContext {
   Size get size => mediaQuery.size;
   double get width => size.width;
   double get height => size.height;
+  UserProvider get userProvider => read<UserProvider>();
+  LocalUserModel? get currentUser => userProvider.user;
 }
 
 extension UserRoleExtension on UserRole {

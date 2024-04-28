@@ -36,6 +36,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           listener: (context, state) {
             if (state is UserCached) {
               context.go('/');
+              setState(() {
+              });
             }
           },
           builder: (context, state) {
@@ -95,6 +97,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     ),
                     onPressed: () {
                       context.read<OnBoardingCubit>().cacheFirstTimer();
+
                     },
                   ),
                 ),

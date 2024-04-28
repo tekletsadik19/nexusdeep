@@ -15,7 +15,7 @@ final GoRouter router = GoRouter(
           ),
           state,
         );
-        } else if(prefs.getBool(kIsLoggedIn) ?? true){
+        } else if(prefs.getBool(kIsLoggedIn)??false){
           return _pageBuilder(
             const Dashboard(),
             state,

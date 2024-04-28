@@ -1,3 +1,3 @@
 
 const kAppName = 'Nexus Deep';
-const kDefaultAvatar = '';
+const kDefaultAvatar = 'https://tinyurl.com/ssgi-avatar';
