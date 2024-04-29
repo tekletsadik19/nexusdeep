@@ -3,13 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:nexusdeep/core/common/app/animations/slide_fade_switcher.dart';
 import 'package:nexusdeep/core/common/widgets/custom_button.dart';
 import 'package:nexusdeep/core/common/widgets/custom_form_field.dart';
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
-import 'package:nexusdeep/core/common/app/providers/user_provider.dart';
-
 import 'package:nexusdeep/core/res/media_res.dart';
 import 'package:nexusdeep/core/utils/core_utils.dart';
 import 'package:nexusdeep/core/utils/custom_snackbar.dart';
@@ -51,7 +48,6 @@ class _SignInScreenState extends State<SignInScreen> {
       resizeToAvoidBottomInset: false,
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (_, state) {
-
           if (state is AuthError) {
             const messageTitle = 'Auth Error';
             CoreUtils.showSnackBar(
@@ -60,7 +56,10 @@ class _SignInScreenState extends State<SignInScreen> {
                 state.message,
                 messageTitle,
             );
-          } else if (state is SignedInState) {
+          } else if (state is SignedInState ) {
+            context.userProvider.initUser(state.user as LocalUserModel);
+            context.go('/');
+          } else if (state is SocialSignedInState){
             context.userProvider.initUser(state.user as LocalUserModel);
             context.go('/');
           }

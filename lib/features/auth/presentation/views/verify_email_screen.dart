@@ -11,6 +11,7 @@ import 'package:nexusdeep/core/common/widgets/custom_form_field.dart';
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
 import 'package:nexusdeep/core/utils/core_utils.dart';
 import 'package:nexusdeep/core/utils/custom_snackbar.dart';
+import 'package:nexusdeep/features/auth/data/models/user_model.dart';
 import 'package:nexusdeep/features/auth/presentation/bloc/auth_bloc.dart';
 
 class VerifyEmailScreen extends StatefulWidget {
@@ -87,8 +88,8 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
           } else if (state is EmailVerifiedState) {
 
           } else if (state is SignedInState) {
-            // context.userProvider.initUser(state.user as LocalUserModel);
-            // context.go('/');
+            context.userProvider.initUser(state.user as LocalUserModel);
+            context.go('/');
           }
         },
         builder: (BuildContext context, state) {

@@ -35,9 +35,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         child: BlocConsumer<OnBoardingCubit, OnBoardingState>(
           listener: (context, state) {
             if (state is UserCached) {
-              context.go('/');
-              setState(() {
-              });
+              context.go('/sign-in');
             }
           },
           builder: (context, state) {
@@ -101,7 +99,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     },
                   ),
                 ),
-
               ],
             );
           },

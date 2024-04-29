@@ -9,29 +9,30 @@ final GoRouter router = GoRouter(
         final prefs = sl<SharedPreferences>();
         if (prefs.getBool(kFirstTimerKey) ?? true) {
           return _pageBuilder(
-          BlocProvider(
-            create: (_) => sl<OnBoardingCubit>(),
-            child: const OnBoardingScreen(),
-          ),
-          state,
-        );
+            BlocProvider(
+              create: (_) => sl<OnBoardingCubit>(),
+              child: const OnBoardingScreen(),
+            ),
+            state,
+          );
         } else if(prefs.getBool(kIsLoggedIn)??false){
           return _pageBuilder(
             const Dashboard(),
             state,
           );
-        }else{
-          return _pageBuilder(
-            BlocProvider(
-              create: (_) => sl<AuthBloc>(),
-              child: const SignInScreen(),
-            ),
-            state,
-          );
         }
+        return _pageBuilder(
+          BlocProvider(
+            create: (_) => sl<AuthBloc>(),
+            child: const SignInScreen(),
+          ),
+          state,
+        );
       },
 
       routes:[
+
+
         GoRoute(
           path: 'forgot-password',
           pageBuilder: (context, state) {
@@ -39,6 +40,18 @@ final GoRouter router = GoRouter(
               BlocProvider(
                 create: (_) => sl<AuthBloc>(),
                 child: const ForgotPasswordScreen(),
+              ),
+              state,
+            );
+          },
+        ),
+        GoRoute(
+          path: 'profile-screen',
+          pageBuilder: (context, state) {
+            return _pageBuilder(
+              BlocProvider(
+                create: (_) => sl<AuthBloc>(),
+                child: const UserProfileScreen(),
               ),
               state,
             );
