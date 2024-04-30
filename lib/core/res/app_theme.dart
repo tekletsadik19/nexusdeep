@@ -15,6 +15,7 @@ abstract class CoreTheme {
   Color get errorColor;
   Color get warningColor;
   Color get helpColor;
+  Color get profileHeader;
   Color get tFieldPrimary;
 
   static Future<SharedPreferences> initialize() async =>
@@ -53,10 +54,14 @@ class LightModeTheme extends CoreTheme {
   @override
   Color get tFieldPrimary => const Color(0xF1EFEFFF);
 
+
+
   @override
   Color get helpColor => const Color(0xff3282B8);
   @override
   Color get warningColor => const Color(0xffFCA652);
+  @override
+  Color get profileHeader => const Color.fromRGBO(34, 40, 49, .9);
 
   @override
   ThemeData get themeData => ThemeData(
@@ -75,11 +80,14 @@ class LightModeTheme extends CoreTheme {
       onBackground: secondaryBackgroundColor,
       primaryContainer: helpColor,
       secondaryContainer: warningColor,
+      onTertiary: profileHeader,
     ).copyWith(
       error: errorColor,
       tertiaryContainer: tFieldPrimary,
     ),
   );
+
+
 
 
 
@@ -102,7 +110,8 @@ class DarkModeTheme extends CoreTheme {
   Color get warningColor => const Color(0xffFCA652);
   @override
   Color get tFieldPrimary => const Color.fromRGBO(9, 24, 30, 1);
-
+  @override
+  Color get profileHeader => const Color(0x00040d12);
 
 
   @override

@@ -58,6 +58,15 @@ final GoRouter router = GoRouter(
           },
         ),
         GoRoute(
+          path: 'notification-screen',
+          pageBuilder: (context, state) {
+            return _pageBuilder(
+              const NotificationScreen(),
+              state,
+            );
+          },
+        ),
+        GoRoute(
           path: 'verify-email/:email',
           pageBuilder: (context, state) {
             final email = state.pathParameters['email'];

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,6 +8,7 @@ import 'package:iconly/iconly.dart';
 import 'package:nexusdeep/core/common/app/providers/user_provider.dart';
 import 'package:nexusdeep/core/common/widgets/custom_profile_pic.dart';
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
+import 'package:nexusdeep/core/res/media_res.dart';
 import 'package:nexusdeep/core/utils/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -45,9 +47,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onSecondary,
-      appBar: (currentIndex == 0 || currentIndex == 4)
-          ? CustomAppBar(titles[currentIndex])
-          : null,
+      appBar: (currentIndex == 0) ? CustomAppBar(titles[currentIndex]) : null,
       body: pages[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTap,
@@ -99,16 +99,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Theme.of(context).colorScheme.onSecondary,
       centerTitle: true,
       toolbarHeight: 70,
-      title: Text(
-        title,
-        style: GoogleFonts.montserrat(
-          fontSize: 20,
-          fontWeight: FontWeight.w500,
-        ),
+      title: Row(
+        children: [
+        ],
       ),
       actions: [
         Consumer<UserProvider>(
-          builder: (context,userProvider,child) {
+          builder: (context, userProvider, child) {
             final user = userProvider.user;
             return Container(
               margin: const EdgeInsetsDirectional.fromSTEB(0, 12, 12, 0),
@@ -117,22 +114,22 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   imageProvider: const NetworkImage(
                     kDefaultAvatar,
                   ),
-                  onClicked: (){},
+                  onClicked: () {},
                   radius: 45,
                 ),
-                errorWidget: (context, url, error) =>  CustomProfilePic(
+                errorWidget: (context, url, error) => CustomProfilePic(
                   imageProvider: const NetworkImage(
                     kDefaultAvatar,
                   ),
-                  onClicked: (){},
+                  onClicked: () {},
                   radius: 45,
                 ),
                 fit: BoxFit.cover,
-                imageUrl:user?.profilePic??kDefaultAvatar,
+                imageUrl: user?.profilePic ?? kDefaultAvatar,
                 imageBuilder: (context, imageProvider) {
                   return CustomProfilePic(
                     imageProvider: imageProvider,
-                    onClicked: ()=>context.go('/profile-screen'),
+                    onClicked: () => context.go('/profile-screen'),
                     radius: 45,
                   );
                 },
