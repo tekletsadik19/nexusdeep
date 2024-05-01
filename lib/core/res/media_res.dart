@@ -21,6 +21,9 @@ class MediaRes{
   static const onBoardingImg1 = '$_baseVector/m-p.svg';
   static const onBoardingImg2 = '$_baseVector/m-s.svg';
   static const onBoardingImg3 = '$_baseVector/m-y.svg';
+  static const phoneLightMode = '$_baseVector/phone-lm.svg';
+  static const phoneDarkMode = '$_baseVector/phone-dm.svg';
+  static const phoneSystemMode = '$_baseVector/phone-sm.svg';
   static const noNotificationSVG = '$_baseVector/group33731.svg';
 
   static const ndLightVector = '$_baseIcons/nd-light.svg';

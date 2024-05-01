@@ -21,18 +21,17 @@ abstract class CoreTheme {
   static Future<SharedPreferences> initialize() async =>
       _prefs = await SharedPreferences.getInstance();
 
-  static ThemeMode get themeMode {
-    final darkMode = _prefs?.getBool(kThemeModeKey);
-    return darkMode == null
-        ? ThemeMode.system
-        : darkMode
-        ? ThemeMode.dark
-        : ThemeMode.light;
+  static void saveThemeMode(ThemeMode mode) {
+    _prefs?.setString(kThemeModeKey, mode.toString());
   }
 
-  static void saveThemeMode(ThemeMode mode) => mode == ThemeMode.system
-      ? _prefs?.remove(kThemeModeKey)
-      : _prefs?.setBool(kThemeModeKey, mode == ThemeMode.dark);
+  static ThemeMode get themeMode {
+    final modeStr = _prefs?.getString(kThemeModeKey);
+    return ThemeMode.values.firstWhere(
+          (mode) => mode.toString() == modeStr,
+      orElse: () => ThemeMode.system,
+    );
+  }
 
   static ThemeData getThemeData(BuildContext context) {
     final brightness = Theme.of(context).brightness;

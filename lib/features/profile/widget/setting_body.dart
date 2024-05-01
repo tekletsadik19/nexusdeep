@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
@@ -40,7 +41,9 @@ class _SettingBodyState extends State<SettingBody> {
               Align(
                 alignment: AlignmentDirectional.bottomCenter,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    context.go('/account-setting');
+                  },
                   child: SizedBox(
                     width: double.infinity,
                     height: 60,
@@ -220,7 +223,9 @@ class _SettingBodyState extends State<SettingBody> {
               Align(
                 alignment: AlignmentDirectional.bottomCenter,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    context.go('/appearance-setting');
+                  },
                   child: SizedBox(
                     width: double.infinity,
                     height: 60,
@@ -245,7 +250,7 @@ class _SettingBodyState extends State<SettingBody> {
                                 padding:
                                 const EdgeInsets.only(left: 20),
                                 child: Text(
-                                  'Appearance',
+                                  'Appearance Setting',
                                   style: GoogleFonts.montserrat(
                                     textStyle: const TextStyle(
                                       fontWeight: FontWeight.w500,

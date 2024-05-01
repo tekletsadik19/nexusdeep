@@ -58,6 +58,24 @@ final GoRouter router = GoRouter(
           },
         ),
         GoRoute(
+          path: 'account-setting',
+          pageBuilder: (context, state) {
+            return _pageBuilder(
+              const AccountSettingScreen(),
+              state,
+            );
+          },
+        ),
+        GoRoute(
+          path: 'appearance-setting',
+          pageBuilder: (context, state) {
+            return _pageBuilder(
+              const AppearanceSetting(),
+              state,
+            );
+          },
+        ),
+        GoRoute(
           path: 'notification-screen',
           pageBuilder: (context, state) {
             return _pageBuilder(

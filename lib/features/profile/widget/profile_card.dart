@@ -22,7 +22,6 @@ class _UserProfileCardState extends State<UserProfileCard> {
   @override
   Widget build(BuildContext context) {
     return Stack(
-
       children: [
         Container(
           decoration: BoxDecoration(

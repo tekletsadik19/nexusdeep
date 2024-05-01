@@ -359,8 +359,38 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> logout() {
-    // TODO: implement logout
-    throw UnimplementedError();
+  Future<void> logout() async {
+    try {
+
+      final url = Uri.https(Config.apiUrl, Config.logoutUrl);
+
+      final response = await _client.get(url);
+
+      if (response.statusCode == 201) {
+        await _prefs.setString('_id', '');
+        await _prefs.setString('token', '');
+        // await _facebookAuthClient.logOut();
+        // await _googleSignIn.signOut();
+        await _prefs.setBool(kIsLoggedIn, false);
+      } else if (response.statusCode == 400) {
+        throw ServerException(
+          message: (json.decode(response.body)['message']) as String,
+          statusCode: response.statusCode.toString(),
+        );
+      } else {
+        throw ServerException(
+          message: 'Failed to sign Out',
+          statusCode: response.statusCode.toString(),
+        );
+      }
+    } on ServerException {
+      rethrow;
+    } catch (e, s) {
+      debugPrintStack(stackTrace: s);
+      throw ServerException(
+        message: e.toString(),
+        statusCode: 505,
+      );
+    }
   }
 }
