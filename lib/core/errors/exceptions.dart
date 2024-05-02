@@ -17,3 +17,11 @@ class CacheException extends Equatable implements Exception{
   @override
   List<Object?> get props => [message,statusCode];
 }
+
+class ConnectivityException extends Equatable implements Exception {
+  final String message;
+  const ConnectivityException({required this.message});
+
+  @override
+  List<Object?> get props => [message];
+}

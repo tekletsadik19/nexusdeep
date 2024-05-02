@@ -5,7 +5,12 @@ final sl = GetIt.instance;
 Future<void> init() async {
   final prefs = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => prefs);
+  Get
+    ..put(prefs)
+    ..put(UserSession())
+    ..put(CustomHttpClient());
   await _onBoardingInit();
+  await CoreTheme.initialize();
   await _authInit();
 }
 

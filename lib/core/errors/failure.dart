@@ -25,3 +25,8 @@ class ServerFailure extends Failure {
   ServerFailure.fromException(ServerException exception)
       : this(message: exception.message, statusCode: exception.statusCode);
 }
+
+class ConnectivityFailure extends Failure {
+  ConnectivityFailure({required String message})
+      : super(message: message, statusCode: "No Internet Connection");
+}

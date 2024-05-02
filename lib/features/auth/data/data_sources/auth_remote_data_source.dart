@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -79,7 +80,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-        if(kDebugMode){
+        if (kDebugMode) {
           print(json.decode(response.body));
         }
         final user = LocalUserModel.fromMap(
@@ -193,7 +194,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       final result = await _googleSignIn.signIn();
 
-      if(result != null){
+      if (result != null) {
         final body = json.encode({
           'name': result.displayName,
           'email': result.email,
@@ -236,7 +237,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           statusCode: 400,
         );
       }
-
     } on ServerException {
       rethrow;
     } catch (e, s) {
@@ -276,7 +276,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         final token = json.decode(response.body)['activationToken'] as String;
 
         return token;
-
       } else if (response.statusCode == 400) {
         throw ServerException(
           message: (json.decode(response.body)['message']) as String,
@@ -334,6 +333,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           statusCode: response.statusCode.toString(),
         );
       }
+    } on SocketException {
+      throw const ConnectivityException(message: "No Internet Connection");
     } on ServerException {
       rethrow;
     } catch (e, s) {
@@ -367,10 +368,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final response = await _client.get(url);
 
       if (response.statusCode == 201) {
-        await _prefs.setString('_id', '');
-        await _prefs.setString('token', '');
         // await _facebookAuthClient.logOut();
         // await _googleSignIn.signOut();
+        await _prefs.remove('token');
         await _prefs.setBool(kIsLoggedIn, false);
       } else if (response.statusCode == 400) {
         throw ServerException(

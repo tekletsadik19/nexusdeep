@@ -5,15 +5,14 @@ import 'package:nexusdeep/core/common/app/providers/user_provider.dart';
 import 'package:nexusdeep/core/services/injection_container.dart';
 import 'package:nexusdeep/core/services/route.dart';
 import 'package:nexusdeep/core/utils/constants.dart';
-import 'package:provider/provider.dart';
 
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await init();
   runApp(const MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -22,7 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeController = Get.put(ThemeController());
     return ChangeNotifierProvider(
-      create: (_)=>UserProvider(),
+      create: (_) => UserProvider(),
       child: GetMaterialApp.router(
         title: kAppName,
         debugShowCheckedModeBanner: false,
@@ -34,8 +33,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           brightness: Brightness.dark,
         ),
-        themeMode:
-        themeController.isDarkTheme.value ? ThemeMode.dark : ThemeMode.light,
+        themeMode: themeController.currentTheme.value,
         routeInformationParser: router.routeInformationParser,
         routerDelegate: router.routerDelegate,
         routeInformationProvider: router.routeInformationProvider,
@@ -43,5 +41,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-

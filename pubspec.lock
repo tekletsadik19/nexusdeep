@@ -265,6 +265,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.6"
+  dart_either:
+    dependency: transitive
+    description:
+      name: dart_either
+      sha256: "928895b8266ac5906eb4e2993fead563a73b17fc86eec6b40172100d56ca2507"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   dart_style:
     dependency: transitive
     description:
@@ -313,6 +321,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.4.0"
+  disposebag:
+    dependency: transitive
+    description:
+      name: disposebag
+      sha256: c38be345780e0e4a4690b25b7c76b7d7d0cb39ec1c1f7895fe5e72f3630e3b78
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.1"
   envied:
     dependency: "direct main"
     description:
@@ -1296,6 +1312,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.0"
+  rx_shared_preferences:
+    dependency: "direct main"
+    description:
+      name: rx_shared_preferences
+      sha256: "04926615be40bb55192ff81374e1541580102b54ff98e83a19d1e04bfb412b9c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0"
+  rx_storage:
+    dependency: transitive
+    description:
+      name: rx_storage
+      sha256: "918d931ea5e285867f80526d6b64177c47e9636554fb4b38ec9c88e771aaaad7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   rxdart:
     dependency: "direct main"
     description:
@@ -1304,6 +1336,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+  rxdart_ext:
+    dependency: "direct main"
+    description:
+      name: rxdart_ext
+      sha256: ca0b07216b4568e70d88154efd893ded54cf8cea43276c66baae245a843c326f
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.9"
   shared_preferences:
     dependency: "direct main"
     description:

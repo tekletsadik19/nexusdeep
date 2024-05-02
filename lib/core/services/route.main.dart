@@ -67,6 +67,15 @@ final GoRouter router = GoRouter(
           },
         ),
         GoRoute(
+          path: 'notification-setting',
+          pageBuilder: (context, state) {
+            return _pageBuilder(
+              const NotificationSettingScreen(),
+              state,
+            );
+          },
+        ),
+        GoRoute(
           path: 'appearance-setting',
           pageBuilder: (context, state) {
             return _pageBuilder(

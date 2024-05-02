@@ -6,6 +6,7 @@ import 'package:iconly/iconly.dart';
 import 'package:nexusdeep/core/utils/core_utils.dart';
 import 'package:nexusdeep/core/utils/custom_snackbar.dart';
 import 'package:nexusdeep/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:nexusdeep/features/profile/widget/profile_card.dart';
 import 'package:nexusdeep/features/profile/widget/setting_body.dart';
@@ -68,10 +69,12 @@ class UserProfileScreen extends StatelessWidget {
             Align(
               alignment: AlignmentDirectional.bottomCenter,
               child: InkWell(
-                onTap: () {
+                onTap: () async{
                   context.read<AuthBloc>().add(
                     const LogoutEvent(),
                   );
+
+                  context.go('/');
                 },
                 child: SizedBox(
                   width: double.infinity,

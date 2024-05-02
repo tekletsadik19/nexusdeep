@@ -22,15 +22,22 @@ abstract class CoreTheme {
       _prefs = await SharedPreferences.getInstance();
 
   static void saveThemeMode(ThemeMode mode) {
-    _prefs?.setString(kThemeModeKey, mode.toString());
+    _prefs?.setString(kThemeModeKey, mode.toString().split('.').last);
   }
 
   static ThemeMode get themeMode {
     final modeStr = _prefs?.getString(kThemeModeKey);
-    return ThemeMode.values.firstWhere(
-          (mode) => mode.toString() == modeStr,
-      orElse: () => ThemeMode.system,
-    );
+    if (modeStr != null) {
+      switch (modeStr) {
+        case 'light':
+          return ThemeMode.light;
+        case 'dark':
+          return ThemeMode.dark;
+        default:
+          return ThemeMode.system;
+      }
+    }
+    return ThemeMode.light;
   }
 
   static ThemeData getThemeData(BuildContext context) {

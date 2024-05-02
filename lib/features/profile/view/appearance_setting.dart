@@ -6,8 +6,6 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nexusdeep/core/common/app/providers/theme_controller.dart';
-import 'package:nexusdeep/core/extensions/context_extensions.dart';
-import 'package:nexusdeep/core/res/app_theme.dart';
 import 'package:nexusdeep/core/res/media_res.dart';
 
 class AppearanceSetting extends StatefulWidget {
@@ -25,7 +23,7 @@ class _AppearanceSettingState extends State<AppearanceSetting> {
   @override
   void initState() {
     super.initState();
-    _themeMode = CoreTheme.themeMode;
+    _themeMode = _themeController.currentTheme.value;
   }
 
   @override
@@ -58,10 +56,11 @@ class _AppearanceSettingState extends State<AppearanceSetting> {
                 child: Column(
                   children: [
                     GestureDetector(
-                      onTap: () {
-                        if (kDebugMode) {
-                          print("H");
-                        }
+                      onTap: (){
+                        setState(() {
+                          _themeMode = ThemeMode.light;
+                        });
+                        _themeController.changeTheme(ThemeMode.light);
                       },
                       child: SvgPicture.asset(
                         MediaRes.phoneLightMode,
@@ -97,10 +96,11 @@ class _AppearanceSettingState extends State<AppearanceSetting> {
                 child: Column(
                   children: [
                     GestureDetector(
-                      onTap: () {
-                        if (kDebugMode) {
-                          print("I");
-                        }
+                      onTap: (){
+                        setState(() {
+                          _themeMode = ThemeMode.dark;
+                        });
+                        _themeController.changeTheme(ThemeMode.dark);
                       },
                       child: SvgPicture.asset(
                         MediaRes.phoneDarkMode,
@@ -136,7 +136,12 @@ class _AppearanceSettingState extends State<AppearanceSetting> {
                 child: Column(
                   children: [
                     GestureDetector(
-                      onTap: (){},
+                      onTap: (){
+                        setState(() {
+                          _themeMode = ThemeMode.system;
+                        });
+                        _themeController.changeTheme(ThemeMode.system);
+                      },
                       child: SvgPicture.asset(
                         MediaRes.phoneSystemMode,
                         width: 200,

@@ -1,6 +1,10 @@
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:nexusdeep/core/common/app/providers/user_session.dart';
+import 'package:nexusdeep/core/common/network/auth_interceptor.dart';
+import 'package:nexusdeep/core/res/app_theme.dart';
 import 'package:nexusdeep/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:nexusdeep/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:nexusdeep/features/auth/domain/repos/auth_repos.dart';

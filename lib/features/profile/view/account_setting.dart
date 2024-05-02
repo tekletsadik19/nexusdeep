@@ -265,9 +265,46 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                               child: Text(
                                 'Phone Number',
                                 style: GoogleFonts.poppins(
-                                  textStyle: const TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
+                                  textStyle: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16,
+                                      color: context.theme.primaryColor
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )),
+                ),
+              ),
+            ),
+            Align(
+              alignment: AlignmentDirectional.bottomCenter,
+              child: InkWell(
+                onTap: () {},
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 60,
+                  child: Padding(
+                      padding:
+                      const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                      child: Row(
+                        children: [
+                          Align(
+                            alignment: AlignmentDirectional.topStart,
+                            child: Padding(
+                              padding: const EdgeInsetsDirectional.only(
+                                  start: 20,
+                                  top: 15
+                              ),
+                              child: Text(
+                                'Address Information',
+                                style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16,
+                                      color: context.theme.primaryColor,
                                   ),
                                 ),
                               ),
