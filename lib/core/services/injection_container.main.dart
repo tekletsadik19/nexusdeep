@@ -4,11 +4,16 @@ final sl = GetIt.instance;
 
 Future<void> init() async {
   final prefs = await SharedPreferences.getInstance();
-  sl.registerLazySingleton(() => prefs);
+  sl
+    ..registerLazySingleton(() => prefs)
+    ..registerLazySingleton(() =>
+        UserSession(sl.get<SharedPreferences>()))
+    ..registerLazySingleton(
+      () => CustomHttpClient(sl.get<SharedPreferences>(),sl.get<UserSession>()),
+    );
   Get
-    ..put(prefs)
-    ..put(UserSession())
-    ..put(CustomHttpClient());
+    ..put(sl.get<UserSession>())
+    ..put(sl.get<CustomHttpClient>());
   await _onBoardingInit();
   await CoreTheme.initialize();
   await _authInit();
@@ -62,6 +67,7 @@ Future<void> _authInit() async {
         googleSignIn: sl(),
         facebookAuthClient: sl(),
         prefs: sl(),
+        httpClient: sl(),
       ),
     )
     ..registerLazySingleton<GoogleSignIn>(GoogleSignIn.new)

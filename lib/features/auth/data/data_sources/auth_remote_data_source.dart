@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as https;
+import 'package:nexusdeep/core/common/network/custom_http_client.dart';
 import 'package:nexusdeep/core/enum/user/update_user.dart';
 import 'package:nexusdeep/core/errors/exceptions.dart';
 import 'package:nexusdeep/core/services/config.dart';
@@ -49,11 +50,16 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required FacebookAuth facebookAuthClient,
     required GoogleSignIn googleSignIn,
     required SharedPreferences prefs,
+    required CustomHttpClient httpClient
   })  : _facebookAuthClient = facebookAuthClient,
         _googleSignIn = googleSignIn,
-        _prefs = prefs;
+        _prefs = prefs,
+        _httpClient = httpClient;
 
   final _client = https.Client();
+
+  final CustomHttpClient _httpClient;
+
   AccessToken? _accessToken;
   final SharedPreferences _prefs;
 
@@ -72,7 +78,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       final url = Uri.https(Config.apiUrl, Config.loginUrl);
 
-      final response = await _client.post(
+      final response = await _httpClient.client.post(
         url,
         headers: requestHeaders,
         body:
@@ -86,10 +92,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         final user = LocalUserModel.fromMap(
             json.decode(response.body)['user'] as DataMap);
         final token = json.decode(response.body)['accessToken'] as String;
-        await _prefs.setString('_id', user.uid);
-        await _prefs.setString('token', token);
-        await _prefs.setBool(kIsLoggedIn, true);
 
+        await _prefs.setString('_id', user.uid);
+        await _prefs.setString('accessToken', token);
+        await _prefs.setBool('isLoggedIn', true);
         return user;
       } else if (response.statusCode == 400) {
         throw ServerException(
@@ -139,7 +145,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           'avatar': _userData['picture'],
         });
 
-        final response = await _client.post(
+        final response = await _httpClient.client.post(
           url,
           headers: requestHeaders,
           body: body,
@@ -151,9 +157,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           final token = json.decode(response.body)['accessToken'] as String;
 
           await _prefs.setString('_id', user.uid);
-          await _prefs.setString('token', token);
-          await _prefs.setBool(kIsLoggedIn, true);
-
+          await _prefs.setString('accessToken', token);
+          await _prefs.setBool('isLoggedIn', true);
           return user;
         } else if (response.statusCode == 400) {
           throw ServerException(
@@ -201,7 +206,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           'avatar': result.photoUrl,
         });
 
-        final response = await _client.post(
+        final response = await _httpClient.client.post(
           url,
           headers: requestHeaders,
           body: body,
@@ -217,8 +222,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           final token = json.decode(response.body)['accessToken'] as String;
 
           await _prefs.setString('_id', user.uid);
-          await _prefs.setString('token', token);
-          await _prefs.setBool(kIsLoggedIn, true);
+          await _prefs.setString('accessToken', token);
+          await _prefs.setBool('isLoggedIn', true);
           return user;
         } else if (response.statusCode == 400) {
           throw ServerException(
@@ -266,7 +271,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         'password': password,
       });
 
-      final response = await _client.post(
+      final response = await _httpClient.client.post(
         url,
         headers: requestHeaders,
         body: body,
@@ -312,7 +317,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         'activation_token': token,
       });
 
-      final response = await _client.post(
+      final response = await _httpClient.client.post(
         url,
         headers: requestHeaders,
         body: body,
@@ -365,12 +370,22 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       final url = Uri.https(Config.apiUrl, Config.logoutUrl);
 
-      final response = await _client.get(url);
+      final token = _prefs.getString('accessToken');
+
+      final requestHeaders = <String, String>{
+        'Authorization': 'Bearer $token',
+      };
+
+      final response = await _httpClient.client.get(
+          url,
+          headers:requestHeaders,
+      );
 
       if (response.statusCode == 201) {
         // await _facebookAuthClient.logOut();
-        // await _googleSignIn.signOut();
-        await _prefs.remove('token');
+        await _googleSignIn.signOut();
+
+        await _prefs.remove('accessToken');
         await _prefs.setBool(kIsLoggedIn, false);
       } else if (response.statusCode == 400) {
         throw ServerException(

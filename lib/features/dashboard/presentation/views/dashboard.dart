@@ -8,9 +8,10 @@ import 'package:iconly/iconly.dart';
 import 'package:nexusdeep/core/common/app/providers/user_provider.dart';
 import 'package:nexusdeep/core/common/widgets/custom_profile_pic.dart';
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
-import 'package:nexusdeep/core/res/media_res.dart';
 import 'package:nexusdeep/core/utils/constants.dart';
+import 'package:nexusdeep/features/dashboard/presentation/views/home_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -21,8 +22,8 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  List<Widget> pages = const [
-    Scaffold(),
+  List<Widget> pages = [
+    HomeScreen(),
     Scaffold(),
     Scaffold(),
     Scaffold(),
