@@ -118,12 +118,10 @@ class _UserProfileCardState extends State<UserProfileCard> {
                                             child: Text(
                                               user.username,
                                               textAlign: TextAlign.center,
-                                              style: GoogleFonts.montserrat(
+                                              style: GoogleFonts.outfit(
                                                 textStyle: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  color:
-                                                      context.theme.cardColor,
                                                   fontSize: 20,
+                                                  color: context.theme!.primaryColor
                                                 ),
                                               ),
                                             ),
@@ -143,8 +141,6 @@ class _UserProfileCardState extends State<UserProfileCard> {
                                                 style: GoogleFonts.raleway(
                                                   textStyle: TextStyle(
                                                     fontWeight: FontWeight.w500,
-                                                    color:
-                                                        context.theme.cardColor,
                                                     fontSize: 12,
                                                   ),
                                                 ),

@@ -43,7 +43,7 @@ abstract class AuthRemoteDataSource {
   Future<void> logout();
 }
 
-const kIsLoggedIn = 'is_loggedIn';
+const kIsLoggedIn = 'isLoggedIn';
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl({
@@ -56,7 +56,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         _prefs = prefs,
         _httpClient = httpClient;
 
-  final _client = https.Client();
 
   final CustomHttpClient _httpClient;
 
@@ -86,16 +85,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-        if (kDebugMode) {
-          print(json.decode(response.body));
-        }
+
         final user = LocalUserModel.fromMap(
             json.decode(response.body)['user'] as DataMap);
         final token = json.decode(response.body)['accessToken'] as String;
-
         await _prefs.setString('_id', user.uid);
         await _prefs.setString('accessToken', token);
-        await _prefs.setBool('isLoggedIn', true);
+        await _prefs.setBool(kIsLoggedIn, true);
+
         return user;
       } else if (response.statusCode == 400) {
         throw ServerException(
@@ -372,6 +369,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       final token = _prefs.getString('accessToken');
 
+
+
       final requestHeaders = <String, String>{
         'Authorization': 'Bearer $token',
       };
@@ -381,8 +380,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           headers:requestHeaders,
       );
 
+      if(kDebugMode){
+        print(json.decode(response.body));
+      }
+
       if (response.statusCode == 201) {
-        // await _facebookAuthClient.logOut();
+        await _facebookAuthClient.logOut();
         await _googleSignIn.signOut();
 
         await _prefs.remove('accessToken');

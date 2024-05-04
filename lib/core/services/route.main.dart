@@ -67,6 +67,15 @@ final GoRouter router = GoRouter(
           },
         ),
         GoRoute(
+          path: 'create-profile',
+          pageBuilder: (context, state) {
+            return _pageBuilder(
+              const CreateYourProfileScreen(),
+              state,
+            );
+          },
+        ),
+        GoRoute(
           path: 'notification-setting',
           pageBuilder: (context, state) {
             return _pageBuilder(

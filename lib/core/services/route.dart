@@ -17,6 +17,7 @@ import 'package:nexusdeep/features/on_boarding/presentation/cubit/on_boarding_cu
 import 'package:nexusdeep/features/on_boarding/presentation/views/on_boarding_screen.dart';
 import 'package:nexusdeep/features/profile/view/account_setting.dart';
 import 'package:nexusdeep/features/profile/view/appearance_setting.dart';
+import 'package:nexusdeep/features/profile/view/create_profile_screen.dart';
 import 'package:nexusdeep/features/profile/view/notification_setting.dart';
 import 'package:nexusdeep/features/profile/view/user_profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';

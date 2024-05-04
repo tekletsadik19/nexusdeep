@@ -47,13 +47,12 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.onSecondary,
       appBar: (currentIndex == 0) ? CustomAppBar(titles[currentIndex]) : null,
       body: pages[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTap,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Theme.of(context).colorScheme.onSecondary,
+        backgroundColor: context.theme.cardColor,
         currentIndex: currentIndex,
         selectedItemColor: context.theme!.primaryColor.withOpacity(.8),
         unselectedItemColor: Colors.grey.withOpacity(.6),
@@ -61,15 +60,16 @@ class _DashboardState extends State<Dashboard> {
         showSelectedLabels: false,
         selectedFontSize: 0,
         unselectedFontSize: 0,
-        elevation: 0,
+        elevation: 2,
         items: const [
           BottomNavigationBarItem(
             label: 'Home',
-            icon: Icon(IconlyLight.home),
+            icon: Icon(IconlyBold.home,size: 27,),
+
           ),
           BottomNavigationBarItem(
             label: 'Search',
-            icon: Icon(IconlyLight.search),
+            icon: Icon(IconlyLight.search,size: 27,),
           ),
           BottomNavigationBarItem(
             label: 'Spaces',
@@ -77,11 +77,11 @@ class _DashboardState extends State<Dashboard> {
           ),
           BottomNavigationBarItem(
             label: 'Activity',
-            icon: Icon(IconlyLight.notification),
+            icon: Icon(IconlyLight.notification,size: 27,),
           ),
           BottomNavigationBarItem(
             label: 'Transaction',
-            icon: Icon(IconlyLight.bookmark),
+            icon: Icon(IconlyLight.wallet,size: 27,),
           ),
         ],
       ),
@@ -97,7 +97,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
-      backgroundColor: Theme.of(context).colorScheme.onSecondary,
+      backgroundColor: context.theme.cardColor,
       centerTitle: true,
       toolbarHeight: 70,
       title: Row(

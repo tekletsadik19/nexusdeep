@@ -42,7 +42,9 @@ abstract class CoreTheme {
 
   static ThemeData getThemeData(BuildContext context) {
     final brightness = Theme.of(context).brightness;
-    return brightness == Brightness.dark ? DarkModeTheme().themeData : LightModeTheme().themeData;
+    return brightness == Brightness.dark
+        ? DarkModeTheme().themeData
+        : LightModeTheme().themeData;
   }
 }
 
@@ -60,8 +62,6 @@ class LightModeTheme extends CoreTheme {
   @override
   Color get tFieldPrimary => const Color(0xF1EFEFFF);
 
-
-
   @override
   Color get helpColor => const Color(0xff3282B8);
   @override
@@ -71,39 +71,34 @@ class LightModeTheme extends CoreTheme {
 
   @override
   ThemeData get themeData => ThemeData(
-    primaryColor: primaryColor,
-    primaryTextTheme: TextTheme(
-      bodyMedium: GoogleFonts.montserrat(
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
-        color: primaryColor,
-      ),
-    ),
-    colorScheme: ColorScheme.light(
-      primary: Colors.green, // Example of defining a primary swatch
-      secondary: secondaryColor,
-      background: backgroundColor,
-      onBackground: secondaryBackgroundColor,
-      primaryContainer: helpColor,
-      secondaryContainer: warningColor,
-      onTertiary: profileHeader,
-    ).copyWith(
-      error: errorColor,
-      tertiaryContainer: tFieldPrimary,
-    ),
-  );
-
-
-
-
-
+        primaryColor: primaryColor,
+        primaryTextTheme: TextTheme(
+          bodyMedium: GoogleFonts.montserrat(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: primaryColor,
+          ),
+        ),
+        colorScheme: ColorScheme.light(
+          primary: Colors.green, // Example of defining a primary swatch
+          secondary: secondaryColor,
+          background: backgroundColor,
+          onBackground: secondaryBackgroundColor,
+          primaryContainer: helpColor,
+          secondaryContainer: warningColor,
+          onTertiary: profileHeader,
+        ).copyWith(
+          error: errorColor,
+          tertiaryContainer: tFieldPrimary,
+        ),
+      );
 }
 
 class DarkModeTheme extends CoreTheme {
   @override
   Color get primaryColor => const Color(0xFF4CAF50);
   @override
-  Color get secondaryColor => const Color(0xfff7ccac);
+  Color get secondaryColor => const Color.fromRGBO(4, 13, 18, 1);
   @override
   Color get secondaryBackgroundColor => const Color.fromRGBO(4, 13, 18, 1);
   @override
@@ -119,22 +114,19 @@ class DarkModeTheme extends CoreTheme {
   @override
   Color get profileHeader => const Color(0x00040d12);
 
-
   @override
   ThemeData get themeData => ThemeData(
-    brightness: Brightness.dark,
-    primaryColor: primaryColor,
-
-    colorScheme: ColorScheme.dark(
-      primary: primaryColor,
-      secondary: secondaryColor,
-      background: backgroundColor,
-      onBackground: secondaryBackgroundColor,
-      error: errorColor,
-      primaryContainer: helpColor,
-      secondaryContainer: warningColor,
-
-      tertiaryContainer: tFieldPrimary
-    ),
-  );
+        brightness: Brightness.dark,
+        primaryColor: primaryColor,
+        colorScheme: ColorScheme.dark(
+            primary: primaryColor,
+            secondary: secondaryColor,
+            background: backgroundColor,
+            onBackground: secondaryBackgroundColor,
+            error: errorColor,
+            primaryContainer: helpColor,
+            secondaryContainer: warningColor,
+            onTertiary: profileHeader,
+            tertiaryContainer: tFieldPrimary),
+      );
 }
