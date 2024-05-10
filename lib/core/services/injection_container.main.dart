@@ -39,6 +39,7 @@ Future<void> _onBoardingInit() async {
 }
 
 Future<void> _authInit() async {
+  
   final prefs = await SharedPreferences.getInstance();
   sl
     ..registerFactory(
@@ -68,6 +69,7 @@ Future<void> _authInit() async {
         facebookAuthClient: sl(),
         prefs: sl(),
         httpClient: sl(),
+        userSession: sl(),
       ),
     )
     ..registerLazySingleton<GoogleSignIn>(GoogleSignIn.new)

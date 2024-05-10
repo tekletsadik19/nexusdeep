@@ -14,7 +14,7 @@ class AuthInterceptor implements InterceptorContract {
   @override
   Future<http.BaseRequest> interceptRequest(
       {required http.BaseRequest request}) async {
-    var accessToken = _prefs.getString('accessToken');
+    final accessToken = _prefs.getString('accessToken');
     request.headers.addAll({'Authorization': 'Bearer $accessToken'});
     return request;
   }

@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as https;
+import 'package:nexusdeep/core/common/app/providers/user_session.dart';
 import 'package:nexusdeep/core/common/network/custom_http_client.dart';
 import 'package:nexusdeep/core/enum/user/update_user.dart';
 import 'package:nexusdeep/core/errors/exceptions.dart';
@@ -50,12 +51,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required FacebookAuth facebookAuthClient,
     required GoogleSignIn googleSignIn,
     required SharedPreferences prefs,
-    required CustomHttpClient httpClient
+    required CustomHttpClient httpClient,
+    required UserSession userSession,
   })  : _facebookAuthClient = facebookAuthClient,
         _googleSignIn = googleSignIn,
         _prefs = prefs,
-        _httpClient = httpClient;
-
+        _httpClient = httpClient,
+        _userSession = userSession;
 
   final CustomHttpClient _httpClient;
 
@@ -63,6 +65,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final SharedPreferences _prefs;
 
   final FacebookAuth _facebookAuthClient;
+  final UserSession _userSession;
   final GoogleSignIn _googleSignIn;
 
   @override
@@ -85,12 +88,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-
         final user = LocalUserModel.fromMap(
             json.decode(response.body)['user'] as DataMap);
         final token = json.decode(response.body)['accessToken'] as String;
+        final refreshToken = json.decode(response.body)['refreshToken'] as String;
+
         await _prefs.setString('_id', user.uid);
         await _prefs.setString('accessToken', token);
+        await _prefs.setString('refreshToken', refreshToken);
+
         await _prefs.setBool(kIsLoggedIn, true);
 
         return user;
@@ -152,6 +158,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           final user = LocalUserModel.fromMap(
               json.decode(response.body)['user'] as DataMap);
           final token = json.decode(response.body)['accessToken'] as String;
+          final refreshToken = json.decode(response.body)['refreshToken'] as String;
 
           await _prefs.setString('_id', user.uid);
           await _prefs.setString('accessToken', token);
@@ -210,16 +217,17 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         );
 
         if (response.statusCode == 200) {
-          if (kDebugMode) {
-            print(json.decode(response.body)['user']);
-          }
-
           final user = LocalUserModel.fromMap(
               json.decode(response.body)['user'] as DataMap);
           final token = json.decode(response.body)['accessToken'] as String;
+          final refreshToken = json.decode(response.body)['refreshToken'] as String;
 
-          await _prefs.setString('_id', user.uid);
+          if(kDebugMode){
+            print(refreshToken);
+          }
+
           await _prefs.setString('accessToken', token);
+          await _prefs.setString('refreshToken', refreshToken);
           await _prefs.setBool('isLoggedIn', true);
           return user;
         } else if (response.statusCode == 400) {
@@ -364,31 +372,32 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<void> logout() async {
     try {
+      final newAccessToken = await _userSession.refreshToken();
 
       final url = Uri.https(Config.apiUrl, Config.logoutUrl);
 
-      final token = _prefs.getString('accessToken');
-
-
-
       final requestHeaders = <String, String>{
-        'Authorization': 'Bearer $token',
+        'Authorization': 'Bearer $newAccessToken',
       };
 
       final response = await _httpClient.client.get(
-          url,
-          headers:requestHeaders,
+        url,
+        headers: requestHeaders,
       );
 
-      if(kDebugMode){
-        print(json.decode(response.body));
-      }
-
       if (response.statusCode == 201) {
-        await _facebookAuthClient.logOut();
-        await _googleSignIn.signOut();
-
+        try {
+          await _facebookAuthClient.logOut();
+        } catch (e, s) {
+          debugPrintStack(stackTrace: s);
+        }
+        try {
+          await _googleSignIn.signOut();
+        } catch (e, s) {
+          debugPrintStack(stackTrace: s);
+        }
         await _prefs.remove('accessToken');
+        await _prefs.remove('refreshToken');
         await _prefs.setBool(kIsLoggedIn, false);
       } else if (response.statusCode == 400) {
         throw ServerException(

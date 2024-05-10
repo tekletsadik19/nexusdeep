@@ -6,11 +6,9 @@ import 'package:iconly/iconly.dart';
 import 'package:nexusdeep/core/utils/core_utils.dart';
 import 'package:nexusdeep/core/utils/custom_snackbar.dart';
 import 'package:nexusdeep/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'package:nexusdeep/features/profile/widget/profile_card.dart';
-import 'package:nexusdeep/features/profile/widget/setting_body.dart';
-import 'package:nexusdeep/features/profile/widget/user_contents.dart';
+import 'package:nexusdeep/features/profile/presentation/widget/profile_card.dart';
+import 'package:nexusdeep/features/profile/presentation/widget/setting_body.dart';
+import 'package:nexusdeep/features/profile/presentation/widget/user_contents.dart';
 
 class UserProfileScreen extends StatelessWidget {
   const UserProfileScreen({super.key});

@@ -69,19 +69,19 @@ class _DashboardState extends State<Dashboard> {
           ),
           BottomNavigationBarItem(
             label: 'Search',
-            icon: Icon(IconlyLight.search,size: 27,),
+            icon: Icon(IconlyLight.search,size: 27),
           ),
           BottomNavigationBarItem(
             label: 'Spaces',
-            icon: Icon(FontAwesomeIcons.satellite),
+            icon: Icon(FontAwesomeIcons.handshake),
           ),
           BottomNavigationBarItem(
             label: 'Activity',
-            icon: Icon(IconlyLight.notification,size: 27,),
+            icon: Icon(IconlyBold.notification,size: 27,),
           ),
           BottomNavigationBarItem(
             label: 'Transaction',
-            icon: Icon(IconlyLight.wallet,size: 27,),
+            icon: Icon(IconlyBold.wallet,size: 27,),
           ),
         ],
       ),
@@ -102,6 +102,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       toolbarHeight: 70,
       title: Row(
         children: [
+
         ],
       ),
       actions: [

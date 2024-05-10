@@ -15,11 +15,11 @@ import 'package:nexusdeep/features/notification/notification_screen.dart';
 import 'package:nexusdeep/features/on_boarding/data/datasources/on_boarding_local_datasource.dart';
 import 'package:nexusdeep/features/on_boarding/presentation/cubit/on_boarding_cubit.dart';
 import 'package:nexusdeep/features/on_boarding/presentation/views/on_boarding_screen.dart';
-import 'package:nexusdeep/features/profile/view/account_setting.dart';
-import 'package:nexusdeep/features/profile/view/appearance_setting.dart';
-import 'package:nexusdeep/features/profile/view/create_profile_screen.dart';
-import 'package:nexusdeep/features/profile/view/notification_setting.dart';
-import 'package:nexusdeep/features/profile/view/user_profile.dart';
+import 'package:nexusdeep/features/profile/presentation/view/account_setting.dart';
+import 'package:nexusdeep/features/profile/presentation/view/appearance_setting.dart';
+import 'package:nexusdeep/features/profile/presentation/view/create_profile_screen.dart';
+import 'package:nexusdeep/features/profile/presentation/view/notification_setting.dart';
+import 'package:nexusdeep/features/profile/presentation/view/user_profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'route.main.dart';

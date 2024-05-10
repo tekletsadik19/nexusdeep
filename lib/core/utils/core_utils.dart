@@ -50,6 +50,7 @@ class CoreUtils {
             borderRadius: BorderRadius.circular(20),
           ),
         ),
+
       );
   }
 }
