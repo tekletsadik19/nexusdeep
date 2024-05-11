@@ -619,13 +619,30 @@ class _CreateProfileFormBodyState extends State<CreateProfileFormBody> {
                             ),
                           ),
                         ),
+                        CachedNetworkImage(
+                          placeholder: (context, url) => Image.network(
+                            kSelfieOvalAvatar,
+                            width: context.height * .3,
+                            height: context.height * .3,
+                          ),
+                          errorWidget: (context, url, error) => Container(),
+                          fit: BoxFit.cover,
+                          imageUrl: kSelfieOvalAvatar,
+                          imageBuilder: (context, imageProvider) {
+                            return Image.network(
+                              kSelfieOvalAvatar,
+                              width: context.height * .3,
+                              height: context.height * .3,
+                            );
+                          },
+                        ),
                         Padding(
                           padding: const EdgeInsetsDirectional.symmetric(
                             horizontal: 15,
-                            vertical: 50,
+                            vertical: 10,
                           ),
                           child: Text(
-                            'Please frame your face in the small oval then '
+                            'Please frame your face in the '
                             'the big oval',
                             style: GoogleFonts.plusJakartaSans(
                               textStyle: const TextStyle(
@@ -635,22 +652,24 @@ class _CreateProfileFormBodyState extends State<CreateProfileFormBody> {
                             ),
                           ),
                         ),
-                        CachedNetworkImage(
-                          placeholder: (context, url) => Image.network(
-                            kSelfieOvalAvatar,
-                            width: 100,
-                            height: 100,
+                        Padding(
+                          padding: const EdgeInsetsDirectional.symmetric(
+                            horizontal: 15,
+                            vertical: 10,
                           ),
-                          errorWidget: (context, url, error) => Container(),
-                          fit: BoxFit.cover,
-                          imageUrl: kSelfieOvalAvatar,
-                          imageBuilder: (context, imageProvider) {
-                            return Image.network(
-                              kSelfieOvalAvatar,
-                              width: 100,
-                              height: 100,
-                            );
-                          },
+                          child: Text(
+                            'This is to make sure its really you. '
+                                'we use this for added security',
+                            style: GoogleFonts.plusJakartaSans(
+                              textStyle: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 40,
                         ),
                         Align(
                           alignment: const Alignment(0, .15),

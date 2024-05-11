@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nexusdeep/core/common/app/providers/user_session.dart';
 import 'package:nexusdeep/core/services/injection_container.dart';
 import 'package:nexusdeep/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:nexusdeep/features/auth/presentation/bloc/auth_bloc.dart';

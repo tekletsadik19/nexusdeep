@@ -15,7 +15,7 @@ final GoRouter router = GoRouter(
             ),
             state,
           );
-        } else if(prefs.getBool(kIsLoggedIn)??false){
+        } else if (prefs.getBool(kIsLoggedIn) ?? false) {
           return _pageBuilder(
             const Dashboard(),
             state,
@@ -29,10 +29,7 @@ final GoRouter router = GoRouter(
           state,
         );
       },
-
-      routes:[
-
-
+      routes: [
         GoRoute(
           path: 'forgot-password',
           pageBuilder: (context, state) {
@@ -135,7 +132,6 @@ final GoRouter router = GoRouter(
         ),
       ],
     ),
-
     GoRoute(
       path: SignInScreen.routeName,
       pageBuilder: (context, state) {
@@ -160,14 +156,20 @@ final GoRouter router = GoRouter(
         );
       },
     ),
-
-
   ],
   redirect: (_, state) {
+    final isLoggedIn = sl<UserSession>().isLoggedInValue;
+    final goingToLogin = state.matchedLocation == SignInScreen.routeName;
 
+    if (!isLoggedIn && !goingToLogin) {
+      return SignInScreen.routeName;
+    } else if (isLoggedIn && goingToLogin) {
+      return '/';
+    }
   },
-
 );
+
+
 CustomTransitionPage<dynamic> _pageBuilder(Widget page, GoRouterState state) {
   return CustomTransitionPage(
     child: page,
@@ -177,5 +179,3 @@ CustomTransitionPage<dynamic> _pageBuilder(Widget page, GoRouterState state) {
     ),
   );
 }
-
-

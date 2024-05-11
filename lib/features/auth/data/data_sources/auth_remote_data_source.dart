@@ -92,13 +92,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
             json.decode(response.body)['user'] as DataMap);
         final token = json.decode(response.body)['accessToken'] as String;
         final refreshToken = json.decode(response.body)['refreshToken'] as String;
-
         await _prefs.setString('_id', user.uid);
         await _prefs.setString('accessToken', token);
         await _prefs.setString('refreshToken', refreshToken);
-
-        await _prefs.setBool(kIsLoggedIn, true);
-
+        _userSession.setLoginState(true);
         return user;
       } else if (response.statusCode == 400) {
         throw ServerException(
@@ -399,6 +396,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         await _prefs.remove('accessToken');
         await _prefs.remove('refreshToken');
         await _prefs.setBool(kIsLoggedIn, false);
+        
       } else if (response.statusCode == 400) {
         throw ServerException(
           message: (json.decode(response.body)['message']) as String,
