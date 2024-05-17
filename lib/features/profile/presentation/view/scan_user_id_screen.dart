@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cunning_document_scanner/cunning_document_scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nexusdeep/core/common/widgets/custom_button.dart';
 import 'package:nexusdeep/core/common/widgets/custom_tab_bar_button.dart';
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
 import 'package:nexusdeep/core/utils/constants.dart';
@@ -124,25 +125,45 @@ class _ScanUserIdScreenState extends State<ScanUserIdScreen>
                                 },
                               ),
                             ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                List<String> pictures;
-                                try {
-                                  pictures =
-                                      await CunningDocumentScanner.getPictures(
-                                            noOfPages: 2,
-                                          ) ??
-                                          [];
-                                  if (!mounted) return;
-                                  setState(() {
-                                    _pictures = pictures;
-                                  });
-                                } catch (exception) {
-                                  // Handle exception here
-                                }
-                                setState(() => selectedType = 'Digital ID');
-                              },
-                              child: const Text('Digital ID'),
+                            Align(
+                              alignment: const Alignment(0, .15),
+                              child: FFCustomButton(
+                                text: 'Scan ID',
+                                options: FFButtonOptions(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 40,
+                                    vertical: 18,
+                                  ),
+                                  width: context.width * .6,
+                                  color: context.theme.primaryColor,
+                                  elevation: .2,
+                                  textStyle: GoogleFonts.montserrat(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                  borderSide: const BorderSide(
+                                    color: Colors.transparent,
+                                  ),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                onPressed: ()async {
+                                  List<String> pictures;
+                                  try {
+                                    pictures =
+                                        await CunningDocumentScanner.getPictures(
+                                          noOfPages: 2,
+                                        ) ??
+                                            [];
+                                    if (!mounted) return;
+                                    setState(() {
+                                      _pictures = pictures;
+                                    });
+                                  } catch (exception) {
+                                    // Handle exception here
+                                  }
+                                  setState(() => selectedType = 'Digital ID');
+                                },
+                              ),
                             ),
                           ],
                         ),
@@ -173,25 +194,45 @@ class _ScanUserIdScreenState extends State<ScanUserIdScreen>
                                 );
                               },
                             ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                List<String> pictures;
-                                try {
-                                  pictures =
-                                      await CunningDocumentScanner.getPictures(
-                                            noOfPages: 1,
-                                          ) ??
-                                          [];
-                                  if (!mounted) return;
-                                  setState(() {
-                                    _pictures = pictures;
-                                  });
-                                } catch (exception) {
-                                  // Handle exception here
-                                }
-                                setState(() => selectedType = 'Passport');
-                              },
-                              child: const Text('Passport'),
+                            Align(
+                              alignment: const Alignment(0, .15),
+                              child: FFCustomButton(
+                                text: 'Scan Passport',
+                                options: FFButtonOptions(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 40,
+                                    vertical: 18,
+                                  ),
+                                  width: context.width * .6,
+                                  color: context.theme.primaryColor,
+                                  elevation: .2,
+                                  textStyle: GoogleFonts.montserrat(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                  borderSide: const BorderSide(
+                                    color: Colors.transparent,
+                                  ),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                onPressed: ()async {
+                                  List<String> pictures;
+                                  try {
+                                    pictures =
+                                        await CunningDocumentScanner.getPictures(
+                                          noOfPages: 1,
+                                        ) ??
+                                            [];
+                                    if (!mounted) return;
+                                    setState(() {
+                                      _pictures = pictures;
+                                    });
+                                  } catch (exception) {
+                                    // Handle exception here
+                                  }
+                                  setState(() => selectedType = 'Passport');
+                                },
+                              ),
                             ),
                           ],
                         ),

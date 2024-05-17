@@ -19,9 +19,16 @@ class CacheException extends Equatable implements Exception{
 }
 
 class ConnectivityException extends Equatable implements Exception {
+  const ConnectivityException({required this.message,this.statusCode = 500});
   final String message;
-  const ConnectivityException({required this.message});
-
+  final int statusCode;
   @override
   List<Object?> get props => [message];
+}
+
+class LivelinessException implements Exception {
+
+  LivelinessException({required this.message,this.statusCode = 500});
+  final String message;
+  final int? statusCode;
 }
