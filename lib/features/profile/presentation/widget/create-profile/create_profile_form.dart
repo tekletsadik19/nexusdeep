@@ -3,6 +3,7 @@ import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:nexusdeep/core/common/widgets/custom_button.dart';
@@ -11,6 +12,7 @@ import 'package:nexusdeep/core/common/widgets/custom_form_field.dart';
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
 import 'package:nexusdeep/core/res/media_res.dart';
 import 'package:nexusdeep/core/utils/constants.dart';
+import 'package:nexusdeep/features/profile/presentation/view/scan_user_id_screen.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class CreateProfileFormBody extends StatefulWidget {
@@ -32,6 +34,7 @@ class _CreateProfileFormBodyState extends State<CreateProfileFormBody> {
   final phoneNumController = TextEditingController();
   final moreDetailsController = TextEditingController();
   final zipCodeController = TextEditingController();
+  bool isIndividualSelected = true;
 
   @override
   void dispose() {
@@ -120,7 +123,11 @@ class _CreateProfileFormBodyState extends State<CreateProfileFormBody> {
                                 focusColor: Colors.transparent,
                                 hoverColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
-                                onTap: () async {},
+                                onTap: () async {
+                                  setState(() {
+                                    isIndividualSelected = true;
+                                  });
+                                },
                                 child: Container(
                                   width: 310,
                                   height: 180,
@@ -157,9 +164,7 @@ class _CreateProfileFormBodyState extends State<CreateProfileFormBody> {
                                                   ),
                                                 ),
                                               ),
-                                              if (Theme.of(context)
-                                                      .brightness ==
-                                                  Brightness.light)
+                                              if (isIndividualSelected)
                                                 const Align(
                                                   alignment:
                                                       AlignmentDirectional
@@ -255,7 +260,11 @@ class _CreateProfileFormBodyState extends State<CreateProfileFormBody> {
                                 focusColor: Colors.transparent,
                                 hoverColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
-                                onTap: () async {},
+                                onTap: () async {
+                                  setState(() {
+                                    isIndividualSelected = false;
+                                  });
+                                },
                                 child: Container(
                                   width: 310,
                                   height: 180,
@@ -292,9 +301,7 @@ class _CreateProfileFormBodyState extends State<CreateProfileFormBody> {
                                                   ),
                                                 ),
                                               ),
-                                              if (Theme.of(context)
-                                                      .brightness ==
-                                                  Brightness.light)
+                                              if (!isIndividualSelected)
                                                 const Align(
                                                   alignment:
                                                       AlignmentDirectional
@@ -592,7 +599,9 @@ class _CreateProfileFormBodyState extends State<CreateProfileFormBody> {
                               ),
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              context.go('/create-profile/scan-user-id');
+                            },
                           ),
                         ),
                       ],
@@ -659,7 +668,7 @@ class _CreateProfileFormBodyState extends State<CreateProfileFormBody> {
                           ),
                           child: Text(
                             'This is to make sure its really you. '
-                                'we use this for added security',
+                            'we use this for added security',
                             style: GoogleFonts.plusJakartaSans(
                               textStyle: const TextStyle(
                                 fontSize: 14,

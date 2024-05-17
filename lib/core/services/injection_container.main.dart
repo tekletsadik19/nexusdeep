@@ -6,10 +6,10 @@ Future<void> init() async {
   final prefs = await SharedPreferences.getInstance();
   sl
     ..registerLazySingleton(() => prefs)
-    ..registerLazySingleton(() =>
-        UserSession(sl.get<SharedPreferences>()))
+    ..registerLazySingleton(() => UserSession(sl.get<SharedPreferences>()))
     ..registerLazySingleton(
-      () => CustomHttpClient(sl.get<SharedPreferences>(),sl.get<UserSession>()),
+      () =>
+          CustomHttpClient(sl.get<SharedPreferences>(), sl.get<UserSession>()),
     );
   Get
     ..put(sl.get<UserSession>())
@@ -17,6 +17,7 @@ Future<void> init() async {
   await _onBoardingInit();
   await CoreTheme.initialize();
   await _authInit();
+  await _profileInit();
 }
 
 Future<void> _onBoardingInit() async {
@@ -39,7 +40,6 @@ Future<void> _onBoardingInit() async {
 }
 
 Future<void> _authInit() async {
-  
   final prefs = await SharedPreferences.getInstance();
   sl
     ..registerFactory(
@@ -74,4 +74,26 @@ Future<void> _authInit() async {
     )
     ..registerLazySingleton<GoogleSignIn>(GoogleSignIn.new)
     ..registerLazySingleton(() => FacebookAuth.instance);
+}
+
+Future<void> _profileInit() async {
+  sl
+    ..registerFactory(
+      () => ProfileBloc(
+        scanDigitalId: sl(),
+      ),
+    )
+    ..registerLazySingleton(
+      () => ScanDigitalId(
+        sl(),
+      ),
+    )
+    ..registerLazySingleton<ProfileRepository>(
+      () => ProfileRepositoryImpl(
+        sl(),
+      ),
+    )
+    ..registerLazySingleton<ProfileRemoteDataSource>(
+      ProfileRemoteDataSourceImpl.new,
+    );
 }

@@ -24,6 +24,11 @@ import 'package:nexusdeep/features/on_boarding/domain/repos/on_boarding_repo.dar
 import 'package:nexusdeep/features/on_boarding/domain/usecases/cache_first_timer.dart';
 import 'package:nexusdeep/features/on_boarding/domain/usecases/check_if_user_first_timer.dart';
 import 'package:nexusdeep/features/on_boarding/presentation/cubit/on_boarding_cubit.dart';
+import 'package:nexusdeep/features/profile/data/data_sources/profile_data_source.dart';
+import 'package:nexusdeep/features/profile/data/repositories/profile_repository_impl.dart';
+import 'package:nexusdeep/features/profile/domain/repos/profile_repository.dart';
+import 'package:nexusdeep/features/profile/domain/usecase/scan_digital_id.dart';
+import 'package:nexusdeep/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'injection_container.main.dart';

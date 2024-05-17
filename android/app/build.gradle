@@ -28,8 +28,8 @@ android {
     ndkVersion '23.1.7779620'
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
@@ -45,8 +45,8 @@ android {
         applicationId "com.nexusdeep.nexusdeep"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 21
-        targetSdk defaultTargetSdkVersion
+        minSdkVersion 29
+        targetSdk 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -64,7 +64,9 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
     }
 
     buildToolsVersion '33.0.2'
@@ -75,5 +77,5 @@ flutter {
 }
 
 dependencies {
-    implementation 'com.facebook.android:facebook-login:latest.release'
+    implementation 'com.facebook.android:facebook-login:17.0.0'
 }

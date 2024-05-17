@@ -65,12 +65,22 @@ final GoRouter router = GoRouter(
         ),
         GoRoute(
           path: 'create-profile',
-          pageBuilder: (context, state) {
-            return _pageBuilder(
-              const CreateYourProfileScreen(),
-              state,
-            );
-          },
+          pageBuilder: (context, state) => _pageBuilder(
+            const CreateYourProfileScreen(),
+            state,
+          ),
+          routes: [
+            GoRoute(
+              path: 'scan-user-id',
+              pageBuilder: (context, state) => _pageBuilder(
+                BlocProvider(
+                  create: (_) => sl<ProfileBloc>(),
+                  child: const ScanUserIdScreen(),
+                ),
+                state,
+              ),
+            ),
+          ],
         ),
         GoRoute(
           path: 'notification-setting',
@@ -110,8 +120,8 @@ final GoRouter router = GoRouter(
                 child: VerifyEmailScreen(
                   email: email,
                   name: extra!['name'] as String,
-                  password: extra!['password'] as String,
-                  token: extra!['token'] as String,
+                  password: extra['password'] as String,
+                  token: extra['token'] as String,
                 ),
               ),
               state,
@@ -166,9 +176,9 @@ final GoRouter router = GoRouter(
     } else if (isLoggedIn && goingToLogin) {
       return '/';
     }
+    return null;
   },
 );
-
 
 CustomTransitionPage<dynamic> _pageBuilder(Widget page, GoRouterState state) {
   return CustomTransitionPage(

@@ -11,7 +11,7 @@ buildscript {
 }
 
 ext {
-    defaultTargetSdkVersion = 33
+    defaultTargetSdkVersion = 34
 }
 
 allprojects {
