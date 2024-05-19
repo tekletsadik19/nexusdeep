@@ -95,5 +95,21 @@ Future<void> _profileInit() async {
     )
     ..registerLazySingleton<ProfileRemoteDataSource>(
       ProfileRemoteDataSourceImpl.new,
+    )
+
+
+    ..registerFactory(
+      () => LivelinessCubit(
+        checkLiveliness: sl(),
+        getUserFacialInfo: sl(),
+      ),
+    )
+    ..registerLazySingleton(() => CheckLiveliness(sl()))
+    ..registerLazySingleton(() => GetUserFacialInfo(sl()))
+    ..registerLazySingleton<LivelinessLocalDataSource>(
+      LivelinessLocalDataSourceImpl.new,
+    )
+    ..registerLazySingleton<LivelinessRepository>(
+      () => LivelinessRepositoryImpl(sl()),
     );
 }

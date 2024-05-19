@@ -37,6 +37,8 @@ class CustomTextFormField extends StatelessWidget {
     this.inputFormatter,
     this.fillColor,
     this.contentPadding,
+    this.suffixIcon,
+    this.onSuffixTap
   });
 
   final EdgeInsetsDirectional? contentPadding;
@@ -47,6 +49,8 @@ class CustomTextFormField extends StatelessWidget {
   final TextStyle? hintStyle;
   final FocusNode? focusNode;
   final TextAlign? textAlign;
+  final VoidCallback? onSuffixTap;
+  final Widget? suffixIcon;
   final TextEditingController? controller;
   final SubmitCallback? onSubmitted;
   final String? Function(String?)? validator;
@@ -126,6 +130,12 @@ class CustomTextFormField extends StatelessWidget {
           ),
         ),
         prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon != null
+            ? GestureDetector(
+          onTap: onSuffixTap,
+          child: suffixIcon,
+        )
+            : null,
         border: formOutlineBorder,
         counterText: '',
         labelStyle: GoogleFonts.montserrat(
@@ -147,6 +157,7 @@ class CustomTextFormField extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(borderRadius ?? 50),
         ),
+
         focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(
             color:  Colors.transparent,
@@ -168,6 +179,7 @@ class CustomTextFormField extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(borderRadius ?? 50),
         ),
+
         fillColor: fillColor?? context.theme.colorScheme
             .tertiaryContainer.withOpacity(.5),
         contentPadding:contentPadding?? const EdgeInsetsDirectional

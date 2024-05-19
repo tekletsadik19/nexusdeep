@@ -42,6 +42,7 @@ final GoRouter router = GoRouter(
             );
           },
         ),
+
         GoRoute(
           path: 'profile-screen',
           pageBuilder: (context, state) {
@@ -79,6 +80,18 @@ final GoRouter router = GoRouter(
                 ),
                 state,
               ),
+            ),
+            GoRoute(
+              path: 'liveliness',
+              pageBuilder: (context, state) {
+                return _pageBuilder(
+                  BlocProvider(
+                    create: (_) => sl<LivelinessCubit>(),
+                    child: const LivelinessScreen(),
+                  ),
+                  state,
+                );
+              },
             ),
           ],
         ),

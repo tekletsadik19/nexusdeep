@@ -4,7 +4,22 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
 
 class CustomCSC extends StatefulWidget {
-  const CustomCSC({super.key});
+  final void Function(String)? onCountrySelected;
+  final void Function(String)? onStateChanged;
+  final void Function(String)? onCityChanged;
+  final String? initialCountry;
+  final String? initialState;
+  final String? initialCity;
+
+  const CustomCSC({
+    super.key,
+    this.onCountrySelected,
+    this.onStateChanged,
+    this.onCityChanged,
+    this.initialCountry,
+    this.initialState,
+    this.initialCity,
+  });
 
   @override
   State<CustomCSC> createState() => _CustomCSCState();
@@ -28,7 +43,6 @@ class _CustomCSCState extends State<CustomCSC> {
             color: context.theme.colorScheme.tertiaryContainer.withOpacity(.5),
           ),
           disabledDropdownDecoration: BoxDecoration(
-
             borderRadius: const BorderRadius.all(
               Radius.circular(10),
             ),
@@ -41,14 +55,13 @@ class _CustomCSCState extends State<CustomCSC> {
           countrySearchPlaceholder: 'Country',
           stateSearchPlaceholder: 'State',
           citySearchPlaceholder: 'City',
-          defaultCountry: CscCountry.United_States,
+          defaultCountry: getCountryEnum(widget.initialCountry),
           selectedItemStyle: GoogleFonts.outfit(
             textStyle: TextStyle(
-              color: Theme.of(context).colorScheme.secondary,
-              fontSize: 16,
-              height:2.5,
-              textBaseline: TextBaseline.alphabetic
-            ),
+                color: Theme.of(context).colorScheme.secondary,
+                fontSize: 16,
+                height: 2.5,
+                textBaseline: TextBaseline.alphabetic),
           ),
           dropdownHeadingStyle: GoogleFonts.plusJakartaSans(
             textStyle: TextStyle(
@@ -64,17 +77,38 @@ class _CustomCSCState extends State<CustomCSC> {
           ),
           dropdownDialogRadius: 10,
           searchBarRadius: 50,
-          onCountryChanged: (value) {
-            setState(() {});
+          onCountryChanged: (country) {
+            if (country != null && widget.onCountrySelected != null) {
+              widget.onCountrySelected!(country);
+            }
           },
-          onStateChanged: (value) {
-            setState(() {});
+          onStateChanged: (state) {
+            if (state != null && widget.onStateChanged != null) {
+              widget.onStateChanged!(state);
+            }
           },
-          onCityChanged: (value) {
-            setState(() {});
+          onCityChanged: (city) {
+            if (city != null && widget.onCityChanged != null) {
+              widget.onCityChanged!(city);
+            }
           },
         ),
       ],
     );
+  }
+
+  CscCountry? getCountryEnum(String? countryCode) {
+    if (countryCode == null) return null;
+    try {
+
+      return CscCountry.values.firstWhere(
+        (c) =>
+            c.toString().split('.').last.toUpperCase() ==
+            countryCode.toUpperCase(),
+        orElse: () => CscCountry.United_States,
+      );
+    } catch (e) {
+      return null;
+    }
   }
 }

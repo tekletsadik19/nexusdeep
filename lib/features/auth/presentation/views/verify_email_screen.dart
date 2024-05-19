@@ -89,7 +89,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
 
           } else if (state is SignedInState) {
             context.userProvider.initUser(state.user as LocalUserModel);
-            context.go('/');
+            context.go('/create-profile');
           }
         },
         builder: (BuildContext context, state) {

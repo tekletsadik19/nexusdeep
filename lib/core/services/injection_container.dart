@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nexusdeep/core/common/app/providers/user_session.dart';
-import 'package:nexusdeep/core/common/network/auth_interceptor.dart';
 import 'package:nexusdeep/core/common/network/custom_http_client.dart';
 import 'package:nexusdeep/core/res/app_theme.dart';
 import 'package:nexusdeep/features/auth/data/data_sources/auth_remote_data_source.dart';
@@ -24,11 +23,17 @@ import 'package:nexusdeep/features/on_boarding/domain/repos/on_boarding_repo.dar
 import 'package:nexusdeep/features/on_boarding/domain/usecases/cache_first_timer.dart';
 import 'package:nexusdeep/features/on_boarding/domain/usecases/check_if_user_first_timer.dart';
 import 'package:nexusdeep/features/on_boarding/presentation/cubit/on_boarding_cubit.dart';
+import 'package:nexusdeep/features/profile/data/data_sources/liveliness_local_datasource.dart';
 import 'package:nexusdeep/features/profile/data/data_sources/profile_data_source.dart';
+import 'package:nexusdeep/features/profile/data/repositories/liveliness_repository_impl.dart';
 import 'package:nexusdeep/features/profile/data/repositories/profile_repository_impl.dart';
+import 'package:nexusdeep/features/profile/domain/repos/liveliness_repo.dart';
 import 'package:nexusdeep/features/profile/domain/repos/profile_repository.dart';
+import 'package:nexusdeep/features/profile/domain/usecase/check_liveliness.dart';
+import 'package:nexusdeep/features/profile/domain/usecase/get_user_facial_info.dart';
 import 'package:nexusdeep/features/profile/domain/usecase/scan_digital_id.dart';
 import 'package:nexusdeep/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:nexusdeep/features/profile/presentation/cubits/liveliness_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'injection_container.main.dart';

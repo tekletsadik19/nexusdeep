@@ -7,12 +7,11 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:nexusdeep/core/common/widgets/custom_button.dart';
-import 'package:nexusdeep/core/common/widgets/custom_csc.dart';
 import 'package:nexusdeep/core/common/widgets/custom_form_field.dart';
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
 import 'package:nexusdeep/core/res/media_res.dart';
 import 'package:nexusdeep/core/utils/constants.dart';
-import 'package:nexusdeep/features/profile/presentation/view/scan_user_id_screen.dart';
+import 'package:nexusdeep/features/profile/presentation/widget/user_info_form.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class CreateProfileFormBody extends StatefulWidget {
@@ -411,109 +410,8 @@ class _CreateProfileFormBodyState extends State<CreateProfileFormBody> {
                           ),
                           child: Column(
                             children: [
-                              const CustomCSC(),
-                              const SizedBox(
-                                height: 6,
-                              ),
-                              CustomTextFormField(
-                                textInputType: TextInputType.text,
-                                hintText: 'More address details (Optional)',
-                                controller: moreDetailsController,
-                                maxLines: 1,
-                                onChange: (email) {},
-                                maxLength: 25,
-                                borderRadius: 10,
-                              ),
-                              const SizedBox(
-                                height: 6,
-                              ),
-                              CustomTextFormField(
-                                textInputType: TextInputType.number,
-                                hintText: 'Postal/ZIP code',
-                                controller: zipCodeController,
-                                maxLines: 1,
-                                onChange: (email) {},
-                                maxLength: 6,
-                                borderRadius: 10,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const Divider(
-                                height: 2,
-                                thickness: 1,
-                                color: Color(0xFFE5E7EB),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              CustomTextFormField(
-                                textInputType: TextInputType.phone,
-                                hintText: 'Phone Number',
-                                controller: zipCodeController,
-                                maxLines: 1,
-                                onChange: (email) {},
-                                maxLength: 6,
-                                borderRadius: 10,
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
-                                child: RichText(
-                                  textScaler: MediaQuery.of(context).textScaler,
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: 'Click ',
-                                        style: GoogleFonts.plusJakartaSans(
-                                          fontSize: 14,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: 'Send Code',
-                                        style: GoogleFonts.plusJakartaSans(
-                                          fontSize: 14,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text:
-                                            ' and enter the verification code '
-                                            'we sent to your phone.',
-                                        style: GoogleFonts.plusJakartaSans(
-                                          fontSize: 14,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ],
-                                    style: GoogleFonts.outfit(
-                                      color: const Color(0xFF15161E),
-                                      fontSize: 32,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              CustomTextFormField(
-                                textInputType: TextInputType.phone,
-                                hintText: 'Verification Code',
-                                controller: zipCodeController,
-                                maxLines: 1,
-                                onChange: (email) {},
-                                maxLength: 6,
-                                borderRadius: 10,
-                              ),
+                              const LocationForm(),
+                              
                             ],
                           ),
                         ),
@@ -701,7 +599,9 @@ class _CreateProfileFormBodyState extends State<CreateProfileFormBody> {
                               ),
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              context.go('/create-profile/liveliness');
+                            },
                           ),
                         ),
                       ],
