@@ -35,3 +35,7 @@ class ConnectivityFailure extends Failure {
 class LivelinessFailure extends Failure {
   LivelinessFailure({required super.message, int? super.statusCode});
 }
+
+class ScanDataFailure extends Failure {
+  ScanDataFailure({required super.message, int? super.statusCode});
+}

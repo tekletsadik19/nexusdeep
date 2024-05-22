@@ -5,12 +5,13 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as https;
 import 'package:nexusdeep/core/errors/exceptions.dart';
 import 'package:nexusdeep/core/services/config.dart';
+import 'package:nexusdeep/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserSession extends GetxController {
   UserSession(this._prefs) {
-    _isLoggedIn.add(_prefs.getBool('isLoggedIn') ?? false);
+    _isLoggedIn.add(_prefs.getBool(kIsLoggedIn) ?? false);
   }
 
   final SharedPreferences _prefs;
@@ -19,8 +20,12 @@ class UserSession extends GetxController {
   bool get isLoggedInValue => _isLoggedIn.value;
 
   void setLoginState(bool isLoggedIn) {
-    _isLoggedIn.add(isLoggedIn);
-    _prefs.setBool('isLoggedIn', isLoggedIn);
+    try {
+      _isLoggedIn.add(isLoggedIn);
+      _prefs.setBool(kIsLoggedIn, isLoggedIn);
+    } catch (e) {
+      print('Failed to set login state: $e');
+    }
   }
 
   Future<String?> refreshToken() async {
@@ -68,7 +73,7 @@ class UserSession extends GetxController {
   Future<void> logout() async {
     await _prefs.remove('accessToken');
     await _prefs.remove('refreshToken');
-    await _prefs.setBool('isLoggedIn', false);
+    await _prefs.setBool(kIsLoggedIn, false);
     _isLoggedIn.add(false);
   }
 

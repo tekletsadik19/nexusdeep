@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_interceptor/http_interceptor.dart';
 import 'package:nexusdeep/core/common/app/providers/user_session.dart';
@@ -10,10 +11,14 @@ class AuthInterceptor implements InterceptorContract {
   final UserSession _userSession;
 
   @override
-  Future<http.BaseRequest> interceptRequest(
-      {required http.BaseRequest request}) async {
-    final accessToken = sl<SharedPreferences>().getString('accessToken');
-    request.headers['Authorization'] = 'Bearer $accessToken';
+  Future<http.BaseRequest> interceptRequest({
+    required http.BaseRequest request,
+  }) async {
+
+    final accessToken = _prefs.getString('accessToken');
+    if (accessToken != null) {
+      request.headers['Authorization'] = 'Bearer $accessToken';
+    }
     return request;
   }
 
@@ -21,13 +26,20 @@ class AuthInterceptor implements InterceptorContract {
   Future<http.BaseResponse> interceptResponse(
       {required http.BaseResponse response}) async {
     if (response.statusCode == 401) {
-      final newAccessToken = await sl<UserSession>().refreshToken();
-      if (newAccessToken != null) {
-        final newRequest = copyRequestWithNewToken(
-          response.request! as http.Request,
-          newAccessToken,
-        );
-        return http.Client().send(newRequest).then(http.Response.fromStream);
+      try {
+
+        final newAccessToken = await _userSession.refreshToken();
+        if (newAccessToken != null) {
+          final newRequest = copyRequestWithNewToken(
+            response.request! as http.Request,
+            newAccessToken,
+          );
+          return http.Client().send(newRequest).then(http.Response.fromStream);
+        } else {
+          await _userSession.logout();
+        }
+      } catch (e) {
+        await _userSession.logout();
       }
     }
     return response;

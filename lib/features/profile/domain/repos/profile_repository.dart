@@ -13,6 +13,7 @@ abstract class ProfileRepository{
     required File firstPage,
   });
 
+
   ResultFuture<ScanResult> scanDigitalId({
     required File front,
     required File back,

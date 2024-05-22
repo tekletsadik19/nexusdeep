@@ -20,8 +20,8 @@ class ProfileRepositoryImpl extends ProfileRepository {
         firstPage: firstPage,
       );
       return Right(result);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+    } on ScanDataException catch (e) {
+      return Left(ScanDataFailure(message: e.message, statusCode: e.statusCode));
     }
   }
 
@@ -36,8 +36,8 @@ class ProfileRepositoryImpl extends ProfileRepository {
         back: back,
       );
       return Right(result);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+    } on ScanDataException catch (e) {
+      return Left(ScanDataFailure(message: e.message, statusCode: e.statusCode));
     }
   }
 }

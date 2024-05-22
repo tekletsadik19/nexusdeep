@@ -32,3 +32,10 @@ class LivelinessException implements Exception {
   final String message;
   final int? statusCode;
 }
+
+class ScanDataException implements Exception {
+
+  ScanDataException({required this.message,this.statusCode = 500});
+  final String message;
+  final int? statusCode;
+}

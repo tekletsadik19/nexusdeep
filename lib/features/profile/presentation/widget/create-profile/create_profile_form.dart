@@ -7,7 +7,6 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:nexusdeep/core/common/widgets/custom_button.dart';
-import 'package:nexusdeep/core/common/widgets/custom_form_field.dart';
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
 import 'package:nexusdeep/core/res/media_res.dart';
 import 'package:nexusdeep/core/utils/constants.dart';
@@ -404,14 +403,13 @@ class _CreateProfileFormBodyState extends State<CreateProfileFormBody> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsetsDirectional.symmetric(
+                        const Padding(
+                          padding: EdgeInsetsDirectional.symmetric(
                             horizontal: 30,
                           ),
                           child: Column(
                             children: [
-                              const LocationForm(),
-                              
+                              LocationForm(),
                             ],
                           ),
                         ),

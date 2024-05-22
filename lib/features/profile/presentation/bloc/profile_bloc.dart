@@ -9,34 +9,31 @@ part 'profile_event.dart';
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  ProfileBloc({required this.scanDigitalId})
-      : super(ProfileInitial()) {
-    on<ScanDigitalIdEvent>((event, emit) async {
-      emit(ProfileLoading());
-      final result = await scanDigitalId(
-        ScanResultParams(
-          front: event.front,
-          back: event.back,
-        ),
-      );
-      result.fold(
-        (failure) => emit(ProfileError(failure.message)),
-        (scanResult) => emit(ProfileScanSuccess(scanResult)),
-      );
-    });
-
-    on<ScanPassportEvent>((event, emit) async {
-      emit(ProfileLoading());
-      final result = await scanDigitalId(
-        ScanResultParams(
-          firstPage: event.firstPage,
-        ),
-      );
-      result.fold(
-        (failure) => emit(ProfileError(failure.message)),
-        (scanResult) => emit(ProfileScanSuccess(scanResult)),
-      );
-    });
+  ProfileBloc({required this.scanDigitalId}) : super(ProfileInitial()) {
+    on<ScanDigitalIdEvent>(_handleScanDigitalIdEvent);
+    on<ScanPassportEvent>(_handleScanPassportEvent);
   }
   final ScanDigitalId scanDigitalId;
+
+  Future<void> _handleScanDigitalIdEvent(
+      ScanDigitalIdEvent event, Emitter<ProfileState> emit) async {
+    emit(ProfileLoading());
+    final result = await scanDigitalId(
+        ScanResultParams(front: event.front, back: event.back));
+    result.fold(
+          (failure) => emit(ProfileError(failure.message)),
+          (scanResult) => emit(ProfileScanSuccess(scanResult)),
+    );
+  }
+
+  Future<void> _handleScanPassportEvent(
+      ScanPassportEvent event, Emitter<ProfileState> emit) async {
+    emit(ProfileLoading());
+    final result = await scanDigitalId(
+        ScanResultParams(firstPage: event.firstPage));
+    result.fold(
+          (failure) => emit(ProfileError(failure.message)),
+          (scanResult) => emit(ProfileScanSuccess(scanResult)),
+    );
+  }
 }

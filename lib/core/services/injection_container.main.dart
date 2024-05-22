@@ -6,11 +6,16 @@ Future<void> init() async {
   final prefs = await SharedPreferences.getInstance();
   sl
     ..registerLazySingleton(() => prefs)
-    ..registerLazySingleton(() => UserSession(sl.get<SharedPreferences>()))
+    ..registerLazySingleton(() => UserSession(prefs))
     ..registerLazySingleton(
       () =>
           CustomHttpClient(sl.get<SharedPreferences>(), sl.get<UserSession>()),
     );
+
+  if (!prefs.containsKey(kFirstTimerKey)) {
+    await prefs.setBool(kFirstTimerKey, true);
+  }
+
   Get
     ..put(sl.get<UserSession>())
     ..put(sl.get<CustomHttpClient>());
