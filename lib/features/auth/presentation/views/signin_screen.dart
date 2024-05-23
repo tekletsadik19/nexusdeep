@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -58,6 +57,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 messageTitle,
             );
           } else if (state is SignedInState ) {
+
             context.userProvider.initUser(state.user as LocalUserModel);
             context.go('/');
           } else if (state is SocialSignedInState){
@@ -266,6 +266,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                                 .trim(),
                                           ),
                                         );
+                                    
                                   }
                                 },
                               ),

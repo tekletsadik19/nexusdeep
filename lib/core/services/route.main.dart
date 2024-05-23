@@ -42,7 +42,6 @@ final GoRouter router = GoRouter(
             );
           },
         ),
-
         GoRoute(
           path: 'profile-screen',
           pageBuilder: (context, state) {
@@ -180,17 +179,7 @@ final GoRouter router = GoRouter(
       },
     ),
   ],
-  redirect: (_, state) {
-    final isLoggedIn = sl<UserSession>().isLoggedInValue;
-    final goingToLogin = state.matchedLocation == SignInScreen.routeName;
-
-    if (!isLoggedIn && !goingToLogin) {
-      return SignInScreen.routeName;
-    } else if (isLoggedIn && goingToLogin) {
-      return '/';
-    }
-    return null;
-  },
+  redirect: (_, state) {},
 );
 
 CustomTransitionPage<dynamic> _pageBuilder(Widget page, GoRouterState state) {

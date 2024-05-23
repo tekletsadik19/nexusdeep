@@ -23,6 +23,7 @@ class UserSession extends GetxController {
     try {
       _isLoggedIn.add(isLoggedIn);
       _prefs.setBool(kIsLoggedIn, isLoggedIn);
+
     } catch (e) {
       print('Failed to set login state: $e');
     }
@@ -73,8 +74,9 @@ class UserSession extends GetxController {
   Future<void> logout() async {
     await _prefs.remove('accessToken');
     await _prefs.remove('refreshToken');
-    await _prefs.setBool(kIsLoggedIn, false);
     _isLoggedIn.add(false);
+    await _prefs.setBool(kIsLoggedIn, false);
+    
   }
 
   @override

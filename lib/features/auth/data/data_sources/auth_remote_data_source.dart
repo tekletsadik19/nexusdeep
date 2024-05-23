@@ -88,11 +88,17 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
 
       if (response.statusCode == 200) {
+
         final user = LocalUserModel.fromMap(
             json.decode(response.body)['user'] as DataMap);
+
+
+        if(kDebugMode){
+          print(user.username);
+        }
+
         final token = json.decode(response.body)['accessToken'] as String;
         final refreshToken = json.decode(response.body)['refreshToken'] as String;
-        await _prefs.setString('_id', user.uid);
         await _prefs.setString('accessToken', token);
         await _prefs.setString('refreshToken', refreshToken);
         _userSession.setLoginState(true);

@@ -23,7 +23,7 @@ class UserProfileScreen extends StatelessWidget {
             const UserContents(),
             const SettingBody(),
             // Logout User
-            _buildFooter(context)
+            _buildFooter(context),
           ],
         ),
       ),
@@ -67,12 +67,10 @@ class UserProfileScreen extends StatelessWidget {
             Align(
               alignment: AlignmentDirectional.bottomCenter,
               child: InkWell(
-                onTap: () async{
+                onTap: () async {
                   context.read<AuthBloc>().add(
-                    const LogoutEvent(),
-                  );
-
-                  context.go('/');
+                        const LogoutEvent(),
+                      );
                 },
                 child: SizedBox(
                   width: double.infinity,
