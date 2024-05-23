@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
@@ -31,6 +32,7 @@ class _LivelinessScreenState extends State<LivelinessScreen> {
     options: FaceDetectorOptions(
       enableClassification: true,
       enableLandmarks: true,
+      enableContours: true,
       enableTracking: true,
       performanceMode: FaceDetectorMode.accurate,
     ),
@@ -55,7 +57,7 @@ class _LivelinessScreenState extends State<LivelinessScreen> {
 
     _controller = CameraController(
       cameras.firstWhere(
-          (camera) => camera.lensDirection == CameraLensDirection.front,
+        (camera) => camera.lensDirection == CameraLensDirection.front,
       ),
       ResolutionPreset.high,
     );
@@ -90,19 +92,34 @@ class _LivelinessScreenState extends State<LivelinessScreen> {
             final size = MediaQuery.of(context).size;
             var scale = size.aspectRatio * _controller!.value.aspectRatio;
             if (scale < 1) {
-              scale = 1 /
-                  scale;
+              scale = 1 / scale;
             }
 
             return Transform.scale(
               scale: scale,
               child: Center(
-                  child: Stack(
-                    children: [
-                      CameraPreview(_controller!),
-                      if (_customPaint != null) _customPaint!,
-                    ],
-                  )
+                child: Stack(
+                  children: [
+                    CameraPreview(_controller!),
+                    if (_customPaint != null) _customPaint!,
+                    if (_text != null)
+                      Positioned(
+                        bottom: 100,
+                        left: 40,
+                        child: Text(
+                          _text!,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.montserrat(
+                            textStyle: const TextStyle(
+                              color: Colors.red,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
               ),
             );
           } else {
@@ -165,18 +182,25 @@ class _LivelinessScreenState extends State<LivelinessScreen> {
       metadata: inputImageData,
     );
 
-
-
     final faces = await faceDetector.processImage(inputImage);
 
-    if (mounted) {
-      setState(() {
-
-        _customPaint = CustomPaint(
-          painter: FaceDetectorPainter(faces, imageSize, imageRotation),
-        );
-      });
+    if (faces.isEmpty) {
+      if (mounted) {
+        setState(() {
+          _text =
+              'No face detected. \nPlease position your face within the frame.';
+          _customPaint = null;
+        });
+      }
+    } else {
+      if (mounted) {
+        setState(() {
+          _text = null; // Clear any previous error messages
+          _customPaint = CustomPaint(
+            painter: FaceDetectorPainter(faces, imageSize, imageRotation),
+          );
+        });
+      }
     }
-
   }
 }
