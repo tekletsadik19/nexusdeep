@@ -152,6 +152,7 @@ final GoRouter router = GoRouter(
             );
           },
         ),
+
       ],
     ),
     GoRoute(
@@ -167,6 +168,12 @@ final GoRouter router = GoRouter(
       },
     ),
     GoRoute(
+      path: '/no-connection',
+      pageBuilder: (context, state) {
+        return _pageBuilder(const NoConnectionScreen(), state);
+      },
+    ),
+    GoRoute(
       path: SignupScreen.routeName,
       pageBuilder: (context, state) {
         return _pageBuilder(
@@ -179,7 +186,17 @@ final GoRouter router = GoRouter(
       },
     ),
   ],
-  redirect: (_, state) {},
+  redirect: (_, state) {
+    final error = state.error;
+    if (error is DioException) {
+      final dioError = state.error! as DioException;
+      if (dioError.type == DioExceptionType.connectionTimeout ||
+          dioError.type == DioExceptionType.unknown) {
+        return '/no-connection';
+      }
+    }
+    return null;
+  },
 );
 
 CustomTransitionPage<dynamic> _pageBuilder(Widget page, GoRouterState state) {

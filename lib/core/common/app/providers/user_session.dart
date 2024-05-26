@@ -3,15 +3,19 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as https;
+import 'package:nexusdeep/core/common/app/providers/user_provider.dart';
 import 'package:nexusdeep/core/errors/exceptions.dart';
 import 'package:nexusdeep/core/services/config.dart';
+import 'package:nexusdeep/core/utils/typedef.dart';
 import 'package:nexusdeep/features/auth/data/data_sources/auth_remote_data_source.dart';
+import 'package:nexusdeep/features/auth/data/models/user_model.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserSession extends GetxController {
   UserSession(this._prefs) {
     _isLoggedIn.add(_prefs.getBool(kIsLoggedIn) ?? false);
+
   }
 
   final SharedPreferences _prefs;
@@ -28,6 +32,8 @@ class UserSession extends GetxController {
       print('Failed to set login state: $e');
     }
   }
+
+
 
   Future<String?> refreshToken() async {
     try {

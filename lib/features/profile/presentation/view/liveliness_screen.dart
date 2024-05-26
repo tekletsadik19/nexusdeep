@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
 import 'package:nexusdeep/core/utils/face_detector_painter.dart';
 import 'package:nexusdeep/features/profile/presentation/cubits/liveliness_cubit.dart';
