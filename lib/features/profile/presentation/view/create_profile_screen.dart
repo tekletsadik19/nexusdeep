@@ -48,6 +48,7 @@ class _CreateYourProfileScreenState extends State<CreateYourProfileScreen> {
           ),
           PageView(
             controller: _pageController,
+            physics: const NeverScrollableScrollPhysics(),
             children: [
               Padding(
                 padding: const EdgeInsetsDirectional.only(top: 50),

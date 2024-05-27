@@ -57,12 +57,19 @@ class _SignInScreenState extends State<SignInScreen> {
                 messageTitle,
             );
           } else if (state is SignedInState ) {
-
             context.userProvider.initUser(state.user as LocalUserModel);
-            context.go('/');
+            if (state.user.country == null || state.user.country!.isEmpty) {
+              context.go('/create-profile');
+            } else {
+              context.go('/');
+            }
           } else if (state is SocialSignedInState){
             context.userProvider.initUser(state.user as LocalUserModel);
-            context.go('/');
+            if (state.user.country == null || state.user.country!.isEmpty) {
+              context.go('/create-profile');
+            } else {
+              context.go('/');
+            }
           }
         },
         builder: (BuildContext context, state) {

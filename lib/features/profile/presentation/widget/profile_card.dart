@@ -34,10 +34,10 @@ class _UserProfileCardState extends State<UserProfileCard> {
                 child: Padding(
                   padding: const EdgeInsets.only(right: 30, top: 25),
                   child: IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       IconlyBold.notification,
                       size: 30,
-                      color: context.theme.cardColor,
+                      color: Colors.white,
                     ),
                     onPressed: () => context.go('/notification-screen'),
                   ),
@@ -118,10 +118,10 @@ class _UserProfileCardState extends State<UserProfileCard> {
                                             child: Text(
                                               user.username,
                                               textAlign: TextAlign.center,
-                                              style: GoogleFonts.outfit(
-                                                textStyle: TextStyle(
-                                                  fontSize: 20,
-                                                  color: context.theme!.primaryColor
+                                              style: GoogleFonts.plusJakartaSans(
+                                                textStyle: const TextStyle(
+                                                  fontSize: 22,
+                                                  color: Colors.white,
                                                 ),
                                               ),
                                             ),
@@ -138,10 +138,11 @@ class _UserProfileCardState extends State<UserProfileCard> {
                                               ),
                                               child: Text(
                                                 user.email,
-                                                style: GoogleFonts.raleway(
-                                                  textStyle: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 12,
+                                                style: GoogleFonts.plusJakartaSans(
+                                                  textStyle: const TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 14,
+                                                    color: Colors.white,
                                                   ),
                                                 ),
                                               ),

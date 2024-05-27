@@ -33,6 +33,8 @@ class _CreateProfileFormBodyState extends State<CreateProfileFormBody> {
   final moreDetailsController = TextEditingController();
   final zipCodeController = TextEditingController();
   bool isIndividualSelected = true;
+  bool isCompanySelected = false;
+  bool isBusinessLocationDifferent = false;
 
   @override
   void dispose() {
@@ -79,6 +81,7 @@ class _CreateProfileFormBodyState extends State<CreateProfileFormBody> {
               key: formKey,
               child: PageView(
                 controller: _pageController,
+                physics: const NeverScrollableScrollPhysics(),
                 children: [
                   SingleChildScrollView(
                     child: Padding(
@@ -124,6 +127,7 @@ class _CreateProfileFormBodyState extends State<CreateProfileFormBody> {
                                 onTap: () async {
                                   setState(() {
                                     isIndividualSelected = true;
+                                    isCompanySelected = false;
                                   });
                                 },
                                 child: Container(
@@ -261,6 +265,7 @@ class _CreateProfileFormBodyState extends State<CreateProfileFormBody> {
                                 onTap: () async {
                                   setState(() {
                                     isIndividualSelected = false;
+                                    isCompanySelected = true;
                                   });
                                 },
                                 child: Container(
@@ -375,6 +380,34 @@ class _CreateProfileFormBodyState extends State<CreateProfileFormBody> {
                                     ),
                                   ),
                                 ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: Visibility(
+                              visible: isCompanySelected,
+                              child: CheckboxListTile(
+                                title: Text(
+                                  'My business is registered in a different location',
+                                  style: GoogleFonts.plusJakartaSans(
+                                    textStyle: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                                value: isBusinessLocationDifferent,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    isBusinessLocationDifferent = value!;
+                                  });
+                                },
+                                controlAffinity:
+                                    ListTileControlAffinity.leading,
+                                contentPadding: EdgeInsets.zero,
+                                activeColor: context.theme.primaryColor,
                               ),
                             ),
                           ),
@@ -683,6 +716,42 @@ class _CreateProfileFormBodyState extends State<CreateProfileFormBody> {
               ),
             ),
           ),
+          buildNavigationControls(context),
+        ],
+      ),
+    );
+  }
+
+  Widget buildNavigationControls(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          if (_pageController.hasClients && _pageController.page! > 0)
+            GestureDetector(
+              onTap: () {
+                _pageController.previousPage(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                );
+              },
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+                child: Text(
+                  'Back',
+                  key: const ValueKey('back'),
+                  style: GoogleFonts.montserrat(
+                    textStyle: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      color: context.theme.primaryColor,
+                    ),
+                  ),
+                ),
+              ),
+            )
         ],
       ),
     );

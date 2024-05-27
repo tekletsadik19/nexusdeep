@@ -97,6 +97,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         await _prefs.setString('accessToken', token);
         await _prefs.setString('userId', user.uid);
         await _prefs.setString('refreshToken', refreshToken);
+        if (user.country == null || user.country!.isEmpty) {
+          await _prefs.setBool('isProfileComplete', false);
+        }
         _userSession.setLoginState(true);
         return user;
       } else if (response.statusCode == 400) {
