@@ -32,7 +32,7 @@ class _CreateProfileFormBodyState extends State<CreateProfileFormBody> {
   final phoneNumController = TextEditingController();
   final moreDetailsController = TextEditingController();
   final zipCodeController = TextEditingController();
-  bool isIndividualSelected = true;
+  bool isIndividualSelected = false;
   bool isCompanySelected = false;
   bool isBusinessLocationDifferent = false;
 
@@ -304,7 +304,7 @@ class _CreateProfileFormBodyState extends State<CreateProfileFormBody> {
                                                   ),
                                                 ),
                                               ),
-                                              if (!isIndividualSelected)
+                                              if (isCompanySelected)
                                                 const Align(
                                                   alignment:
                                                       AlignmentDirectional
@@ -724,7 +724,7 @@ class _CreateProfileFormBodyState extends State<CreateProfileFormBody> {
 
   Widget buildNavigationControls(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -747,6 +747,35 @@ class _CreateProfileFormBodyState extends State<CreateProfileFormBody> {
                       fontWeight: FontWeight.w500,
                       fontSize: 16,
                       color: context.theme.primaryColor,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          if (_pageController.hasClients && _pageController.page! == 0)
+            Container(),
+          if (_pageController.hasClients && _pageController.page! != 5)
+            Align(
+              alignment: AlignmentDirectional.bottomEnd,
+              child: GestureDetector(
+                onTap: () {
+                  _pageController.nextPage(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                  );
+                },
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+                  child: Text(
+                    'Next',
+                    key: const ValueKey('next'),
+                    style: GoogleFonts.montserrat(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                        color: context.theme.primaryColor,
+                      ),
                     ),
                   ),
                 ),

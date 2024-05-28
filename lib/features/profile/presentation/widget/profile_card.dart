@@ -118,7 +118,8 @@ class _UserProfileCardState extends State<UserProfileCard> {
                                             child: Text(
                                               user.username,
                                               textAlign: TextAlign.center,
-                                              style: GoogleFonts.plusJakartaSans(
+                                              style:
+                                                  GoogleFonts.plusJakartaSans(
                                                 textStyle: const TextStyle(
                                                   fontSize: 22,
                                                   color: Colors.white,
@@ -138,7 +139,8 @@ class _UserProfileCardState extends State<UserProfileCard> {
                                               ),
                                               child: Text(
                                                 user.email,
-                                                style: GoogleFonts.plusJakartaSans(
+                                                style:
+                                                    GoogleFonts.plusJakartaSans(
                                                   textStyle: const TextStyle(
                                                     fontWeight: FontWeight.w400,
                                                     fontSize: 14,
@@ -169,27 +171,34 @@ class _UserProfileCardState extends State<UserProfileCard> {
                 },
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 30 ,right: 30),
+                padding: const EdgeInsets.only(left: 30, right: 30),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: context.theme.cardColor.withOpacity(.3),
+                    color: context.theme.cardColor.withOpacity(.1),
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(16),
                       topRight: Radius.circular(16),
                     ),
                   ),
                   child: Shimmer.fromColors(
-                    baseColor: context.theme.cardColor.withOpacity(.5),
-                    highlightColor: context.theme.cardColor.withOpacity(1),
+                    baseColor: Colors.green.withOpacity(.9),
+                    highlightColor: Colors.white.withOpacity(1),
                     child: Stack(
                       children: [
                         Align(
                           alignment: AlignmentDirectional.bottomCenter,
                           child: InkWell(
-                            onTap: () {},
+                            splashColor: Colors.green.withOpacity(.05),
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(16),
+                              topRight: Radius.circular(16),
+                            ),
+                            onTap: () {
+                              context.go('/create-profile');
+                            },
                             child: SizedBox(
                               width: double.infinity,
-                              height: 35,
+                              height: 45,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [

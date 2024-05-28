@@ -136,7 +136,7 @@ class _SettingBodyState extends State<SettingBody> {
                 alignment: AlignmentDirectional.bottomCenter,
                 child: InkWell(
                   onTap: () {
-                    context.go('/create-profile');
+
                   },
                   child: SizedBox(
                     width: double.infinity,

@@ -22,7 +22,6 @@ class UserProfileScreen extends StatelessWidget {
             const UserProfileCard(),
             const UserContents(),
             const SettingBody(),
-            // Logout User
             _buildFooter(context),
           ],
         ),

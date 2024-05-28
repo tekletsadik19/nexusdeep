@@ -45,6 +45,7 @@ abstract class AuthRemoteDataSource {
 }
 
 const kIsLoggedIn = 'isLoggedIn';
+const kIsProfileComplete = 'isProfileComplete';
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl({
@@ -98,7 +99,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         await _prefs.setString('userId', user.uid);
         await _prefs.setString('refreshToken', refreshToken);
         if (user.country == null || user.country!.isEmpty) {
-          await _prefs.setBool('isProfileComplete', false);
+          await _prefs.setBool(kIsProfileComplete, false);
         }
         _userSession.setLoginState(true);
         return user;
