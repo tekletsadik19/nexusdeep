@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:nexusdeep/core/common/app/providers/theme_controller.dart';
 import 'package:nexusdeep/core/common/app/providers/user_provider.dart';
 import 'package:nexusdeep/core/common/app/providers/user_session.dart';
@@ -30,12 +31,14 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           brightness: Brightness.light,
         ),
+
         darkTheme: ThemeData(
           useMaterial3: true,
           brightness: Brightness.dark,
         ),
         themeMode: themeController.currentTheme.value,
         routeInformationParser: router.routeInformationParser,
+
         routerDelegate: router.routerDelegate,
         routeInformationProvider: router.routeInformationProvider,
       ),

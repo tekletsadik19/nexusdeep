@@ -10,6 +10,8 @@ import 'package:nexusdeep/core/common/widgets/custom_profile_pic.dart';
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
 import 'package:nexusdeep/core/utils/constants.dart';
 import 'package:nexusdeep/features/dashboard/presentation/views/home_screen.dart';
+import 'package:nexusdeep/features/notification/notification_screen.dart';
+import 'package:nexusdeep/features/search/presentation/views/search_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -24,9 +26,9 @@ class _DashboardState extends State<Dashboard> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   List<Widget> pages = [
     HomeScreen(),
+    SearchScreen(),
     Scaffold(),
-    Scaffold(),
-    Scaffold(),
+    NotificationScreen(),
     Scaffold(),
   ];
   List<String> titles = const [
