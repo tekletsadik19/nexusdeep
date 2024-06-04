@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nexusdeep/core/common/widgets/custom_tab_bar_button.dart';
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
@@ -53,12 +50,13 @@ class _NotificationScreenState extends State<NotificationScreen>
             fontWeight: FontWeight.w500,
           ),
         ),
-        leading: IconButton(
-          icon: const Icon(
-            FontAwesomeIcons.arrowLeft,
-          ),
-          onPressed: () => context.go('/profile-screen'),
-        ),
+        automaticallyImplyLeading: false,
+        // leading: IconButton(
+        //   icon: const Icon(
+        //     FontAwesomeIcons.arrowLeft,
+        //   ),
+        //   onPressed: () => context.go('/profile-screen'),
+        // ),
       ),
       body: SafeArea(
         child: Column(

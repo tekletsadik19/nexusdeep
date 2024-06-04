@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
 
 class DealComponent extends StatelessWidget {
@@ -14,8 +15,7 @@ class DealComponent extends StatelessWidget {
           width: 237,
           height: 255,
           decoration: BoxDecoration(
-            color: context.theme.primaryColor
-                .withOpacity(.9),
+            color: context.theme.canvasColor,
             boxShadow: const [
               BoxShadow(
                 blurRadius: 7,
@@ -29,15 +29,62 @@ class DealComponent extends StatelessWidget {
             padding: const EdgeInsetsDirectional.fromSTEB(9, 9, 9, 12),
             child: Column(
               children: [
-                Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Container(),
-                    ),
+                Padding(
+                  padding:
+                  const EdgeInsetsDirectional.fromSTEB(12, 8, 12, 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        flex: 4,
+                        child: Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              0, 0, 12, 0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              RichText(
+                                textScaler:
+                                MediaQuery.of(context).textScaler,
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'Institute:  ',
+                                      style: TextStyle(
+                                        color: context.theme.colorScheme.secondaryContainer,
 
-                  ],
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: 'CBE',
+                                      style: TextStyle(
+                                        color: context.theme.primaryColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                  style: GoogleFonts.plusJakartaSans(
+                                    fontSize: 16,
+                                    letterSpacing: 0,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                    ],
+                  ),
                 ),
+                const Divider(
+                  height: 2,
+                  thickness: 1,
+                  color: Color(0xFFE5E7EB),
+                ),
+
               ],
             ),
           ),

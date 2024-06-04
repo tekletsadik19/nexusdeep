@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:iconly/iconly.dart';
 import 'package:nexusdeep/core/common/widgets/custom_button.dart';
+import 'package:nexusdeep/core/common/widgets/custom_icon_button.dart';
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
@@ -72,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          'Your Balance',
+                                          'Your Credit Score',
                                           style: GoogleFonts.plusJakartaSans(
                                             color: const Color(0xFF606A85),
                                             fontSize: 14,
@@ -81,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
                                         Text(
-                                          r'$7,630',
+                                          r'200',
                                           style: GoogleFonts.outfit(
                                             fontSize: 32,
                                             letterSpacing: 0,
@@ -91,26 +95,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ]),
                                   Align(
                                     alignment: const Alignment(0, .15),
-                                    child: FFCustomButton(
-                                      text: 'transaction',
-                                      options: FFButtonOptions(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 20,
-                                          vertical: 16,
+                                    child: Row(
+                                      children: [
+
+                                        CustomIconButton(
+                                          icon: Icon(
+                                            FontAwesomeIcons.rocket,
+                                            size: 80,
+                                            color: context.theme.primaryColor,
+                                          ),
+                                          onPressed: () {
+                                            context.go('/create-profile');
+                                          },
                                         ),
-                                        width: context.width * .45,
-                                        color: context.theme!.primaryColor,
-                                        elevation: .2,
-                                        textStyle: GoogleFonts.outfit(
-                                          fontSize: 16,
-                                          color: Colors.white,
-                                        ),
-                                        borderSide: const BorderSide(
-                                          color: Colors.transparent,
-                                        ),
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      onPressed: () {},
+
+                                      ],
                                     ),
                                   ),
                                 ],
@@ -150,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           text: TextSpan(
                                             children: [
                                               const TextSpan(
-                                                text: '62.2% /',
+                                                text: '10% /',
                                                 style: TextStyle(),
                                               ),
                                               TextSpan(
@@ -183,51 +182,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                             lineHeight: 12,
                                             animation: true,
                                             animateFromLastPercent: true,
-                                            progressColor:
-                                            context.theme.primaryColor.withOpacity(.9),
-                                            backgroundColor:
-                                            context.theme.primaryColor.withOpacity(.3),
+                                            progressColor: context
+                                                .theme.primaryColor
+                                                .withOpacity(.9),
+                                            backgroundColor: context
+                                                .theme.primaryColor
+                                                .withOpacity(.3),
                                             barRadius:
                                                 const Radius.circular(16),
                                             padding: EdgeInsets.zero,
                                           ),
                                         ),
-                                        const SizedBox(height: 4),
-                                        Padding(
-                                          padding: const EdgeInsetsDirectional
-                                              .fromSTEB(0, 8, 0, 0),
-                                          child: RichText(
-                                            textScaler: MediaQuery.of(context)
-                                                .textScaler,
-                                            text: TextSpan(
-                                              children: [
-                                                const TextSpan(
-                                                  text:
-                                                      'Forecasted income is: ',
-                                                  style: TextStyle(),
-                                                ),
-                                                TextSpan(
-                                                  text: r'$3,502',
-                                                  style: GoogleFonts
-                                                      .plusJakartaSans(
-                                                    color:
-                                                        const Color(0xFF15161E),
-                                                    fontSize: 14,
-                                                    letterSpacing: 0,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                )
-                                              ],
-                                              style:
-                                                  GoogleFonts.plusJakartaSans(
-                                                color: const Color(0xFF606A85),
-                                                fontSize: 14,
-                                                letterSpacing: 0,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
+
                                       ],
                                     ),
                                   ),
@@ -243,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   0, 12, 0, 0),
                               child: Text(
-                                'Top Friends',
+                                'Top Financial Institutes',
                                 style: GoogleFonts.plusJakartaSans(
                                   color: const Color(0xFF606A85),
                                   fontSize: 14,
@@ -544,7 +510,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           TextSpan(
                                             text: 'Institute: ',
                                             style: TextStyle(
-                                              color: context.theme.colorScheme.onTertiary,
+                                              color: context
+                                                  .theme.colorScheme.onTertiary,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -570,15 +537,17 @@ class _HomeScreenState extends State<HomeScreen> {
                             Container(
                               height: 32,
                               decoration: BoxDecoration(
-                                color: context.theme.primaryColor.withOpacity(.2),
+                                color:
+                                    context.theme.primaryColor.withOpacity(.2),
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                  color: context.theme.primaryColor.withOpacity(.7),
+                                  color: context.theme.primaryColor
+                                      .withOpacity(.7),
                                   width: 2,
                                 ),
                               ),
                               child: Align(
-                                alignment:  AlignmentDirectional.center,
+                                alignment: AlignmentDirectional.center,
                                 child: Padding(
                                   padding: const EdgeInsetsDirectional.fromSTEB(
                                       8, 0, 8, 0),
@@ -641,10 +610,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   width: 40,
                                   height: 40,
                                   decoration: BoxDecoration(
-                                    color: context.theme.primaryColor.withOpacity(.2),
+                                    color: context.theme.primaryColor
+                                        .withOpacity(.2),
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                      color: context.theme.primaryColor.withOpacity(.7),
+                                      color: context.theme.primaryColor
+                                          .withOpacity(.7),
                                       width: 2,
                                     ),
                                   ),
@@ -669,8 +640,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               lineWidth: 4,
                               animation: true,
                               animateFromLastPercent: true,
-                              progressColor: context.theme.primaryColor.withOpacity(.9),
-                              backgroundColor:context.theme.primaryColor.withOpacity(.2),
+                              progressColor:
+                                  context.theme.primaryColor.withOpacity(.9),
+                              backgroundColor:
+                                  context.theme.primaryColor.withOpacity(.2),
                               center: Text(
                                 '1/3',
                                 style: GoogleFonts.plusJakartaSans(

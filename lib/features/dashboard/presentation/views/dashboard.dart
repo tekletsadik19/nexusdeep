@@ -9,9 +9,11 @@ import 'package:nexusdeep/core/common/app/providers/user_provider.dart';
 import 'package:nexusdeep/core/common/widgets/custom_profile_pic.dart';
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
 import 'package:nexusdeep/core/utils/constants.dart';
+import 'package:nexusdeep/features/acquisition/presentation/views/acquisition_screen.dart';
 import 'package:nexusdeep/features/dashboard/presentation/views/home_screen.dart';
 import 'package:nexusdeep/features/notification/notification_screen.dart';
 import 'package:nexusdeep/features/search/presentation/views/search_screen.dart';
+import 'package:nexusdeep/features/wallets/presentation/views/wallets_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -27,9 +29,9 @@ class _DashboardState extends State<Dashboard> {
   List<Widget> pages = [
     HomeScreen(),
     SearchScreen(),
-    Scaffold(),
+    AcquisitionScreen(),
     NotificationScreen(),
-    Scaffold(),
+    WalletsScreen(),
   ];
   List<String> titles = const [
     'Nexus Deep',
