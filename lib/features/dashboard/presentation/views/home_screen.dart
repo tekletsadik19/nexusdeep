@@ -97,7 +97,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     alignment: const Alignment(0, .15),
                                     child: Row(
                                       children: [
-
                                         CustomIconButton(
                                           icon: Icon(
                                             FontAwesomeIcons.rocket,
@@ -108,7 +107,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                             context.go('/create-profile');
                                           },
                                         ),
-
                                       ],
                                     ),
                                   ),
@@ -153,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 style: TextStyle(),
                                               ),
                                               TextSpan(
-                                                text: r' $12,000',
+                                                text: ' 10000',
                                                 style:
                                                     GoogleFonts.plusJakartaSans(
                                                   color:
@@ -193,7 +191,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                             padding: EdgeInsets.zero,
                                           ),
                                         ),
-
                                       ],
                                     ),
                                   ),
@@ -470,6 +467,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
+
                     ],
                   ),
                 ),
