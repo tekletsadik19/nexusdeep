@@ -23,6 +23,7 @@ Future<void> init() async {
   await CoreTheme.initialize();
   await _authInit();
   await _profileInit();
+  await _financialInstituteInit();
 }
 
 Future<void> _onBoardingInit() async {
@@ -101,8 +102,6 @@ Future<void> _profileInit() async {
     ..registerLazySingleton<ProfileRemoteDataSource>(
       ProfileRemoteDataSourceImpl.new,
     )
-
-
     ..registerFactory(
       () => LivelinessCubit(
         checkLiveliness: sl(),
@@ -116,5 +115,32 @@ Future<void> _profileInit() async {
     )
     ..registerLazySingleton<LivelinessRepository>(
       () => LivelinessRepositoryImpl(sl()),
+    );
+}
+
+Future<void> _financialInstituteInit() async {
+  sl
+    ..registerFactory(
+      () => FinancialInstituteBloc(
+        getAllFinancialInstitutes: sl(),
+        getFinancialInstituteById: sl(),
+        getFinancialInstitutesByDealCount: sl(),
+        getTopFinancialInstitutesByDealCount: sl(),
+        getFinancialInstitutesByInvestmentCount: sl(),
+      ),
+    )
+    ..registerLazySingleton(() => GetAllFinancialInstitutes(sl()))
+    ..registerLazySingleton(() => GetFinancialInstituteById(sl()))
+    ..registerLazySingleton(() => GetFinancialInstitutesByDealCount(sl()))
+    ..registerLazySingleton(() => GetTopFinancialInstitutesByDealCount(sl()))
+    ..registerLazySingleton(() => GetFinancialInstitutesByInvestmentCount(sl()))
+
+    ..registerLazySingleton<FinancialInstituteRepos>(
+      () => FinancialInstituteRepoImpl(
+        sl(),
+      ),
+    )
+    ..registerLazySingleton<FinancialInstituteDataSource>(
+      () => FinancialInstituteDataSourceImpl(userSession: sl(),prefs: sl()),
     );
 }

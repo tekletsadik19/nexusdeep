@@ -18,7 +18,11 @@ final GoRouter router = GoRouter(
         } else if (prefs.getBool(kIsLoggedIn) ?? false) {
 
           return _pageBuilder(
-            const Dashboard(),
+
+            BlocProvider(
+              create: (_) => sl<FinancialInstituteBloc>(),
+              child: const Dashboard(),
+            ),
             state,
           );
         }
@@ -51,6 +55,15 @@ final GoRouter router = GoRouter(
                 create: (_) => sl<AuthBloc>(),
                 child: const UserProfileScreen(),
               ),
+              state,
+            );
+          },
+        ),
+        GoRoute(
+          path: 'financial-institute',
+          pageBuilder: (context, state) {
+            return _pageBuilder(
+              const FinancialInstituteScreen(),
               state,
             );
           },

@@ -2,6 +2,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart';
 import 'package:nexusdeep/core/common/app/providers/user_session.dart';
 import 'package:nexusdeep/core/common/network/custom_http_client.dart';
 import 'package:nexusdeep/core/res/app_theme.dart';
@@ -34,6 +35,15 @@ import 'package:nexusdeep/features/profile/domain/usecase/get_user_facial_info.d
 import 'package:nexusdeep/features/profile/domain/usecase/scan_digital_id.dart';
 import 'package:nexusdeep/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:nexusdeep/features/profile/presentation/cubits/liveliness_cubit.dart';
+import 'package:nexusdeep/features/proposal/data/data_source/financial_institute_data_source.dart';
+import 'package:nexusdeep/features/proposal/data/repository/financial_institute_repository.dart';
+import 'package:nexusdeep/features/proposal/domain/repos/financial_institution_repos.dart';
+import 'package:nexusdeep/features/proposal/domain/usecase/get_all_financial_institutes.dart';
+import 'package:nexusdeep/features/proposal/domain/usecase/get_financial_institute_by_id.dart';
+import 'package:nexusdeep/features/proposal/domain/usecase/get_financial_institutes_by_deal_count.dart';
+import 'package:nexusdeep/features/proposal/domain/usecase/get_financial_institutes_by_investment_count.dart';
+import 'package:nexusdeep/features/proposal/domain/usecase/get_top_financial_institutes_by_deal_count.dart';
+import 'package:nexusdeep/features/proposal/presentation/bloc/financial_institute_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'injection_container.main.dart';

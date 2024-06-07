@@ -28,6 +28,8 @@ import 'package:nexusdeep/features/profile/presentation/view/liveliness_screen.d
 import 'package:nexusdeep/features/profile/presentation/view/notification_setting.dart';
 import 'package:nexusdeep/features/profile/presentation/view/scan_user_id_screen.dart';
 import 'package:nexusdeep/features/profile/presentation/view/user_profile.dart';
+import 'package:nexusdeep/features/proposal/presentation/bloc/financial_institute_bloc.dart';
+import 'package:nexusdeep/features/proposal/presentation/view/financial_institute_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'route.main.dart';

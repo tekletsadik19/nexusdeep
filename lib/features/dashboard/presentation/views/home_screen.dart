@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:iconly/iconly.dart';
-import 'package:nexusdeep/core/common/widgets/custom_button.dart';
 import 'package:nexusdeep/core/common/widgets/custom_icon_button.dart';
 import 'package:nexusdeep/core/extensions/context_extensions.dart';
+import 'package:nexusdeep/features/dashboard/presentation/widget/financial_institute_widget.dart';
+import 'package:nexusdeep/features/proposal/domain/entity/fianancial_institute.dart';
+import 'package:nexusdeep/features/proposal/presentation/bloc/financial_institute_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,6 +18,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<FinancialInstitute> topFinancialInstitutes = [];
+
+  @override
+  void initState() {
+    super.initState();
+    context
+        .read<FinancialInstituteBloc>()
+        .add(const LoadTopFinancialInstitutesByDealCountEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             Padding(
                               padding: const EdgeInsetsDirectional.fromSTEB(
-                                  0, 0, 0, 8),
+                                  0, 0, 0, 8,),
                               child: Text(
                                 'Account Overview',
                                 style: GoogleFonts.outfit(
@@ -85,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
                                         Text(
-                                          r'200',
+                                          '200',
                                           style: GoogleFonts.outfit(
                                             fontSize: 32,
                                             letterSpacing: 0,
@@ -120,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             Padding(
                               padding: const EdgeInsetsDirectional.fromSTEB(
-                                  0, 12, 0, 12),
+                                  0, 12, 0, 12,),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -218,256 +230,33 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                       ),
-                      Align(
-                        alignment: const AlignmentDirectional(-1, 0),
-                        child: Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 4),
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(children: [
-                              const SizedBox(width: 16),
-                              Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0, 0, 0, 12),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: 50,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        color: const Color(0x4C39D2C0),
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          color: const Color(0xFF39D2C0),
-                                          width: 2,
+                      BlocBuilder<FinancialInstituteBloc,
+                          FinancialInstituteState>(
+                        builder: (context, state) {
+                          if (state is FinancialInstituteLoading) {
+                            return const CircularProgressIndicator();
+                          } else if (state is FinancialInstitutesLoaded) {
+                            return SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: state.institutes
+                                    .map(
+                                      (institute) => Padding(
+                                        padding: const EdgeInsets.all(8),
+                                        child: FinancialInstituteWidget(
+                                          financialInstitute: institute,
                                         ),
                                       ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(2),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(40),
-                                          child: Image.network(
-                                            'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=900&q=60',
-                                            width: 60,
-                                            height: 60,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsetsDirectional.fromSTEB(
-                                              0, 8, 0, 0),
-                                      child: Text(
-                                        'Rudy Fernandez',
-                                        style: GoogleFonts.plusJakartaSans(
-                                          color: const Color(0xFF15161E),
-                                          fontSize: 14,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      'Manager',
-                                      style: GoogleFonts.plusJakartaSans(
-                                        color: const Color(0xFF606A85),
-                                        fontSize: 12,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                    )
+                                    .toList(),
                               ),
-                              const SizedBox(width: 12),
-                              Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0, 0, 0, 12),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: 50,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        color: const Color(0x4C39D2C0),
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          color: const Color(0xFF39D2C0),
-                                          width: 2,
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(2),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(40),
-                                          child: Image.network(
-                                            'https://images.unsplash.com/photo-1506863530036-1efeddceb993?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHByb2ZpbGUlMjB1c2VyfGVufDB8fDB8fHww&auto=format&fit=crop&w=900&q=60',
-                                            width: 60,
-                                            height: 60,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsetsDirectional.fromSTEB(
-                                              0, 8, 0, 0),
-                                      child: Text(
-                                        'Abigail Herrara',
-                                        style: GoogleFonts.plusJakartaSans(
-                                          color: const Color(0xFF15161E),
-                                          fontSize: 14,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      'Designer',
-                                      style: GoogleFonts.plusJakartaSans(
-                                        color: const Color(0xFF606A85),
-                                        fontSize: 12,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0, 0, 0, 12),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: 50,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        color: const Color(0x4C39D2C0),
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          color: const Color(0xFF39D2C0),
-                                          width: 2,
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(2),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(40),
-                                          child: Image.network(
-                                            'https://images.unsplash.com/photo-1505033575518-a36ea2ef75ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZSUyMHVzZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=900&q=60',
-                                            width: 60,
-                                            height: 60,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsetsDirectional.fromSTEB(
-                                              0, 8, 0, 0),
-                                      child: Text(
-                                        'Liz Ambridge',
-                                        style: GoogleFonts.plusJakartaSans(
-                                          color: const Color(0xFF15161E),
-                                          fontSize: 14,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      'Manager',
-                                      style: GoogleFonts.plusJakartaSans(
-                                        color: const Color(0xFF606A85),
-                                        fontSize: 12,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0, 0, 0, 12),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: 50,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        color: const Color(0x4C39D2C0),
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          color: const Color(0xFF39D2C0),
-                                          width: 2,
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(2),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(40),
-                                          child: Image.network(
-                                            'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHw0fHx1c2VyfGVufDB8fHx8MTY5MTY0Mzg1OXww&ixlib=rb-4.0.3&q=80&w=400',
-                                            width: 60,
-                                            height: 60,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsetsDirectional.fromSTEB(
-                                              0, 8, 0, 0),
-                                      child: Text(
-                                        'Liz Rogers',
-                                        style: GoogleFonts.plusJakartaSans(
-                                          color: const Color(0xFF15161E),
-                                          fontSize: 14,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      'Front End Dev',
-                                      style: GoogleFonts.plusJakartaSans(
-                                        color: const Color(0xFF606A85),
-                                        fontSize: 12,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 16)
-                            ]),
-                          ),
-                        ),
+                            );
+                          } else if (state is FinancialInstituteError) {
+                            return Text('Error: ${state.message}');
+                          }
+                          return const Text('No data available');
+                        },
                       ),
-
                     ],
                   ),
                 ),

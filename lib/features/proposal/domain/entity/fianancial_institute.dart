@@ -8,21 +8,14 @@ class FinancialInstitute extends Equatable {
     this.phoneNumber,
     this.email,
     this.website,
+    this.bio,
+    this.minCreditScore,
+    this.image,
+    this.userId,
     this.createdAt,
     this.updatedAt,
+    this.deals,
   });
-
-  const FinancialInstitute.empty()
-      : this(
-    id: '',
-    name: '',
-    address: '',
-    phoneNumber: '',
-    email: '',
-    website: '',
-    createdAt: null,
-    updatedAt: null,
-  );
 
   final String id;
   final String name;
@@ -30,8 +23,13 @@ class FinancialInstitute extends Equatable {
   final String? phoneNumber;
   final String? email;
   final String? website;
+  final String? bio;
+  final int? minCreditScore;
+  final String? image;
+  final String? userId;
   final DateTime? createdAt;
   final DateTime? updatedAt;
+  final int? deals;
 
   @override
   String toString() {

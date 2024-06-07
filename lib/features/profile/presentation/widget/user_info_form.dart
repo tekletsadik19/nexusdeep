@@ -31,6 +31,7 @@ class _LocationFormState extends State<LocationForm> {
   CountrySelectorNavigator selectorNavigator =
       const CountrySelectorNavigator.page();
 
+
   bool _isLoading = true;
   Timer? _timer;
   int _start = 0;
@@ -163,6 +164,15 @@ class _LocationFormState extends State<LocationForm> {
                   showIsoCode: true,
                   flagSize: 15,
                 ),
+                validator: (value) {
+                  if (value == null || !value.isValid()) {
+                    return 'Please enter your phone number';
+                  }
+                  // if (!_selectedCountryCode.isEmpty && !value.startsWith(_selectedCountryCode)) {
+                  //   return 'Phone number must match the country code ($_selectedCountryCode)';
+                  // }
+                  return null;
+                },
                 decoration: InputDecoration(
                   hintText: 'Phone Number',
 
@@ -200,6 +210,7 @@ class _LocationFormState extends State<LocationForm> {
                     ),
                     borderRadius: BorderRadius.circular(10),
                   ),
+
                   focusedBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
                       color: Colors.transparent,

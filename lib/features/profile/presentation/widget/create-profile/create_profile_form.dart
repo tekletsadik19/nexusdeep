@@ -759,10 +759,26 @@ class _CreateProfileFormBodyState extends State<CreateProfileFormBody> {
               alignment: AlignmentDirectional.bottomEnd,
               child: GestureDetector(
                 onTap: () {
-                  _pageController.nextPage(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOut,
-                  );
+                  if (formKey.currentState!.validate()) {
+                    _pageController.nextPage(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Please correct the errors in the form before proceeding.',
+                          style: GoogleFonts.plusJakartaSans(
+                            fontSize: 14,
+                            letterSpacing: 0,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
                 },
                 child: Padding(
                   padding:

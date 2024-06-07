@@ -1,29 +1,29 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:nexusdeep/features/proposal/domain/entity/fianancial_institute.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:nexusdeep/core/utils/constants.dart';
+import 'package:nexusdeep/features/proposal/domain/entity/fianancial_institute.dart';
 
 class FinancialInstituteWidget extends StatelessWidget {
-  final FinancialInstitute financialInstitute;
 
   const FinancialInstituteWidget({
-    Key? key,
-    required this.financialInstitute,
+    required this.financialInstitute, Key? key,
   }) : super(key: key);
+  final FinancialInstitute financialInstitute;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.go('/proposal-page');
+        context.go('/financial-institute');
       },
       child: Padding(
         padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
         child: Column(
           children: [
             CachedNetworkImage(
-              imageUrl: financialInstitute.website ?? 'https://example.com/default_image.png',
+              imageUrl: financialInstitute.image ?? kDefaultAvatar,
               imageBuilder: (context, imageProvider) => Container(
                 width: 50,
                 height: 50,

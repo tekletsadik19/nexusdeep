@@ -10,5 +10,11 @@ class Config{
   static const String getCurrentUserUrl = '/api/v1/me';
   static const String updateCurrentUserUrl = '/api/v1/update-user-info';
 
+  // Financial Institute
+  static const String getFinancialInstituteByIdUrl = '/api/v1/get-financial-institute';
+  static const String getAllFinancialInstitutesUrl = '/api/v1/get-all-financial-institute';
+  static const String getFinancialInstitutesByInvestmentCountUrl = '/api/v1/get-by-investment-count';
+  static const String getFinancialInstitutesByDealCountUrl = '/api/v1/get-by-deal-count';
+  static const String getTopFinancialInstitutesByDealCountUrl = '/api/v1/get-top-by-deal-count';
 
 }

@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:nexusdeep/core/extensions/context_extensions.dart';
 import 'package:nexusdeep/core/utils/custom_snackbar.dart';
 import 'package:uuid/uuid.dart';
 
